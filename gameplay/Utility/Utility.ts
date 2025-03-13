@@ -1,4 +1,4 @@
-import { ImageAsset, tween ,EventTouch, Vec3, director, Camera} from "cc";
+import { ImageAsset, tween } from "cc";
 import { Component } from "cc";
 import { instantiate } from "cc";
 import { Texture2D } from "cc";
@@ -182,18 +182,5 @@ export class Utility
             oops.gui.remove(UIID.UIItemTips);
         }
         oops.gui.open(UIID.UIItemTips,{id:itemId, pos : node.worldPosition});
-    }
-
-    public static GetMouseLocalPosition(event: EventTouch,): Vec3 {
-        const mousePos = event.touch?.getLocation()!;
-        const outPos = new Vec3();
-
-        // 
-        oops.game.MainCamera.screenToWorld(
-            new Vec3(mousePos.x, mousePos.y, 0),
-            outPos
-        );
-
-        return outPos;
     }
 }

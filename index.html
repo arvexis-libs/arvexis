@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Arvexis — Institutional Digital Asset Infrastructure</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath fill='%23c4a35a' d='M16 6l6.5 11H9.5L16 6z'/%3E%3C/svg%3E" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./styles.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="navbar">
+  <div class="container">
+    <div class="inner">
+      <div class="nav-logo" onclick="navigate('home')" title="Arvexis">
+        <span class="nav-logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <rect width="40" height="40" rx="10" fill="#0f172a"/>
+            <g fill="#c4a35a">
+              <path d="M20 6.4L25.65 16.35H14.35L20 6.4z"/>
+              <path d="M14.35 16.55l2.85 0.7L11.85 33.2H8.45l5.9-16.65z"/>
+              <path d="M25.65 16.55l-2.85 0.7L28.15 33.2h3.4l-5.9-16.65z"/>
+              <path d="M16.15 22.1L20 16.85l3.85 5.25-1.55 1.75h-4.6l-1.55-1.75z"/>
+            </g>
+          </svg>
+        </span>
+        <span class="nav-logo-text">Arvexis</span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link active" data-page="home" onclick="navigate('home')">Home</button>
+        <button class="nav-link" data-page="solutions" onclick="navigate('solutions')">Solutions</button>
+        <button class="nav-link" data-page="security" onclick="navigate('security')">Security</button>
+        <button class="nav-link" data-page="institutional" onclick="navigate('institutional')">Institutional</button>
+        <button class="nav-link" data-page="about" onclick="navigate('about')">About</button>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-outline" onclick="navigate('institutional')">Request Demo</button>
+        <button class="btn btn-primary" onclick="navigate('institutional')">Get Started →</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== HOME PAGE ======== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="fade-in">
+          <div class="hero-kicker">Web3 asset management · custody &amp; on-chain strategies</div>
+          <div class="hero-badge"><span class="hero-badge-dot"></span> Founded 2025 · serving funds &amp; family offices in 2 markets</div>
+          <h1 class="hero-title">Institutional-grade<br/><span class="grad">on-chain</span> operations</h1>
+          <p class="hero-sub">Arvexis helps hedge funds, family offices, and asset managers run compliant custody, programmable wallets, DeFi routing, and real-time risk dashboards—treat on-chain positions like any other portfolio sleeve.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" onclick="navigate('institutional')">Book a demo →</button>
+            <button class="btn btn-outline btn-lg" onclick="navigate('solutions')">Explore products</button>
+          </div>
+        </div>
+        <div class="hero-visual-wrap fade-in delay-2">
+          <div class="hero-photo-frame" style="position:relative">
+            <img class="hero-photo" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1100&q=80" alt="Trading desk with market screens" width="800" height="600" loading="eager"/>
+            <div class="hero-photo-caption">Risk &amp; trading floors in sync · illustrative / redacted demo imagery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editorial strip -->
+  <div class="editorial-strip">
+    <div class="container">
+      <div class="editorial-grid">
+        <figure class="editorial-card">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80" alt="Research and engineering team" loading="lazy" width="600" height="400"/>
+          <figcaption>Research &amp; engineering on-call · volatility playbooks</figcaption>
+        </figure>
+        <figure class="editorial-card">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80" alt="Portfolio analytics dashboard" loading="lazy" width="600" height="400"/>
+          <figcaption>Attribution, on-chain exposure, and staking yield in one view</figcaption>
+        </figure>
+        <figure class="editorial-card">
+          <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&q=80" alt="Mobile approvals" loading="lazy" width="600" height="400"/>
+          <figcaption>Multi-level approvals &amp; hardware keys · treasury vs. risk separation</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust bar -->
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-label">Select institutional relationships (illustrative)</div>
+      <div class="trust-logos">
+        <span class="trust-logo-item">MERIDIAN BANK</span>
+        <span class="trust-logo-item">VANTAGE CAPITAL</span>
+        <span class="trust-logo-item">NEXUS FUND</span>
+        <span class="trust-logo-item">SOLARIS ASSET MGMT</span>
+        <span class="trust-logo-item">APEX SECURITIES</span>
+        <span class="trust-logo-item">ORION VENTURES</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Services -->
+  <section class="section" style="background:var(--surface)">
+    <div class="container">
+      <div class="text-center">
+        <div class="section-tag">Core platform</div>
+        <h2 class="section-title">From custody to execution<br/>on one rails</h2>
+        <p class="section-sub">Built around how asset-management teams actually work: positions, approvals, compliance trails, and on-chain execution in a single stack—not a patchwork of disconnected tools.</p>
+      </div>
+      <div class="grid-3" style="margin-top:48px">
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&q=80" alt="Security and custody" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">Qualified custody</div>
+            <div class="card-text">MPC-sharded cold storage, multi-party authorization, and hardware-backed policies—with audit and insurance artifacts exportable for LP disclosures.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80" alt="API integration" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">Wallet-as-a-Service</div>
+            <div class="card-text">Strategy accounts, sub-accounts, and webhooks; policy limits, allowlists, and time windows—designed to embed in your OMS and risk stack.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=800&q=80" alt="DeFi" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">Institutional DeFi routing</div>
+            <div class="card-text">Protocol allowlists, position monitoring, and liquidation runbooks; yield strategies can be replayed in sandbox before production.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Analytics dashboard" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">Portfolio &amp; analytics</div>
+            <div class="card-text">Live P&amp;L, on-chain factor exposure, and staking vs. derivatives attribution—exports for allocators and audit workpapers.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80" alt="Compliance documentation" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">Compliance &amp; workflows</div>
+            <div class="card-text">AML/KYC, transaction monitoring, and SAR drafting; multi-jurisdiction report templates per fund entity.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-media"><img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&q=80" alt="OTC settlement" loading="lazy" width="400" height="160"/></div>
+          <div class="card-body">
+            <div class="card-title">OTC &amp; settlement network</div>
+            <div class="card-text">Connectivity to liquidity providers and custodian settlement instructions—atomic settlement and T+0 reconciliation with less operational drag.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Feature Row -->
+  <section class="section" style="background:var(--paper-2)">
+    <div class="container">
+      <div class="feature-row">
+        <div>
+          <div class="section-tag">MPC architecture</div>
+          <h2 class="section-title" style="font-size:clamp(1.5rem,2.5vw,2rem)">Threshold signing: keys never exist whole</h2>
+          <p style="color:var(--muted);line-height:1.7;margin-bottom:8px">Our 3-of-5 design means no single party—including our own operators—can sign alone. Signing is coordinated across geographically separated HSM clusters, with cold vs. hot allocation tuned to your fund docs.</p>
+          <ul class="feature-list">
+            <li>HSM-backed nodes; key material stays inside hardware boundaries</li>
+            <li>Threshold signatures end-to-end; full private keys are not reassembled in memory</li>
+            <li>Multi-region active-active; RTO/RPO targets can be written into the SLA</li>
+            <li>Air-gapped cold vaults with biometric access—physical and logical isolation</li>
+            <li>Live anomaly detection and circuit breakers; pause a chain or trade type by policy</li>
+          </ul>
+          <div style="margin-top:28px;display:flex;gap:12px">
+            <button class="btn btn-primary" onclick="navigate('security')">Security overview</button>
+          </div>
+        </div>
+        <div>
+          <div style="margin-bottom:16px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80" alt="Data center and network infrastructure" loading="lazy" width="600" height="280" style="width:100%;height:200px;object-fit:cover;display:block"/>
+          </div>
+          <!-- Architecture Diagram SVG -->
+          <div class="visual-box">
+            <div class="visual-box-header"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span><span style="font-size:12px;color:var(--muted);margin-left:6px;font-weight:600">MPC topology (diagram)</span></div>
+            <svg viewBox="0 0 380 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+              <defs>
+                <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4f46e5"/>
+                  <stop offset="100%" stop-color="#7c3aed"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#4f46e5"/>
+                </linearGradient>
+              </defs>
+              <!-- Client layer -->
+              <rect x="140" y="10" width="100" height="38" rx="10" fill="url(#g1)"/>
+              <text x="190" y="33" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">Client App</text>
+              <!-- Arrow down -->
+              <line x1="190" y1="48" x2="190" y2="72" stroke="#c7d2fe" stroke-width="2" stroke-dasharray="4,2"/>
+              <polygon points="186,70 194,70 190,78" fill="#c7d2fe"/>
+              <!-- Policy Engine -->
+              <rect x="110" y="78" width="160" height="38" rx="10" fill="url(#g2)"/>
+              <text x="190" y="101" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">Policy Engine</text>
+              <!-- Arrow down -->
+              <line x1="190" y1="116" x2="190" y2="138" stroke="#c7d2fe" stroke-width="2" stroke-dasharray="4,2"/>
+              <polygon points="186,136 194,136 190,144" fill="#c7d2fe"/>
+              <!-- MPC Coordinator -->
+              <rect x="110" y="144" width="160" height="38" rx="10" fill="#1e1b4b"/>
+              <text x="190" y="167" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">MPC Coordinator</text>
+              <!-- Shard nodes -->
+              <line x1="120" y1="182" x2="60" y2="218" stroke="#e0e7ff" stroke-width="1.5"/>
+              <line x1="155" y1="182" x2="130" y2="218" stroke="#e0e7ff" stroke-width="1.5"/>
+              <line x1="190" y1="182" x2="190" y2="218" stroke="#e0e7ff" stroke-width="1.5"/>
+              <line x1="225" y1="182" x2="250" y2="218" stroke="#e0e7ff" stroke-width="1.5"/>
+              <line x1="260" y1="182" x2="320" y2="218" stroke="#e0e7ff" stroke-width="1.5"/>
+              <!-- 5 shard nodes -->
+              <rect x="20" y="218" width="80" height="32" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+              <text x="60" y="237" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="700" font-family="DM Sans,sans-serif">Shard 1</text>
+              <rect x="90" y="218" width="80" height="32" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+              <text x="130" y="237" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="700" font-family="DM Sans,sans-serif">Shard 2</text>
+              <rect x="150" y="218" width="80" height="32" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+              <text x="190" y="237" text-anchor="middle" fill="#4f46e5" font-size="10" font-weight="700" font-family="DM Sans,sans-serif">Shard 3</text>
+              <rect x="210" y="218" width="80" height="32" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+              <text x="250" y="237" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="700" font-family="DM Sans,sans-serif">Shard 4</text>
+              <rect x="280" y="218" width="80" height="32" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+              <text x="320" y="237" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="700" font-family="DM Sans,sans-serif">Shard 5</text>
+              <!-- Labels -->
+              <text x="190" y="280" text-anchor="middle" fill="#6b7280" font-size="10" font-family="DM Sans,sans-serif">3-of-5 Threshold • No Single Point of Failure</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="grid-4">
+        <div class="stat-card">
+          <div><span class="stat-num">2025</span></div>
+          <div class="stat-lbl">Year Founded</div>
+          <div class="stat-bar"></div>
+        </div>
+        <div class="stat-card">
+          <div><span class="stat-num">10</span></div>
+          <div class="stat-lbl">Team Members</div>
+          <div class="stat-bar"></div>
+        </div>
+        <div class="stat-card">
+          <div><span class="stat-num">2</span></div>
+          <div class="stat-lbl">Global Offices</div>
+          <div class="stat-bar"></div>
+        </div>
+        <div class="stat-card">
+          <div><span class="stat-num">2</span></div>
+          <div class="stat-lbl">Countries Served</div>
+          <div class="stat-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="cta-section">
+      <h2>Ready to run on-chain asset management as an auditable production line?</h2>
+      <p>Build custody, strategies, and compliance on one infrastructure—without stitching together point solutions.</p>
+      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:14px;position:relative;z-index:1">
+        <button class="btn-white" onclick="navigate('institutional')">Apply for institutional access</button>
+        <button class="btn-outline-white" onclick="navigate('solutions')">Browse all products</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-logo">Arvexis</div>
+          <p class="footer-brand-desc">Institutional Web3 infrastructure: custody, wallet APIs, DeFi routing, and compliance workflows for licensed and professional investors.</p>
+          <div style="margin-top:20px;display:flex;gap:12px">
+            <div style="width:32px;height:32px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">𝕏</div>
+            <div style="width:32px;height:32px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">in</div>
+            <div style="width:32px;height:32px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer">gh</div>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Products</div>
+          <ul class="footer-links">
+            <li><a onclick="navigate('solutions')">Custody</a></li>
+            <li><a onclick="navigate('solutions')">Wallet API</a></li>
+            <li><a onclick="navigate('solutions')">DeFi Access</a></li>
+            <li><a onclick="navigate('solutions')">Analytics</a></li>
+            <li><a onclick="navigate('solutions')">Compliance</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a onclick="navigate('about')">About Us</a></li>
+            <li><a>Careers</a></li>
+            <li><a>Blog</a></li>
+            <li><a>Press Kit</a></li>
+            <li><a>Partners</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a>Documentation</a></li>
+            <li><a>API Reference</a></li>
+            <li><a onclick="navigate('security')">Security</a></li>
+            <li><a>SLA Policy</a></li>
+            <li><a>Status Page</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Arvexis, Inc. All rights reserved.</span>
+        <div class="footer-bottom-links">
+          <a>Privacy Policy</a>
+          <a>Terms of Service</a>
+          <a>Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== SOLUTIONS PAGE ======== -->
+<div id="page-solutions" class="page">
+  <section class="solutions-hero">
+    <div class="container text-center">
+      <div class="section-tag">Platform Solutions</div>
+      <h1 class="section-title" style="font-size:48px;letter-spacing:-1.5px">One Platform.<br/>Every Digital Asset Need.</h1>
+      <p class="section-sub" style="margin:0 auto">From cold custody to DeFi yield, Arvexis provides the complete technology stack for institutional digital asset management.</p>
+      <div class="tab-nav">
+        <button type="button" class="tab-btn active" onclick="switchTab('custody', this)">Custody</button>
+        <button type="button" class="tab-btn" onclick="switchTab('wallets', this)">Wallets</button>
+        <button type="button" class="tab-btn" onclick="switchTab('defi', this)">DeFi</button>
+        <button type="button" class="tab-btn" onclick="switchTab('analytics', this)">Analytics</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab: Custody -->
+  <div id="tab-custody" class="tab-content active section">
+    <div class="container">
+      <div class="feature-row">
+        <div>
+          <h2 class="section-title" style="font-size:34px">Qualified Digital Asset Custody</h2>
+          <p style="color:var(--muted);line-height:1.7;margin-bottom:16px">Arvexis Custody is a regulated, fully insured solution designed for institutional requirements. Built on MPC technology with institutional-grade access controls.</p>
+          <ul class="feature-list">
+            <li>Regulated in Singapore, BVI, and Cayman Islands</li>
+            <li>Insurance and custody coverage structured per engagement—with documentation for LPs and auditors</li>
+            <li>Broad digital asset and network support, scoped to your mandate and rollout plan</li>
+            <li>Multi-approver workflows with hardware key confirmation</li>
+            <li>Segregated account structures per portfolio/fund</li>
+          </ul>
+          <div style="margin-top:28px">
+            <button class="btn btn-primary btn-lg" onclick="navigate('institutional')">Apply for Custody</button>
+          </div>
+        </div>
+        <div>
+          <div class="custody-diagram">
+            <div class="custody-diagram-label">Custody stack</div>
+            <div class="custody-layer custody-layer--primary">Client interface layer</div>
+            <div class="custody-layer">Policy &amp; approval engine</div>
+            <div class="custody-split">
+              <div class="custody-layer">Warm vault</div>
+              <div class="custody-layer">Cold vault</div>
+            </div>
+            <div class="custody-layer custody-layer--accent">Multi-chain settlement layer</div>
+            <p class="custody-footnote">90% cold storage · 10% warm · Real-time rebalancing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Wallets -->
+  <div id="tab-wallets" class="tab-content section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px">
+        <div class="section-tag">Wallet-as-a-Service</div>
+        <h2 class="section-title">Programmable Wallets for Any Use Case</h2>
+        <p class="section-sub">Deploy and manage wallets programmatically via API. Built-in policy engine, webhooks, and white-label support.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">REST API & SDKs</div>
+          <div class="card-text">Full-featured REST API with SDKs in Python, Node.js, Go, and Java. Deploy wallets programmatically with 5-minute integration.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Policy Engine</div>
+          <div class="card-text">Define spending limits, whitelist addresses, set time-based controls, and build multi-approval workflows without custom code.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Webhooks & Alerts</div>
+          <div class="card-text">Real-time event webhooks for deposits, withdrawals, approvals, and policy violations. Integrate with Slack, PagerDuty, or custom endpoints.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: DeFi -->
+  <div id="tab-defi" class="tab-content section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px">
+        <div class="section-tag">DeFi Access</div>
+        <h2 class="section-title">Institutional DeFi. Zero Compromise.</h2>
+        <p class="section-sub">Access the best yields in DeFi without sacrificing security, compliance, or control.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">Uniswap V3/V4</div>
+          <div class="card-text" style="font-size:13px">Liquidity provision & swaps</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#eef2ff;color:#4f46e5;font-size:12px;font-weight:700;border-radius:100px">Active</div>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">Aave V3</div>
+          <div class="card-text" style="font-size:13px">Lending & borrowing</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#f0fdf4;color:#16a34a;font-size:12px;font-weight:700;border-radius:100px">Live</div>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">Curve Finance</div>
+          <div class="card-text" style="font-size:13px">Stablecoin yield pools</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#eef2ff;color:#4f46e5;font-size:12px;font-weight:700;border-radius:100px">Active</div>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">Compound</div>
+          <div class="card-text" style="font-size:13px">Money markets</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#f0fdf4;color:#16a34a;font-size:12px;font-weight:700;border-radius:100px">Live</div>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">Lido Staking</div>
+          <div class="card-text" style="font-size:13px">Liquid ETH staking</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#eef2ff;color:#4f46e5;font-size:12px;font-weight:700;border-radius:100px">Active</div>
+        </div>
+        <div class="card" style="text-align:center;padding:28px 20px">
+          <div class="card-title" style="font-size:16px">More Protocols</div>
+          <div class="card-text" style="font-size:13px">Continuously expanding</div>
+          <div style="margin-top:12px;display:inline-block;padding:4px 10px;background:#fffbeb;color:#d97706;font-size:12px;font-weight:700;border-radius:100px">Coming Soon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Analytics -->
+  <div id="tab-analytics" class="tab-content section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:48px">
+        <div class="section-tag">Analytics</div>
+        <h2 class="section-title">Real-Time Portfolio Intelligence</h2>
+        <p class="section-sub">Live dashboards, custom reports, and on-chain data feeds designed for institutional decision-making.</p>
+      </div>
+      <div class="grid-2">
+        <div class="chart-wrap">
+          <div class="chart-head">
+            <span class="chart-title">Asset Allocation Overview</span>
+            <span class="chart-change">Live Data</span>
+          </div>
+          <canvas id="donutChart" style="max-height:220px"></canvas>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-head">
+            <span class="chart-title">Monthly Returns (%)</span>
+            <span class="chart-change">Illustrative</span>
+          </div>
+          <canvas id="barChart" style="max-height:220px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top:auto">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid #1e293b">
+        <div class="footer-brand-logo">Arvexis</div>
+        <div class="footer-bottom-links">
+          <a>Privacy</a><a>Terms</a><a>Docs</a><a>Status</a>
+        </div>
+        <span style="font-size:13px;color:#94a3b8">© 2025 Arvexis, Inc.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== SECURITY PAGE ======== -->
+<div id="page-security" class="page">
+  <section class="solutions-hero">
+    <div class="container text-center">
+      <div class="section-tag">Enterprise Security</div>
+      <h1 class="section-title" style="font-size:48px">Security-First by Design</h1>
+      <p class="section-sub" style="margin:0 auto">Every layer of Arvexis infrastructure is engineered to the highest security standards in the financial industry.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background:#fff">
+    <div class="container">
+      <!-- Security flowchart -->
+      <div class="text-center" style="margin-bottom:48px">
+        <div class="section-tag">Transaction Flow</div>
+        <h2 class="section-title">How Every Transaction is Protected</h2>
+      </div>
+      <div style="max-width:700px;margin:0 auto 64px">
+        <div class="visual-box" style="padding:36px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+            <div class="flow-node primary" style="width:260px">Client Initiates Request</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node" style="width:260px;background:#fffbeb;border-color:#fde68a;color:#92400e">API Auth + Rate Limiting</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node primary" style="width:260px">Policy Engine Evaluation</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node" style="width:260px;background:#f5f3ff;border-color:#c4b5fd;color:#7c3aed">Multi-Approver Workflow</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node primary" style="width:260px">MPC Threshold Signing</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node" style="width:260px;background:#ecfeff;border-color:#a5f3fc;color:#0891b2">On-Chain Broadcast</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node success" style="width:260px">Settlement Confirmed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-grid">
+        <div class="security-panel">
+          <h3>Key Management</h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.7">Private keys are never exposed in full. Arvexis uses Threshold Signature Scheme (TSS) where keys are sharded across geographically distributed HSMs. No single party or server can unilaterally sign.</p>
+          <div class="cert-list">
+            <div class="cert-badge"><span class="dot"></span>MPC / TSS</div>
+            <div class="cert-badge"><span class="dot"></span>HSM Protected</div>
+            <div class="cert-badge"><span class="dot"></span>Air-Gapped Cold</div>
+          </div>
+        </div>
+        <div class="security-panel">
+          <h3>Compliance & Certifications</h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.7">Arvexis holds the industry's leading security certifications and is subject to regular third-party penetration testing, audits, and regulatory examinations.</p>
+          <div class="cert-list">
+            <div class="cert-badge"><span class="dot"></span>SOC 2 Type II</div>
+            <div class="cert-badge"><span class="dot"></span>ISO 27001</div>
+            <div class="cert-badge"><span class="dot"></span>PCI DSS</div>
+            <div class="cert-badge"><span class="dot"></span>FIPS 140-2</div>
+          </div>
+        </div>
+        <div class="security-panel">
+          <h3>Network Security</h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.7">All communications encrypted with TLS 1.3. API endpoints protected by WAF, DDoS mitigation, and anomaly detection. Zero-trust network architecture with microsegmentation.</p>
+          <div class="cert-list">
+            <div class="cert-badge"><span class="dot"></span>TLS 1.3</div>
+            <div class="cert-badge"><span class="dot"></span>WAF + DDoS</div>
+            <div class="cert-badge"><span class="dot"></span>Zero Trust</div>
+          </div>
+        </div>
+        <div class="security-panel">
+          <h3>Insurance Coverage</h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.7">Insurance and crime/specie programs are structured with underwriters where available for qualifying mandates. Limits, exclusions, and schedules are shared under NDA as part of diligence.</p>
+          <div class="cert-list">
+            <div class="cert-badge"><span class="dot"></span>Program-based limits</div>
+            <div class="cert-badge"><span class="dot"></span>Underwriter-led</div>
+            <div class="cert-badge"><span class="dot"></span>Specie / crime (as applicable)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid #1e293b">
+        <div class="footer-brand-logo">Arvexis</div>
+        <div class="footer-bottom-links"><a>Privacy</a><a>Terms</a></div>
+        <span style="font-size:13px;color:#94a3b8">© 2025 Arvexis, Inc.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== INSTITUTIONAL PAGE ======== -->
+<div id="page-institutional" class="page">
+  <section class="inst-hero">
+    <div class="container">
+      <div style="max-width:36rem">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;font-size:12px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:20px;text-transform:uppercase;letter-spacing:.06em">
+          <span style="width:6px;height:6px;background:#2dd4bf;border-radius:50%;display:inline-block"></span>
+          Now onboarding institutional clients
+        </div>
+        <h1 class="inst-hero-title">Institutional-scale<br/><span class="grad">on-chain asset management</span></h1>
+        <p class="inst-hero-sub">Dedicated coverage, contract-grade SLAs, and bespoke integrations with your OMS and accounting stack—for licensed and professional entities with $10M+ in digital AUM.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button class="btn btn-primary btn-lg">Apply now →</button>
+          <button class="btn" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25);padding:14px 28px;font-size:15px;border-radius:12px;font-weight:600">Talk to sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Arvexis for Institutions -->
+  <section class="section" style="background:#fff">
+    <div class="container">
+      <div class="text-center">
+        <div class="section-tag">Institutional Grade</div>
+        <h2 class="section-title">Why Leading Institutions<br/>Choose Arvexis</h2>
+      </div>
+      <div class="grid-3" style="margin-top:48px">
+        <div class="card">
+          <div class="card-title">Regulated Entity</div>
+          <div class="card-text">Licensed digital asset custodian in Singapore (MAS), British Virgin Islands (BVI FSC), and Cayman Islands (CIMA). Full regulatory clarity.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Dedicated Support</div>
+          <div class="card-text">Every institutional client gets a dedicated account manager, 24/7 priority support line, and quarterly business reviews.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Custom Integrations</div>
+          <div class="card-text">Bespoke API integrations, white-label wallet deployments, and custom reporting pipelines tailored to your technology stack.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Regulatory Reporting</div>
+          <div class="card-text">Automated generation of required reports for FATCA, CRS, OECD DAC8, and MiCA frameworks. Export-ready for auditors.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Fund Administration</div>
+          <div class="card-text">Segregated fund structures, NAV calculations, LP reporting, and full audit trails designed for fund managers and GPs.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Prime Brokerage</div>
+          <div class="card-text">Access to curated OTC desks, exchange connectivity, and liquidity integrations—unified through a single API where your policy allows.</div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div style="max-width:640px;margin:64px auto 0;background:#f8f9fc;border:1px solid var(--line);border-radius:24px;padding:48px">
+        <h3 style="font-size:28px;font-weight:800;text-align:center;margin-bottom:8px">Apply for Institutional Access</h3>
+        <p style="color:var(--muted);text-align:center;margin-bottom:32px;font-size:15px">Our team will reach out within 24 hours.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">First Name</label>
+            <input style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit" placeholder="John"/>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Last Name</label>
+            <input style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit" placeholder="Smith"/>
+          </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Institutional Email</label>
+          <input type="email" style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit" placeholder="john@institution.com"/>
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Organization Type</label>
+          <select style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff">
+            <option>Hedge Fund / Family Office</option>
+            <option>Bank / Financial Institution</option>
+            <option>Crypto Exchange</option>
+            <option>Asset Manager</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div style="margin-bottom:24px">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Assets Under Management (USD)</label>
+          <select style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff">
+            <option>$10M – $50M</option>
+            <option>$50M – $250M</option>
+            <option>$250M – $1B</option>
+            <option>$1B+</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:16px;border-radius:12px">Submit Application →</button>
+        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:16px">By submitting, you agree to our Privacy Policy. We'll never share your data.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid #1e293b">
+        <div class="footer-brand-logo">Arvexis</div>
+        <div class="footer-bottom-links"><a>Privacy</a><a>Terms</a></div>
+        <span style="font-size:13px;color:#94a3b8">© 2025 Arvexis, Inc.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== ABOUT PAGE ======== -->
+<div id="page-about" class="page">
+  <section class="solutions-hero">
+    <div class="container text-center">
+      <div class="section-tag">About Arvexis</div>
+      <h1 class="section-title" style="font-size:48px">We Secure the Future<br/>of Finance</h1>
+      <p class="section-sub" style="margin:0 auto">Founded in 2025 by veterans of Goldman Sachs, Coinbase, and Palantir, Arvexis is on a mission to make digital assets safe for institutions.</p>
+    </div>
+  </section>
+
+  <section class="section about-mission-section" style="background:#fff">
+    <div class="container">
+      <div class="about-mission-inner">
+        <div class="section-tag">Our Mission</div>
+        <h2 class="section-title about-mission-title">Bridging TradFi and Digital Assets</h2>
+        <p class="about-mission-text">Arvexis was born out of a simple observation: institutional capital wanted to enter the digital asset space, but the infrastructure wasn't ready. We built the bridge.</p>
+        <p class="about-mission-text">Today, we support institutional clients with the technology, compliance tools, and operational coverage they need to navigate this asset class with confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-sm">
+    <div class="cta-section">
+      <h2>Join Us in Building the Future</h2>
+      <p>We're hiring world-class engineers, compliance experts, and financial professionals.</p>
+      <div style="display:flex;justify-content:center;gap:16px;position:relative;z-index:1">
+        <button class="btn-white">View Open Roles</button>
+        <button class="btn-outline-white" onclick="navigate('institutional')">Contact Us</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:1px solid #1e293b">
+        <div class="footer-brand-logo">Arvexis</div>
+        <div class="footer-bottom-links"><a>Privacy</a><a>Terms</a></div>
+        <span style="font-size:13px;color:#94a3b8">© 2025 Arvexis, Inc.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>

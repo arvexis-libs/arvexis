@@ -2526,50 +2526,6 @@ export class TrVideo {
 
 
 
-export class TrZhaoChaStage {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Stage = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.CoverImg = _buf_.ReadString()
-        this.Prefab = _buf_.ReadString()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Stage: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly CoverImg: string
-    /**
-     * 
-     */
-    readonly Prefab: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
 export namespace DataTable {
 export class TbItem {
     private _dataMap: Map<number, DataTable.Item>
@@ -3843,39 +3799,6 @@ export class TbBook {
 
 
 
-export class TbZhaoChaStage {
-    private _dataMap: Map<number, TrZhaoChaStage>
-    private _dataList: TrZhaoChaStage[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrZhaoChaStage>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrZhaoChaStage
-            _v = new TrZhaoChaStage(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrZhaoChaStage> { return this._dataMap; }
-    getDataList(): TrZhaoChaStage[] { return this._dataList; }
-
-    get(key: number): TrZhaoChaStage | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -3957,8 +3880,6 @@ export class Tables {
     get TbOpenFunction(): TbOpenFunction  { return this._TbOpenFunction;}
     private _TbBook: TbBook
     get TbBook(): TbBook  { return this._TbBook;}
-    private _TbZhaoChaStage: TbZhaoChaStage
-    get TbZhaoChaStage(): TbZhaoChaStage  { return this._TbZhaoChaStage;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4001,7 +3922,6 @@ export class Tables {
         names.push('tbspecialevent');
         names.push('tbopenfunction');
         names.push('tbbook');
-        names.push('tbzhaochastage');
         return names;
     }
 
@@ -4045,7 +3965,6 @@ export class Tables {
         this._TbSpecialEvent = new TbSpecialEvent(loader('tbspecialevent'))
         this._TbOpenFunction = new TbOpenFunction(loader('tbopenfunction'))
         this._TbBook = new TbBook(loader('tbbook'))
-        this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4086,7 +4005,6 @@ export class Tables {
         this._TbSpecialEvent.resolve(this)
         this._TbOpenFunction.resolve(this)
         this._TbBook.resolve(this)
-        this._TbZhaoChaStage.resolve(this)
     }
 }
 

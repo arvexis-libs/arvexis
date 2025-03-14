@@ -5,7 +5,6 @@
  */
 
 import { LayerType, UIConfig } from "../../../../../extensions/oops-plugin-framework/assets/core/gui/layer/LayerManager";
-import { ZhaoChaUIID } from "../../../../MiniGame/ZhaoCha/script/Base/ZhaoChaUIConfig";
 
 /**  */
 export enum UIID {

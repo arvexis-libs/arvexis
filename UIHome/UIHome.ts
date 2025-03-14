@@ -891,7 +891,7 @@ export class UIHome extends CCComp {
         }
 
         var playCfg = PlayerSystem.Instance.GetSuitRoleCfg()!;
-        this.showTapEff(this.GetMouseLocalPosition(event));
+        this.showTapEff(Utility.GetMouseLocalPosition(event));
         this.Tips_Tap.active = false;
 
         let addValue = HeartSystem.Instance.GetHeartValue(PlayerSystem.Instance.GetInteractionType());
@@ -914,23 +914,6 @@ export class UIHome extends CCComp {
         this.PlayInterVideo();
         this.PlayerInfoRefresh();
     }
-
-    private GetMouseLocalPosition(event: EventTouch,): Vec3 {
-        const mousePos = event.touch?.getLocation()!;
-        const outPos = new Vec3();
-
-        // 
-        if (!this.mainCamera) {
-            this.mainCamera = director.getScene()?.getComponentInChildren(Camera);
-        }
-        this.mainCamera.screenToWorld(
-            new Vec3(mousePos.x, mousePos.y, 0),
-            outPos
-        );
-
-        return outPos;
-    }
-
 
     public m_videoCfg: TbVideo | undefined = null!;
     private OnSkinChange() {

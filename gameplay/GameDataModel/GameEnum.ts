@@ -12,7 +12,11 @@ export enum ItemEnum{
     /**  */
     FinalcialClass = 10000000,   //
     /**  */
-    Cash = 10000001,       //
+    Cash = 100001,       //
+    /**  */
+    Gem = 100002,
+    /**  */
+    Key = 100003,
     /**   */
     Biao = 10000002,        //  
     /**   */

@@ -126,6 +126,7 @@ export enum UIID {
     UINecklace,//
 
     UIItemTips,
+    UIMain,//
 }
 
 /**  */
@@ -176,4 +177,5 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UITransformWait]:{ layer: LayerType.PopUp, prefab: "Prefab/UITransformAniWait", bundle: "UITransformAni"},
     [UIID.UINecklace]: { layer: LayerType.UI, prefab: "Prefab/UINecklace", bundle:"UIGuide" },
     [UIID.UIItemTips]: { layer: LayerType.PopUp, prefab: "Prefab/UIItemTips", bundle:"UIItemTips" },
+    [UIID.UIMain]: { layer: LayerType.UI, prefab: "Prefab/UIMain", bundle:"UIMain" },
 }

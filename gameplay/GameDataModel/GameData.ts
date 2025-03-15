@@ -21,6 +21,7 @@ import { MiniGameData,PianoData } from './MiniGameData';
 import { GuideData, GuideState } from './GuideData';
 import { SdkManager } from '../../../modules/sdk/SdkManager';
 import { readSync } from 'fs';
+import { HeroineData } from './HeroineData';
 
 const { ccclass } = _decorator;
 
@@ -34,6 +35,8 @@ export class PlayerData extends SerializeClass {
     __className:string = "PlayerData";
     @SerializeData()
     GlobalData: GlobalData = new GlobalData();
+    @SerializeData()
+    HeroineData: HeroineData = new HeroineData();//
     @SerializeData()
     UserData: UserData = new UserData();
     @SerializeData()
@@ -288,6 +291,7 @@ export class GameData{
         if(itemType > ItemEnum.ExpClass && itemType < ItemEnum.ExpEnd) this.updateExp(itemType, delta);
 
         oops.message.dispatchEvent(GameEvent.OnItemValueChanged, itemType, newV, delta);
+        oops.message.dispatchEvent(GameEvent.OnMoneyChange, itemType, newV, delta);
     }
 
     public static updateCurrencys(itemTypes:number[], itemCnts:number[]): void {

@@ -2658,6 +2658,56 @@ export class TrVideo {
 
 
 
+export class TrZhaoChaStage {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Stage = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+        this.CoverImg = _buf_.ReadString()
+        this.Prefab = _buf_.ReadString()
+        this.LimitTime = _buf_.ReadInt()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Stage: number
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * 
+     */
+    readonly CoverImg: string
+    /**
+     * 
+     */
+    readonly Prefab: string
+    /**
+     * 
+     */
+    readonly LimitTime: number
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export namespace DataTable {
 export class TbItem {
     private _dataMap: Map<number, DataTable.Item>
@@ -4030,6 +4080,39 @@ export class TbPropValue {
 
 
 
+export class TbZhaoChaStage {
+    private _dataMap: Map<number, TrZhaoChaStage>
+    private _dataList: TrZhaoChaStage[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaStage>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaStage
+            _v = new TrZhaoChaStage(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaStage> { return this._dataMap; }
+    getDataList(): TrZhaoChaStage[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaStage | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4117,6 +4200,8 @@ export class Tables {
     get TbHeroinePropType(): TbHeroinePropType  { return this._TbHeroinePropType;}
     private _TbPropValue: TbPropValue
     get TbPropValue(): TbPropValue  { return this._TbPropValue;}
+    private _TbZhaoChaStage: TbZhaoChaStage
+    get TbZhaoChaStage(): TbZhaoChaStage  { return this._TbZhaoChaStage;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4162,6 +4247,7 @@ export class Tables {
         names.push('tblevel');
         names.push('tbheroineproptype');
         names.push('tbpropvalue');
+        names.push('tbzhaochastage');
         return names;
     }
 
@@ -4208,6 +4294,7 @@ export class Tables {
         this._TbLevel = new TbLevel(loader('tblevel'))
         this._TbHeroinePropType = new TbHeroinePropType(loader('tbheroineproptype'))
         this._TbPropValue = new TbPropValue(loader('tbpropvalue'))
+        this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4251,6 +4338,7 @@ export class Tables {
         this._TbLevel.resolve(this)
         this._TbHeroinePropType.resolve(this)
         this._TbPropValue.resolve(this)
+        this._TbZhaoChaStage.resolve(this)
     }
 }
 

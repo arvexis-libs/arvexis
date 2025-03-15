@@ -124,7 +124,7 @@ export class UIMainVideoComp extends CCComp {
         }
 
         //
-        if(config?.ResLocation == 1 && ((NATIVE && ANDROID) || sys.isBrowser)){
+        if(config?.ResLocation == 1 && ((NATIVE && ANDROID))){
             this.defaultParam.resourceType = EVideoType.Local;
             newurl = config?.ResPath.slice(0, -4);
         }

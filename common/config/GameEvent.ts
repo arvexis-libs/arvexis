@@ -105,7 +105,4 @@ export enum GameEvent {
 
     OnReturnUIHome = "OnReturnUIHome",
 
-    OnHeroineDataChange = "OnHeroineDataChange",//
-
-
 }

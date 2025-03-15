@@ -83,8 +83,7 @@ export class LoadingViewComp extends CCComp {
                 GameDot.Instance.RegisterDot();
                 GameDot.Instance.RoleDot();
                 GameDot.Instance.LoginDot();
-                this.openUIMain();
-                //this.OpenUIHome();
+                this.OpenUIHome();
                 // 
                 oops.gui.remove(UIID.Loading);
                 break;
@@ -96,9 +95,10 @@ export class LoadingViewComp extends CCComp {
         }
     }
 
-    private openUIMain()
-    {
-        oops.gui.open(UIID.UIMain);
+    private async OpenUIHome() {
+        // 
+        oops.gui.open(UIID.MainVideo);
+        oops.gui.open(UIID.UIHome);
     }
 
     /**  */

@@ -34,6 +34,9 @@ import { EditBox } from "cc";
 import { sys } from "cc";
 import { Notification } from "../common/UINotification/Notification";
 import { UINotification } from "../common/UINotification/UINotification";
+import { HeroineDataManager } from "./HeroineDataManager";
+import { Sprite } from "cc";
+import { sp } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -59,12 +62,15 @@ export class UIMain extends CCComp {
     @property(Button) BtnMagicBox:Button = null!;//
     @property(Button) BtnKeyAdd:Button = null!;//
 
+    @property(Sprite) SpriteHeadIcon: Sprite = null!;
+
     onLoad() {
         this.RegistEvents();
     }
 
     async start() {
-
+        HeroineDataManager.Instance.SetPower({powerBody:100,powerAgility:100});
+        this.SetRoleInfo("main_avatar");
     }
 
     protected onEnable(): void {
@@ -88,14 +94,16 @@ export class UIMain extends CCComp {
     ///////////////////////////////////
 
     ///
-    SetRoleInfo() { 
-
+    SetRoleInfo(spriteName:string) { 
+        oops.res.loadAsync<SpriteFrame>("UIMain", `${spriteName}/spriteFrame`).then((sp)=>{
+            this.SpriteHeadIcon.spriteFrame = sp;
+        });
     }
 
     ////UI
-    SetTimeState()
+    SetTimeState(timeString:string)
     {
-
+        this.TxtGameTime.string = timeString;
     }
 
     ///
@@ -147,7 +155,10 @@ export class UIMain extends CCComp {
 
     }
     BtnBoyFriend_Click() {
-
+        // 
+        oops.gui.open(UIID.MainVideo);
+        oops.gui.open(UIID.UIHome);
+        oops.gui.remove(UIID.UIMain);
     }
     BtnMagicBox_Click() {
 

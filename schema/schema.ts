@@ -2658,6 +2658,50 @@ export class TrVideo {
 
 
 
+export class TrZhaoChaItem {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Stage = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+        this.Img = _buf_.ReadString()
+        this.Tip = _buf_.ReadString()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Stage: number
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * 
+     */
+    readonly Img: string
+    /**
+     * 
+     */
+    readonly Tip: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrZhaoChaStage {
 
     constructor(_buf_: ByteBuf) {
@@ -4113,6 +4157,39 @@ export class TbZhaoChaStage {
 
 
 
+export class TbZhaoChaItem {
+    private _dataMap: Map<number, TrZhaoChaItem>
+    private _dataList: TrZhaoChaItem[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaItem>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaItem
+            _v = new TrZhaoChaItem(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaItem> { return this._dataMap; }
+    getDataList(): TrZhaoChaItem[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaItem | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4202,6 +4279,8 @@ export class Tables {
     get TbPropValue(): TbPropValue  { return this._TbPropValue;}
     private _TbZhaoChaStage: TbZhaoChaStage
     get TbZhaoChaStage(): TbZhaoChaStage  { return this._TbZhaoChaStage;}
+    private _TbZhaoChaItem: TbZhaoChaItem
+    get TbZhaoChaItem(): TbZhaoChaItem  { return this._TbZhaoChaItem;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4248,6 +4327,7 @@ export class Tables {
         names.push('tbheroineproptype');
         names.push('tbpropvalue');
         names.push('tbzhaochastage');
+        names.push('tbzhaochaitem');
         return names;
     }
 
@@ -4295,6 +4375,7 @@ export class Tables {
         this._TbHeroinePropType = new TbHeroinePropType(loader('tbheroineproptype'))
         this._TbPropValue = new TbPropValue(loader('tbpropvalue'))
         this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
+        this._TbZhaoChaItem = new TbZhaoChaItem(loader('tbzhaochaitem'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4339,6 +4420,7 @@ export class Tables {
         this._TbHeroinePropType.resolve(this)
         this._TbPropValue.resolve(this)
         this._TbZhaoChaStage.resolve(this)
+        this._TbZhaoChaItem.resolve(this)
     }
 }
 

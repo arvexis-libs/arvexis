@@ -2663,7 +2663,6 @@ export class TrZhaoChaItem {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
-        this.ItemId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         this.Img = _buf_.ReadString()
         this.Tip = _buf_.ReadString()
@@ -2678,10 +2677,6 @@ export class TrZhaoChaItem {
      */
     readonly Stage: number
     /**
-     * ID
-     */
-    readonly ItemId: number
-    /**
      * 
      */
     readonly Name: string
@@ -2695,7 +2690,6 @@ export class TrZhaoChaItem {
     readonly Tip: string
 
     resolve(tables:Tables) {
-        
         
         
         

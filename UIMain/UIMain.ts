@@ -143,7 +143,8 @@ export class UIMain extends CCComp {
 
     }
     BtnPhone_Click() {
-
+        GuideManager.Instance.FinishGuide();
+        oops.gui.openAsync(UIID.Phone);
     }
     BtnIdentity_Click() {
 

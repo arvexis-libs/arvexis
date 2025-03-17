@@ -91,7 +91,7 @@ export class HeroineDataManager
         if (exp >= trLevel.NeedExp) {
             if (GameData.PlayerData.HeroineData.Lv < this.getMaxLevel()) {
                 GameData.PlayerData.HeroineData.Lv += 1;
-                oops.message.dispatchEvent(GameEvent.PlayerLevelChange);//
+                oops.message.dispatchEvent(GameEvent.onHeroineLevelUp);//
             }
             GameData.PlayerData.HeroineData.ExpCur = exp - trLevel.NeedExp;
         }
@@ -104,6 +104,11 @@ export class HeroineDataManager
     public GetExpCur()
     {
         return GameData.PlayerData.HeroineData.ExpCur;
+    }
+
+    public GetExpCurLvNeep()
+    {
+        return ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Lv)!.NeedExp;
     }
 
     ///RoleDataManager.Instance.SetPower({powerBody:100,powerAgility:100});

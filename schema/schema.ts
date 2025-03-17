@@ -2663,6 +2663,7 @@ export class TrZhaoChaItem {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
+        this.ItemId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         this.Img = _buf_.ReadString()
         this.Tip = _buf_.ReadString()
@@ -2676,6 +2677,10 @@ export class TrZhaoChaItem {
      * 
      */
     readonly Stage: number
+    /**
+     * ID
+     */
+    readonly ItemId: number
     /**
      * 
      */
@@ -2695,6 +2700,7 @@ export class TrZhaoChaItem {
         
         
         
+        
     }
 }
 
@@ -2708,6 +2714,7 @@ export class TrZhaoChaStage {
         this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
+        this.Title = _buf_.ReadString()
         this.CoverImg = _buf_.ReadString()
         this.Prefab = _buf_.ReadString()
         this.LimitTime = _buf_.ReadInt()
@@ -2726,6 +2733,10 @@ export class TrZhaoChaStage {
      */
     readonly Name: string
     /**
+     *  
+     */
+    readonly Title: string
+    /**
      * 
      */
     readonly CoverImg: string
@@ -2739,6 +2750,7 @@ export class TrZhaoChaStage {
     readonly LimitTime: number
 
     resolve(tables:Tables) {
+        
         
         
         

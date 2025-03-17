@@ -654,12 +654,6 @@ export class UIHome extends CCComp {
         oops.gui.openAsync(UIID.UIStoryLine);
     }
 
-    OnClickBtnBack()
-    {
-        oops.gui.open(UIID.UIMain);
-        oops.gui.remove(UIID.UIHome);
-    }
-
     // 
     private updatePhoneMessageState() {
         this.phoneMessageNode.active = GameData.IsPhoneHasNoReaded();

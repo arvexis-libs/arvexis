@@ -32,7 +32,6 @@ import { sys } from 'cc';
 import { DEBUG } from 'cc/env';
 import { SdkManager } from '../../modules/sdk/SdkManager';
 import { GameDot } from '../gameplay/Manager/GameDot';
-import { forEach } from 'jszip';
 const { ccclass, property } = _decorator;
 
 // enum SpineDirection {
@@ -139,8 +138,7 @@ export class UITalkView extends CCComp {
     private _cdAutoClick: number = 0;
     // cd
     private _totalAutoPlayTime: number = 0;
-    private lastEffectTid : number = 0;
-    private _effectCache: Map<number, boolean> = new Map();  
+    private lastEffectTid : number=0;    
     // id
     private _lastAudioId: number = 0;
     
@@ -165,10 +163,6 @@ export class UITalkView extends CCComp {
     private _owerSpinePath: string = "";
     // spine
     private _spineCacheDic: Map<string, boolean> = new Map();
-    /**  */
-    private _audioLeftTime: number = 0;
-    private lastAmbTid:number = 0;
-    private lastBgmTid:number = 0;
 
     get nameLabel() {
         if (this._isOwner) {
@@ -212,18 +206,38 @@ export class UITalkView extends CCComp {
         // this.skipNode.on(Button.EventType.CLICK, this._onClickSkip, this);
         // this.backNode.on(Button.EventType.CLICK, this._onClickBack, this);
 
-        this.on(GameEvent.ChoiceOver, this._onTalkEnd, this);
+        this.on(GameEvent.ChoiceOver, this.Close, this);
     }
     onDestroy() {
-        oops.audio.stopMusic();
-        if(this.lastBgmTid != 0) {
-            this.dispatchEvent(GameEvent.StopUIMuisc, this.lastBgmTid);
+        this._cdClick = 0;
+        this._isChangingSpine = false;
+        this._isShowChanging = false;
+        this._lastTranformContentBg = null;
+        this._currentBgIndex = 0;
+        
+        GameData.talkViewAutoType = this._autoNextPlayState;
+        
+        this._stopTyping();
+        if(this._lastAudioId > 0) {
+            oops.audio.stopEffectById(this._lastAudioId);
         }
-        this.lastBgmTid = 0;
+        this._lastAudioId = 0;
+        
+        this._stopAudio();
+        this.off(GameEvent.ChoiceOver);
+        if(this._bgPath != "") {
+            oops.res.release(this._bgPath, "UITalkView");
+            this._bgPath = "";
+        }
+        this._stopContentTween();
+        this._stopBgTween();
+        this._clearSpineData();
+        // this.clearLastCfgSpine();
+        // Tween.stopAll();
+        this._isDestroy = true;
 
-        this._onClear();
-        for (const [id,_] of this._effectCache) {
-            let effectCfg=ConfigManager.tables.TbEffect.get(id);
+        if(this.lastEffectTid != 0) {
+            let effectCfg=ConfigManager.tables.TbEffect.get(this.lastEffectTid);
             if(effectCfg != null)
             {
                 oops.res.release(effectCfg.Path, "Art");
@@ -253,9 +267,6 @@ export class UITalkView extends CCComp {
         }        
         
         this._loadTex(dt);
-        if(this._audioLeftTime >= 0) {
-            this._audioLeftTime -= dt;
-        }
     }
 
     async testForCheckCfg() {
@@ -311,37 +322,6 @@ export class UITalkView extends CCComp {
         if(this._totalAutoPlayTime <= 0){
             this._totalAutoPlayTime = 2;
         }
-        this._onOpenRefresh();
-    }
-
-    /**
-     * 
-     * @param args {lastTalkId: Id, newId: id}
-     */
-    public _onReOpen(args: any) {
-        if(args == null || args == undefined) {
-            console.error("UITalkView onOpen error args:%s", args);
-            return;
-        }
-        this._lastTalkCfgID = args.lastTalkId;
-        this._talkId = args.newId;
-        this._firstTalkId = args.newId;
-        if(this._lastTalkCfgID != -1){
-            const lastCfg = ConfigManager.tables.TbTalk.get(this._lastTalkCfgID);
-            if(lastCfg) {
-                this.lastBgmTid = lastCfg.BGM;
-            }
-        }
-
-        this._onClear();
-        this._onOpenRefresh();
-    }
-
-    /**
-     * 
-     * @returns 
-     */
-    private _onOpenRefresh() {        
         this._bgPath = "";
         const cfg = ConfigManager.tables.TbTalk.get(this._talkId);
         if (cfg == null) {
@@ -366,49 +346,14 @@ export class UITalkView extends CCComp {
         this.debugSkipBtn.active = sys.platform == sys.Platform.DESKTOP_BROWSER || DEBUG;
         // this.testForCheckCfg();
     }
-
-    /**
-     * 
-     */
-    private _onClear()  {
-        this._audioLeftTime = 0;
-        this._cdClick = 0;
-        this._isChangingSpine = false;
-        this._isShowChanging = false;
-        this._lastTranformContentBg = null;
-        this._currentBgIndex = 0;
-        
-        GameData.talkViewAutoType = this._autoNextPlayState;
-        
-        this._stopTyping();
-        if(this._lastAudioId > 0) {
-            oops.audio.stopEffectById(this._lastAudioId);
-        }
-        this._lastAudioId = 0;
-        
-        this._stopAudio();
-        this.off(GameEvent.ChoiceOver);
-        if(this._bgPath != "") {
-            oops.res.release(this._bgPath, "UITalkView");
-            this._bgPath = "";
-        }
-        this._stopContentTween();
-        this._stopBgTween();
-        this._clearSpineData();
-        this.unscheduleAllCallbacks();
-        
-        this._isDestroy = true;
-    }
     
     protected onEnable(): void {
         oops.message.on(GameEvent.OnUpdateTalk, this._updateTalk, this);
-        oops.message.on(GameEvent.OnTalkReOpen, this._onReOpen, this);
         this._isDestroy = false;
     }
 
     protected onDisable(): void {
         oops.message.off(GameEvent.OnUpdateTalk, this._updateTalk, this);
-        oops.message.off(GameEvent.OnTalkReOpen, this._onReOpen, this);
 
         oops.audio.stopEffect();
         this._stopAudio();
@@ -556,7 +501,7 @@ export class UITalkView extends CCComp {
                     lastCfg = ConfigManager.tables.TbTalk.get(this._lastTalkCfgID);
                 }
                 this._markTouchCdIsInTime(0.2);
-                this._playAnimation(this.skeleton, cfg.SpineAnimGroup, lastCfg?.SpineAnimGroup);
+                this.playAnimation(this.skeleton, cfg.SpineAnimGroup, lastCfg?.SpineAnimGroup);
             }
         }
         else {            
@@ -565,14 +510,14 @@ export class UITalkView extends CCComp {
             
             this.skeleton.node.opacity = 0;
             // 
-            await this._createNewSpine(this.skeleton, cfg);
+            await this.createNewSpine(this.skeleton, cfg);
             if(this.skeleton && !this._isDestroy) {
                 Tween.stopAllByTarget(this.skeleton.node);
                 tween(this.skeleton.node)
                     .to(0.3, {opacity: 255})
                     .start();
             }
-            this._playAnimation(this.skeleton, cfg.SpineAnimGroup);
+            this.playAnimation(this.skeleton, cfg.SpineAnimGroup);
         }
         if(!this._isDestroy) {
             this.skeleton_Node.active = cfg.SpinePath != ""; 
@@ -625,7 +570,7 @@ export class UITalkView extends CCComp {
                     lastCfg = ConfigManager.tables.TbTalk.get(this._lastTalkCfgID);
                 }
                 this._markTouchCdIsInTime(0.2);
-                this._playAnimation(this.owerSkeleton, cfg.MeSpineAnimGroup, lastCfg?.MeSpineAnimGroup);
+                this.playAnimation(this.owerSkeleton, cfg.MeSpineAnimGroup, lastCfg?.MeSpineAnimGroup);
             }
         }
         else {            
@@ -634,7 +579,7 @@ export class UITalkView extends CCComp {
             
             this.owerSkeleton.node.opacity = 0;
             // 
-            await this._createNewSpine(this.owerSkeleton, cfg, true);
+            await this.createNewSpine(this.owerSkeleton, cfg, true);
             // this.owerSkeleton.node.opacity = 255;
             if(this.owerSkeleton && !this._isDestroy) {
                 Tween.stopAllByTarget(this.owerSkeleton.node);
@@ -644,7 +589,7 @@ export class UITalkView extends CCComp {
                 // await this.nextFrame(0.3);
             }
             // await this.nextFrame();
-            this._playAnimation(this.owerSkeleton, cfg.MeSpineAnimGroup);
+            this.playAnimation(this.owerSkeleton, cfg.MeSpineAnimGroup);
         }
     }
 
@@ -659,14 +604,14 @@ export class UITalkView extends CCComp {
         if(skSpine != null && cfg != null && !this._isDestroy){
             Tween.stopAllByTarget(skSpine.node);
             skSpine.node.opacity = 0;//isOwer ? 255 : 0;
-            await this._createNewSpine(skSpine, cfg, isOwer);
+            await this.createNewSpine(skSpine, cfg, isOwer);
             if(this._isDestroy) return;
             await this.nextFrame(0);
             if (skSpine == null || this._isDestroy) {
                 return;
             }
             this._markTouchCdIsInTime(0.4);
-            this._playAnimation(skSpine, isOwer ? cfg.MeSpineAnimGroup : cfg.SpineAnimGroup);
+            this.playAnimation(skSpine, isOwer ? cfg.MeSpineAnimGroup : cfg.SpineAnimGroup);
             if(skSpine != null) {
                 tween(skSpine.node)
                     .to(0.3, {opacity: 255 })
@@ -681,7 +626,7 @@ export class UITalkView extends CCComp {
      * @param cfg 
      * @param isOwer 
      */
-    private async _createNewSpine(skSpine: sp.Skeleton, cfg:TrTalk, isOwer: boolean = false) {    
+    private async createNewSpine(skSpine: sp.Skeleton, cfg:TrTalk, isOwer: boolean = false) {    
         if(this._isDestroy) return;    
         const x = isOwer ? -429.6 : cfg.SpineOffset.get("x") ?? 0;
         const y = isOwer ? -25 : cfg.SpineOffset.get("y") ?? 0;
@@ -721,7 +666,7 @@ export class UITalkView extends CCComp {
      * @param lastSpineAnimGroup 
      * @returns 
      */
-    private _playAnimation(spine: sp.Skeleton, spineAnimGroup: string[], lastSpineAnimGroup: string[] = [])
+    private playAnimation(spine: sp.Skeleton, spineAnimGroup: string[], lastSpineAnimGroup: string[] = [])
     {
         if(this._isDestroy || spine == null || spineAnimGroup.length == 0) {
             return;
@@ -754,11 +699,6 @@ export class UITalkView extends CCComp {
         }
     }
 
-    /**
-     * 
-     * @param cfg 
-     * @returns 
-     */
     private async _refEffect(cfg:TrTalk)
     {
         if(this.lastEffectTid == cfg.EffectId || this._isDestroy)
@@ -767,8 +707,8 @@ export class UITalkView extends CCComp {
         this.effectParent.active = false;
 
         //TODO 
-        let effectCfg = ConfigManager.tables.TbEffect.get(cfg.EffectId);
-        if(effectCfg == null)
+        let effectCfg=ConfigManager.tables.TbEffect.get(cfg.EffectId);
+        if(effectCfg==null)
             return;
         let effectGo = await oops.res.loadAsync("Art", effectCfg.Path, Prefab);
         if(this._isDestroy) return;
@@ -780,7 +720,6 @@ export class UITalkView extends CCComp {
         this.effectParent.active = true;
 
         this.lastEffectTid = cfg.EffectId;
-        this._effectCache.set(cfg.EffectId, true);
     }
 
     private OnLoadFinished()
@@ -1006,23 +945,25 @@ export class UITalkView extends CCComp {
         }
     }
 
+    private lastAmbTid:number = 0;
+    private lastBgmTid:number = 0;
     private _stopAudio() {
-        // oops.audio.stopMusic();
+        oops.audio.stopMusic();
         oops.audio.stopAmbMusic();
-        // if(this.lastBgmTid != 0) {
-        //     this.dispatchEvent(GameEvent.StopUIMuisc, this.lastBgmTid);
-        // }
-        // this.lastBgmTid = 0;
+        if(this.lastBgmTid != 0) {
+            this.dispatchEvent(GameEvent.StopUIMuisc, this.lastBgmTid);
+        }
+        this.lastBgmTid = 0;
         this.lastAmbTid = 0;
     }
 
-    async _playSound(cfg:TrTalk) {
+    _playSound(cfg:TrTalk) {
         //oops.audio.stopAmbMusic();
-        oops.audio.stopEffect();      
+        oops.audio.stopEffect();
+      
         Utility.PlayAudioOnId(cfg.SoundId);
-        this._lastAudioId = await Utility.PlayAudioOnId(cfg.AudioId);//.then(a=>this._lastAudioId = a);
+        Utility.PlayAudioOnId(cfg.AudioId).then(a=>this._lastAudioId=a);
         //this._lastAudioId = cfg.AudioId;
-        this._audioLeftTime = oops.audio.getAudioTimeOnId(this._lastAudioId);
 
         // cfg.AmbientSoundId= this.arrId[this.index];
         // this.index++;
@@ -1231,14 +1172,10 @@ export class UITalkView extends CCComp {
             this._updateInfo();
         }
         else {
-            this._onTalkEnd();
+            this.Close();
         }
     }
 
-    /**
-     * 
-     * @returns 
-     */
     private _isCanNext() {
         if(this._cdClick > 0) {
             return false;
@@ -1249,29 +1186,21 @@ export class UITalkView extends CCComp {
         if(this._isShowChanging) {
             return false;
         }
-        if(this._audioLeftTime > 0) {
-            return false;
-        }
         return true;
     }
 
-    private _onTalkEnd() {
+    Close() {
         GameData.PlayerData.GlobalData.StoryState.set(this._talkId, true);
-        // //SdkManager.inst.event("dialog_look", { id: this._firstTalkId, state: 1});
+        //SdkManager.inst.event("dialog_look", { id: this._firstTalkId, state: 1});
         GameDot.Instance.DialogTalkDot(this._firstTalkId, 1);
 
-        // if (!StorySystem.Instance.NextIsChoice()) {
-        //     oops.gui.remove(UIID.TalkView);
-        // }
+        if (!StorySystem.Instance.NextIsChoice()) {
+            oops.gui.remove(UIID.TalkView);
+        }
         
-        // oops.message.dispatchEvent(GameEvent.StoryPlayOver);
-
-        oops.message.dispatchEvent(GameEvent.OnTalkReadyClose, this._talkId);
+        oops.message.dispatchEvent(GameEvent.StoryPlayOver);
     }
 
-    /**
-     *  
-     */
     public onClickAuto() {
         if(this._autoNextPlayState == TalkAutoPlayState.None) {
             this._autoNextPlayState = TalkAutoPlayState.OneSpeed;
@@ -1291,6 +1220,6 @@ export class UITalkView extends CCComp {
     }
 
     public onSkipDebug() {
-        this._onTalkEnd();
+        this.Close();
     }
 }

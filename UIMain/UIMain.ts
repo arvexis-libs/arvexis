@@ -95,7 +95,7 @@ export class UIMain extends CCComp {
 
     ///
     SetRoleInfo(spriteName:string) { 
-        oops.res.loadAsync<SpriteFrame>("UIMain", `${spriteName}/spriteFrame`).then((sp)=>{
+        oops.res.loadAsync<SpriteFrame>("UIMain", `Sprites/${spriteName}/spriteFrame`).then((sp)=>{
             this.SpriteHeadIcon.spriteFrame = sp;
         });
     }
@@ -145,6 +145,12 @@ export class UIMain extends CCComp {
     BtnPhone_Click() {
         GuideManager.Instance.FinishGuide();
         oops.gui.openAsync(UIID.Phone);
+    }
+    BtnTaskType_0_Click() {
+
+    }
+    BtnTaskType_1_Click() {
+
     }
     BtnIdentity_Click() {
 

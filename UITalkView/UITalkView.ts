@@ -33,6 +33,7 @@ import { DEBUG } from 'cc/env';
 import { SdkManager } from '../../modules/sdk/SdkManager';
 import { GameDot } from '../gameplay/Manager/GameDot';
 import { forEach } from 'jszip';
+import { size } from 'cc';
 const { ccclass, property } = _decorator;
 
 // enum SpineDirection {
@@ -1087,28 +1088,43 @@ export class UITalkView extends CCComp {
     private async preprocessText(text: string): Promise<string> {
         if (!text || text.length === 0) return '';
 
-        const containerWidth = this.contentLabel.node.uiTransform.width;
-        const maxLineWidth = containerWidth; // 
+        // const containerWidth = this.contentLabel.node.uiTransform.width;
+        const maxLineWidth = 708;//containerWidth; // 
 
         let processedText = '';
         let currentLineWidth = 0;
         const curTextWidth = this.contentLabel.fontSize;
-
+        const curTextHeight = this.contentLabel.lineHeight;
+        let contentWidth = maxLineWidth;
+        let contentHeight = curTextHeight;
         // 
         for (let i = 0; i < text.length; i++) {
             const char = text[i];
             // const charWidth = await this.measureCharWidth(char); // 
-            if(currentLineWidth + curTextWidth > maxLineWidth) {
+            if(!this.isPunctuation(char) && currentLineWidth + curTextWidth > maxLineWidth) {
                 processedText += '\n' + char;
+                contentWidth = Math.max(contentWidth, currentLineWidth);
                 currentLineWidth = curTextWidth;
+                contentHeight += curTextHeight;
             }
             else {
                 processedText += char;
                 currentLineWidth += curTextWidth;
-            }            
+                contentWidth = Math.max(contentWidth, currentLineWidth);
+            }
         }
+        // console.log("text:%s",text);
+        // console.log("contentWidth:%s,contentHeight:%s",contentWidth,contentHeight);
+        this.contentLabel.node.uiTransform.setContentSize(size(contentWidth, contentHeight));
+        this.contentLabel.updateRenderData();
 
         return processedText;
+    }
+
+    // 
+    private isPunctuation(char : string) {
+        const punctuationRegex = /[\u3000-\u303F\uFF00-\uFF60\u2000-\u206F!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/;
+        return punctuationRegex.test(char);
     }
 
     _resetTyping() {

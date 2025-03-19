@@ -143,7 +143,6 @@ export class UIMain extends CCComp {
 
     }
     BtnPhone_Click() {
-        // oops.gui.openAsync(UIID.TalkView, {Id:200001});
         GuideManager.Instance.FinishGuide();
         oops.gui.openAsync(UIID.Phone);
     }

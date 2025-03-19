@@ -63,8 +63,10 @@ export enum GameEvent {
     OnCloseLvup="OnCloseLvup",
 
     /**  */
-    OnShowTalk = "OnShowTalk", 
-    OnUpdateTalk = "OnUpdateTalk", 
+    OnShowTalk = "OnShowTalk", // 
+    OnUpdateTalk = "OnUpdateTalk", // 
+    OnTalkReadyClose = "OnTalkReadyClose", // 
+    OnTalkReOpen = "OnTalkReOpen",// 
 
     OnClickMapBuild = "OnClickMapBuild",
     GoMapPlot = "GoMapPlot",

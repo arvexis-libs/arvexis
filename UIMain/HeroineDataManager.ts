@@ -89,7 +89,7 @@ export class HeroineDataManager
         let trLevel = ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Level)!
         let exp = GameData.PlayerData.HeroineData.ExpCur + expDelta;
         if (exp >= trLevel.NeedExp) {
-            if (GameData.PlayerData.HeroineData.Lv < this.getMaxLevel()) {
+            if (GameData.PlayerData.HeroineData.Lv < this.getLvMax()) {
                 GameData.PlayerData.HeroineData.Lv += 1;
                 oops.message.dispatchEvent(GameEvent.onHeroineLevelUp);//
             }
@@ -164,7 +164,13 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 
-    private getMaxLevel()
+    public getLvCur()
+    {
+        return GameData.PlayerData.HeroineData.Lv;
+    }
+    
+
+    private getLvMax()
     {
         return ConfigManager.tables.TbLevel.getDataList().length;
     }

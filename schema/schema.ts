@@ -2718,8 +2718,6 @@ export class TrZhaoChaStage {
         this.CoverImg = _buf_.ReadString()
         this.Prefab = _buf_.ReadString()
         this.LimitTime = _buf_.ReadInt()
-        this.FailAnim = _buf_.ReadString()
-        this.WinAnim = _buf_.ReadString()
     }
 
     /**
@@ -2750,18 +2748,8 @@ export class TrZhaoChaStage {
      * 
      */
     readonly LimitTime: number
-    /**
-     * 
-     */
-    readonly FailAnim: string
-    /**
-     * 
-     */
-    readonly WinAnim: string
 
     resolve(tables:Tables) {
-        
-        
         
         
         

@@ -2666,7 +2666,9 @@ export class TrZhaoChaItem {
         this.ItemId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         this.Img = _buf_.ReadString()
-        this.Tip = _buf_.ReadString()
+        this.TalkText = _buf_.ReadString()
+        this.TalkTime = _buf_.ReadInt()
+        this.TalkDirection = _buf_.ReadInt()
     }
 
     /**
@@ -2692,9 +2694,19 @@ export class TrZhaoChaItem {
     /**
      * 
      */
-    readonly Tip: string
+    readonly TalkText: string
+    /**
+     * 
+     */
+    readonly TalkTime: number
+    /**
+     * 
+     */
+    readonly TalkDirection: number
 
     resolve(tables:Tables) {
+        
+        
         
         
         
@@ -2718,6 +2730,8 @@ export class TrZhaoChaStage {
         this.CoverImg = _buf_.ReadString()
         this.Prefab = _buf_.ReadString()
         this.LimitTime = _buf_.ReadInt()
+        this.FailAnim = _buf_.ReadString()
+        this.WinAnim = _buf_.ReadString()
     }
 
     /**
@@ -2748,8 +2762,18 @@ export class TrZhaoChaStage {
      * 
      */
     readonly LimitTime: number
+    /**
+     * 
+     */
+    readonly FailAnim: string
+    /**
+     * 
+     */
+    readonly WinAnim: string
 
     resolve(tables:Tables) {
+        
+        
         
         
         

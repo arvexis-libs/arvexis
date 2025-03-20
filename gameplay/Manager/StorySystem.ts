@@ -31,7 +31,6 @@ export class StorySystem {
 
     public Init(): void {
         oops.message.on(GameEvent.StoryPlayOver, this.StoryPlayOver, this);
-        oops.message.on(GameEvent.OnTalkReadyClose, this.OnTalkReadyClose, this);
     }
 
     private lastPlotSegType: PlotSegType = PlotSegType.NextStory;
@@ -54,7 +53,6 @@ export class StorySystem {
     public isInStoryReward: boolean = false; //  
     public isShowUIConstellationNotice: boolean = false; //  
     public roleIdUIConstellationNotice: number = 0; // roleId
-    private lastTalkId: number = 0;
     
     public showMask(callBack:Function | null = null){
         
@@ -79,7 +77,6 @@ export class StorySystem {
         //SdkManager.inst.event("story_look", { id: this.cfgId, state: 2});
 
         this.isPlaying = false;
-        this.lastTalkId = 0;
 
         this.hideMask();
 
@@ -91,7 +88,6 @@ export class StorySystem {
         console.log(" Over " + this.cfgId);
         //SdkManager.inst.event("story_look", { id: this.cfgId, state: 1});
         GameDot.Instance.StoryLookDot(this.cfgId, 1);
-        this.lastTalkId = 0;
 
         if(closeMask) 
             this.hideMask();
@@ -138,10 +134,6 @@ export class StorySystem {
         {
             FunctionOpenSystem.Instance.CheckCondition();
         }
-
-        if(oops.gui.has(UIID.TalkView)){
-            oops.gui.remove(UIID.TalkView);
-        }
     }
 
     public Play(id: number, callback: () => void = null!,roleId:number=0): void {
@@ -156,7 +148,6 @@ export class StorySystem {
         // else oops.gui.show(UIID.UIStoryMask);
         // console.error("open UIStoryMask");
         this.loadMask = true;
-        this.lastTalkId = 0;
         
         GameData.PlayerData.GlobalData.DotStoryAllTime++;
         SdkManager.inst.event("mapstorytimes", { userid: PlayerSystem.Instance.CurPlayId, mapstorytimes: 1});
@@ -183,11 +174,6 @@ export class StorySystem {
             this.PlayAClip(firstStory[0], firstStory[1]);
             oops.message.dispatchEvent(GameEvent.UIStoryStartEvent, {cfgId:this.cfgId, roleId: this.roleId});
         });
-    }
-
-    //  
-    public OnTalkReadyClose(): void {
-        oops.message.dispatchEvent(GameEvent.StoryPlayOver);
     }
 
     private StoryPlayOver(event: any, args: any): void {
@@ -261,26 +247,19 @@ export class StorySystem {
             case PlotSegType.PlayDuiHua:
                 // 
                 // GameHelper.TransformLayer("HeiPingZhuanChang");
-                if(oops.gui.has(UIID.TalkView)){
-                    oops.message.dispatchEvent(GameEvent.OnTalkReOpen, { Id: id });
-                }else{
-                    oops.gui.openAsync(UIID.TalkView, { Id: id });
-                }
+                oops.gui.openAsync(UIID.TalkView, { Id: id });
 
-                this.lastTalkId = id;
                 break;
             case PlotSegType.PlayVideo:
                 // 
                 // GameHelper.TransformLayer("HeiPingZhuanChang");
                 PlayerSystem.Instance.PlayVideo(id);
-                this.lastTalkId = 0;
 
                 // UIMainVideoComp.getInstance().playUrl(id, false);
                 break;
             case PlotSegType.OpenGame:
                 // 
                 this.isGameType = true;
-                this.lastTalkId = 0;
                 oops.gui.openAsync(UIID.UIPiano,{
                     roleId:this.roleId
                 });
@@ -293,12 +272,6 @@ export class StorySystem {
             default:
                 console.error("PlotMgr: segType is not exist", id);
                 break;
-        }
-
-        if (type != PlotSegType.PlayDuiHua && type != PlotSegType.SelectOption) {
-            if(oops.gui.has(UIID.TalkView)){
-                oops.gui.remove(UIID.TalkView);
-            }
         }
 
         this.lastPlotSegType = type;
@@ -336,11 +309,6 @@ export class StorySystem {
     // 
     public IsLookTalk(id: number): boolean {
         return GameData.PlayerData.GlobalData.TalkState.has(id);
-    }
-
-    // Id 0
-    public GetLastTalkId(): number {
-        return this.lastTalkId;
     }
 }
 

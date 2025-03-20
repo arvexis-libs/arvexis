@@ -18,7 +18,7 @@ const { ccclass, property } = _decorator;
 @ccclass('BuildItemCom')
 export class BuildItemCom extends CCComp {
 
-    @property
+    @property(Number)
     public BuildId:number = 0;
     @property(Node)
     public AvatorHolder:Node = null!;

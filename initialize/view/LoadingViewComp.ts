@@ -98,7 +98,6 @@ export class LoadingViewComp extends CCComp {
 
     private openUIMain()
     {
-        oops.gui.open(UIID.MainVideo);
         oops.gui.open(UIID.UIMain);
     }
 

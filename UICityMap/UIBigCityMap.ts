@@ -1,4 +1,4 @@
-import { _decorator, Component, Node,tween, game, input} from 'cc';
+import { _decorator, Component, Node,tween, SystemEvent, game, input} from 'cc';
 import { oops } from 'db://oops-framework/core/Oops';
 import { CCComp } from 'db://oops-framework/module/common/CCComp';
 import { UIID } from '../common/config/GameUIConfig';

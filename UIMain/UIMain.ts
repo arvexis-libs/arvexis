@@ -95,7 +95,7 @@ export class UIMain extends CCComp {
 
     ///
     SetRoleInfo(spriteName:string) { 
-        oops.res.loadAsync<SpriteFrame>("UIMain", `${spriteName}/spriteFrame`).then((sp)=>{
+        oops.res.loadAsync<SpriteFrame>("UIMain", `Sprites/${spriteName}/spriteFrame`).then((sp)=>{
             this.SpriteHeadIcon.spriteFrame = sp;
         });
     }
@@ -143,8 +143,15 @@ export class UIMain extends CCComp {
 
     }
     BtnPhone_Click() {
+        // oops.gui.openAsync(UIID.TalkView, {Id:200001});
         GuideManager.Instance.FinishGuide();
         oops.gui.openAsync(UIID.Phone);
+    }
+    BtnTaskType_0_Click() {
+
+    }
+    BtnTaskType_1_Click() {
+
     }
     BtnIdentity_Click() {
 
@@ -157,7 +164,6 @@ export class UIMain extends CCComp {
     }
     BtnBoyFriend_Click() {
         // 
-        oops.gui.open(UIID.MainVideo);
         oops.gui.open(UIID.UIHome);
         oops.gui.remove(UIID.UIMain);
     }

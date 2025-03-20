@@ -108,6 +108,12 @@ export class UIChoice extends CCComp {
                     break;
 
             }
+
+            if (cfg.Type > PlotSegType.PlayDuiHua) {
+                if(oops.gui.has(UIID.TalkView)){
+                    oops.gui.remove(UIID.TalkView);
+                }
+            }
         }
     }
 

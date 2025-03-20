@@ -33,6 +33,7 @@ import { DEBUG } from 'cc/env';
 import { SdkManager } from '../../modules/sdk/SdkManager';
 import { GameDot } from '../gameplay/Manager/GameDot';
 import { forEach } from 'jszip';
+import { size } from 'cc';
 const { ccclass, property } = _decorator;
 
 // enum SpineDirection {
@@ -169,6 +170,7 @@ export class UITalkView extends CCComp {
     private _audioLeftTime: number = 0;
     private lastAmbTid:number = 0;
     private lastBgmTid:number = 0;
+    private _isWaitClose: boolean = false;
 
     get nameLabel() {
         if (this._isOwner) {
@@ -244,7 +246,7 @@ export class UITalkView extends CCComp {
         if(this._cdClick >= 0) {
             this._cdClick -= dt;
         }
-        if(this._textTypingTimer <= 0 && this._autoPlayState != TalkAutoPlayState.None && this._cdAutoClick >= 0){
+        if(!this._isWaitClose && this._textTypingTimer <= 0 && this._autoPlayState != TalkAutoPlayState.None && this._cdAutoClick >= 0){
             this._cdAutoClick -= dt;
             if(this._cdAutoClick <= 0) {
                 this._turnNext();
@@ -258,6 +260,7 @@ export class UITalkView extends CCComp {
         }
     }
 
+    // 
     async testForCheckCfg() {
         const list = ConfigManager.tables.TbTalk.getDataList();
         let data: Map<number, boolean> = new Map();
@@ -316,22 +319,16 @@ export class UITalkView extends CCComp {
 
     /**
      * 
-     * @param args {lastTalkId: Id, newId: id}
+     * @param args {Id: id}
      */
     public _onReOpen(args: any) {
         if(args == null || args == undefined) {
             console.error("UITalkView onOpen error args:%s", args);
             return;
         }
-        this._lastTalkCfgID = args.lastTalkId;
-        this._talkId = args.newId;
-        this._firstTalkId = args.newId;
-        if(this._lastTalkCfgID != -1){
-            const lastCfg = ConfigManager.tables.TbTalk.get(this._lastTalkCfgID);
-            if(lastCfg) {
-                this.lastBgmTid = lastCfg.BGM;
-            }
-        }
+        
+        this._talkId = args.Id;
+        this._firstTalkId = args.Id;
 
         this._onClear();
         this._onOpenRefresh();
@@ -359,6 +356,7 @@ export class UITalkView extends CCComp {
         this._isDestroy = false;
 
         this._firstTalkId = cfg.Id;
+        this._isWaitClose = false;
         //SdkManager.inst.event("dialog_look", { id: this._firstTalkId, state: 0});
         GameDot.Instance.DialogTalkDot(this._firstTalkId, 0);
         this._updateInfo(cfg);
@@ -377,8 +375,9 @@ export class UITalkView extends CCComp {
         this._isShowChanging = false;
         this._lastTranformContentBg = null;
         this._currentBgIndex = 0;
+        this._isWaitClose = false;
         
-        GameData.talkViewAutoType = this._autoNextPlayState;
+        this._onClearAutoAndSave();
         
         this._stopTyping();
         if(this._lastAudioId > 0) {
@@ -386,7 +385,7 @@ export class UITalkView extends CCComp {
         }
         this._lastAudioId = 0;
         
-        this._stopAudio();
+        this._stopAmbMusic();
         this.off(GameEvent.ChoiceOver);
         if(this._bgPath != "") {
             oops.res.release(this._bgPath, "UITalkView");
@@ -398,6 +397,11 @@ export class UITalkView extends CCComp {
         this.unscheduleAllCallbacks();
         
         this._isDestroy = true;
+    }
+
+    private _onClearAutoAndSave() {
+        GameData.talkViewAutoType = this._autoNextPlayState;
+        this._autoNextPlayState = TalkAutoPlayState.None;
     }
     
     protected onEnable(): void {
@@ -411,7 +415,7 @@ export class UITalkView extends CCComp {
         oops.message.off(GameEvent.OnTalkReOpen, this._onReOpen, this);
 
         oops.audio.stopEffect();
-        this._stopAudio();
+        this._stopAmbMusic();
         this._isDestroy = true;
     }
 
@@ -1006,13 +1010,9 @@ export class UITalkView extends CCComp {
         }
     }
 
-    private _stopAudio() {
-        // oops.audio.stopMusic();
+    /** */
+    private _stopAmbMusic() {
         oops.audio.stopAmbMusic();
-        // if(this.lastBgmTid != 0) {
-        //     this.dispatchEvent(GameEvent.StopUIMuisc, this.lastBgmTid);
-        // }
-        // this.lastBgmTid = 0;
         this.lastAmbTid = 0;
     }
 
@@ -1087,28 +1087,43 @@ export class UITalkView extends CCComp {
     private async preprocessText(text: string): Promise<string> {
         if (!text || text.length === 0) return '';
 
-        const containerWidth = this.contentLabel.node.uiTransform.width;
-        const maxLineWidth = containerWidth; // 
+        // const containerWidth = this.contentLabel.node.uiTransform.width;
+        const maxLineWidth = 708;//containerWidth; // 
 
         let processedText = '';
         let currentLineWidth = 0;
         const curTextWidth = this.contentLabel.fontSize;
-
+        const curTextHeight = this.contentLabel.lineHeight;
+        let contentWidth = maxLineWidth;
+        let contentHeight = curTextHeight;
         // 
         for (let i = 0; i < text.length; i++) {
             const char = text[i];
             // const charWidth = await this.measureCharWidth(char); // 
-            if(currentLineWidth + curTextWidth > maxLineWidth) {
+            if(!this.isPunctuation(char) && currentLineWidth + curTextWidth > maxLineWidth) {
                 processedText += '\n' + char;
+                contentWidth = Math.max(contentWidth, currentLineWidth);
                 currentLineWidth = curTextWidth;
+                contentHeight += curTextHeight;
             }
             else {
                 processedText += char;
                 currentLineWidth += curTextWidth;
-            }            
+                contentWidth = Math.max(contentWidth, currentLineWidth);
+            }
         }
+        // console.log("text:%s",text);
+        // console.log("contentWidth:%s,contentHeight:%s",contentWidth,contentHeight);
+        this.contentLabel.node.uiTransform.setContentSize(size(contentWidth, contentHeight));
+        this.contentLabel.updateRenderData();
 
         return processedText;
+    }
+
+    // 
+    private isPunctuation(char : string) {
+        const punctuationRegex = /[\u3000-\u303F\uFF00-\uFF60\u2000-\u206F!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/;
+        return punctuationRegex.test(char);
     }
 
     _resetTyping() {
@@ -1266,6 +1281,7 @@ export class UITalkView extends CCComp {
         
         // oops.message.dispatchEvent(GameEvent.StoryPlayOver);
 
+        this._isWaitClose = true;
         oops.message.dispatchEvent(GameEvent.OnTalkReadyClose, this._talkId);
     }
 

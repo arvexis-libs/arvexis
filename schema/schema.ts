@@ -1023,8 +1023,8 @@ export class TrHeroinePropType {
 
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
-        this.Icon = _buf_.ReadInt()
-        this.Name = _buf_.ReadInt()
+        this.Icon = _buf_.ReadString()
+        this.Name = _buf_.ReadString()
         this.ValueType = _buf_.ReadInt()
     }
 
@@ -1035,11 +1035,11 @@ export class TrHeroinePropType {
     /**
      * 
      */
-    readonly Icon: number
+    readonly Icon: string
     /**
      * 
      */
-    readonly Name: number
+    readonly Name: string
     /**
      * 
      */
@@ -1263,6 +1263,98 @@ export class TrLoveHistory {
     readonly IsShowLevel: number
 
     resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
+export class TrMagicBoxRandom {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.MagicBoxType = _buf_.ReadInt()
+        this.StrText = _buf_.ReadString()
+        this.UIId = _buf_.ReadInt()
+        this.StoryId = _buf_.ReadInt()
+        this.Equal = _buf_.ReadInt()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Award1 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Award1.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Award2 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Award2.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Award3 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Award3.push(_e0);}}
+        this.TriggerTime = _buf_.ReadInt()
+        this.Weight = _buf_.ReadInt()
+        this.ConditionType = _buf_.ReadInt()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ConditionId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ConditionId.push(_e0);}}
+    }
+
+    /**
+     * id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly MagicBoxType: number
+    /**
+     * 
+     */
+    readonly StrText: string
+    /**
+     * UIID
+     */
+    readonly UIId: number
+    /**
+     * ID
+     */
+    readonly StoryId: number
+    /**
+     * 
+     */
+    readonly Equal: number
+    /**
+     * 1
+     */
+    readonly Award1: number[]
+    /**
+     * 2
+     */
+    readonly Award2: number[]
+    /**
+     * 3
+     */
+    readonly Award3: number[]
+    /**
+     * 
+     */
+    readonly TriggerTime: number
+    /**
+     * 
+     */
+    readonly Weight: number
+    /**
+     * 
+     */
+    readonly ConditionType: number
+    /**
+     * 
+     */
+    readonly ConditionId: number[]
+
+    resolve(tables:Tables) {
+        
+        
         
         
         
@@ -2666,9 +2758,7 @@ export class TrZhaoChaItem {
         this.ItemId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         this.Img = _buf_.ReadString()
-        this.TalkText = _buf_.ReadString()
-        this.TalkTime = _buf_.ReadInt()
-        this.TalkDirection = _buf_.ReadInt()
+        this.Tip = _buf_.ReadString()
     }
 
     /**
@@ -2694,19 +2784,9 @@ export class TrZhaoChaItem {
     /**
      * 
      */
-    readonly TalkText: string
-    /**
-     * 
-     */
-    readonly TalkTime: number
-    /**
-     * 
-     */
-    readonly TalkDirection: number
+    readonly Tip: string
 
     resolve(tables:Tables) {
-        
-        
         
         
         
@@ -2730,8 +2810,6 @@ export class TrZhaoChaStage {
         this.CoverImg = _buf_.ReadString()
         this.Prefab = _buf_.ReadString()
         this.LimitTime = _buf_.ReadInt()
-        this.FailAnim = _buf_.ReadString()
-        this.WinAnim = _buf_.ReadString()
     }
 
     /**
@@ -2762,18 +2840,8 @@ export class TrZhaoChaStage {
      * 
      */
     readonly LimitTime: number
-    /**
-     * 
-     */
-    readonly FailAnim: string
-    /**
-     * 
-     */
-    readonly WinAnim: string
 
     resolve(tables:Tables) {
-        
-        
         
         
         
@@ -4226,6 +4294,39 @@ export class TbZhaoChaItem {
 
 
 
+export class TbMagicBoxRandom {
+    private _dataMap: Map<number, TrMagicBoxRandom>
+    private _dataList: TrMagicBoxRandom[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrMagicBoxRandom>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrMagicBoxRandom
+            _v = new TrMagicBoxRandom(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrMagicBoxRandom> { return this._dataMap; }
+    getDataList(): TrMagicBoxRandom[] { return this._dataList; }
+
+    get(key: number): TrMagicBoxRandom | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4317,6 +4418,8 @@ export class Tables {
     get TbZhaoChaStage(): TbZhaoChaStage  { return this._TbZhaoChaStage;}
     private _TbZhaoChaItem: TbZhaoChaItem
     get TbZhaoChaItem(): TbZhaoChaItem  { return this._TbZhaoChaItem;}
+    private _TbMagicBoxRandom: TbMagicBoxRandom
+    get TbMagicBoxRandom(): TbMagicBoxRandom  { return this._TbMagicBoxRandom;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4364,6 +4467,7 @@ export class Tables {
         names.push('tbpropvalue');
         names.push('tbzhaochastage');
         names.push('tbzhaochaitem');
+        names.push('tbmagicboxrandom');
         return names;
     }
 
@@ -4412,6 +4516,7 @@ export class Tables {
         this._TbPropValue = new TbPropValue(loader('tbpropvalue'))
         this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
         this._TbZhaoChaItem = new TbZhaoChaItem(loader('tbzhaochaitem'))
+        this._TbMagicBoxRandom = new TbMagicBoxRandom(loader('tbmagicboxrandom'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4457,6 +4562,7 @@ export class Tables {
         this._TbPropValue.resolve(this)
         this._TbZhaoChaStage.resolve(this)
         this._TbZhaoChaItem.resolve(this)
+        this._TbMagicBoxRandom.resolve(this)
     }
 }
 

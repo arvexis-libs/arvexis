@@ -30,4 +30,6 @@ export class HeroineData extends SerializeClass {
     public ClothesList:number[] = [];//
     @SerializeData()
     public IdentityList:number[] = [];//
+    @SerializeData()
+    public UsedMagicBoxId:number[] = [];//
 }

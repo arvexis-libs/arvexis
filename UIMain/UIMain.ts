@@ -37,6 +37,7 @@ import { UINotification } from "../common/UINotification/UINotification";
 import { HeroineDataManager } from "./HeroineDataManager";
 import { Sprite } from "cc";
 import { sp } from "cc";
+import { MagicBox } from "./MagicBox";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -63,6 +64,7 @@ export class UIMain extends CCComp {
     @property(Button) BtnKeyAdd:Button = null!;//
 
     @property(Sprite) SpriteHeadIcon: Sprite = null!;
+    @property(Node) MagicBoxTips: Node = null!;
 
     onLoad() {
         this.RegistEvents();
@@ -70,11 +72,11 @@ export class UIMain extends CCComp {
 
     async start() {
         HeroineDataManager.Instance.SetPower({powerBody:100,powerAgility:100});
-        this.SetRoleInfo("main_avatar");
+        this.InitPropShow();
     }
 
     protected onEnable(): void {
-        
+        this.MagicBoxTips.getComponent(Button)!.enabled = false;
     }
 
 
@@ -92,37 +94,39 @@ export class UIMain extends CCComp {
     }
 
     ///////////////////////////////////
+    InitPropShow() { 
+        this.RefreshName();
+        this.RefreshHeadIcon();
+        this.RefreshCurrency();
+        this.RefreshLv();
+    }
 
-    ///
-    SetRoleInfo(spriteName:string) { 
-        oops.res.loadAsync<SpriteFrame>("UIMain", `Sprites/${spriteName}/spriteFrame`).then((sp)=>{
-            this.SpriteHeadIcon.spriteFrame = sp;
+
+    RefreshHeadIcon()    ///
+    { 
+        oops.res.loadAsync<SpriteFrame>("UIMain", `Sprites/${HeroineDataManager.Instance.GetHeadIcon}/spriteFrame`).then((sp)=>{
+            if (sp) {
+                this.SpriteHeadIcon.spriteFrame = sp;
+            }
         });
     }
 
-    ////UI
-    SetTimeState(timeString:string)
+    SetTimeState(timeString:string)    ////UI
     {
         this.TxtGameTime.string = timeString;
     }
-
-    ///
-    RefreshCurrency(event: string, ...args: any)
+    RefreshName()
     {
-        let currencyType = args[0];
-        let currencyNum = args[1];
-        let currencyDelta = args[2];//
-        switch(currencyType)
-        {
-            case ItemEnum.Cash:
-                this.TxtCashValue.string = currencyNum.toString();
-                break;
-            case ItemEnum.Gem:
-                this.TxtGemValue.string = currencyNum.toString();
-                break;
-            default:
-                break;
-        }
+        this.TxtRoleName.string = HeroineDataManager.Instance.GetName();
+    }
+    RefreshLv()
+    {
+        this.TxtRoleLv.string = `LV.${HeroineDataManager.Instance.getLvCur()}`;
+    }
+    RefreshCurrency()    ///
+    {
+        this.TxtCashValue.string = GameData.getCurrency(ItemEnum.Cash).toString();
+        this.TxtGemValue.string = GameData.getCurrency(ItemEnum.Gem).toString();
     }
 
     BtnCashAdd_Click() {
@@ -168,18 +172,25 @@ export class UIMain extends CCComp {
         oops.gui.remove(UIID.UIMain);
     }
     BtnMagicBox_Click() {
-
+        let magicBox = new MagicBox();
+        magicBox.Init(this.MagicBoxTips);
     }
     BtnKeyAdd_Click() {
-
+        
     }
 
     private RegistEvents() {
+        this.on(GameEvent.OnHeroineNameChange, this.RefreshName, this);
+        this.on(GameEvent.OnHeroineHeadIconChange, this.RefreshHeadIcon, this);
         this.on(GameEvent.OnMoneyChange, this.RefreshCurrency, this);
+        this.on(GameEvent.onHeroineLevelUp, this.RefreshLv, this);
     }
 
     private UnRegistEvents() {
+        this.off(GameEvent.OnHeroineNameChange);
+        this.off(GameEvent.OnHeroineHeadIconChange);
         this.off(GameEvent.OnMoneyChange);
+        this.off(GameEvent.onHeroineLevelUp);
     }
 }
 

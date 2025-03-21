@@ -126,6 +126,9 @@ export enum UIID {
 
     UIItemTips,
     UIMain,//
+    UIEffect_0=66,//ui
+    UIEffect_1=67,
+    UIEffect_2=68,
 }
 
 /**  */
@@ -177,4 +180,8 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UINecklace]: { layer: LayerType.UI, prefab: "Prefab/UINecklace", bundle:"UIGuide" },
     [UIID.UIItemTips]: { layer: LayerType.PopUp, prefab: "Prefab/UIItemTips", bundle:"UIItemTips" },
     [UIID.UIMain]: { layer: LayerType.UI, prefab: "Prefab/UIMain", bundle:"UIMain" },
+    [UIID.UIEffect_0]: { layer: LayerType.PopUp, prefab: "Prefab/UIEffect_0", bundle:"UIMain" },
+    [UIID.UIEffect_1]: { layer: LayerType.PopUp, prefab: "Prefab/UIEffect_1", bundle:"UIMain" },
+    [UIID.UIEffect_2]: { layer: LayerType.PopUp, prefab: "Prefab/UIEffect_2", bundle:"UIMain" },
+
 }

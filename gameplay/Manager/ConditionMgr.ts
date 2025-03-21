@@ -4,8 +4,6 @@ import { TrCondition } from "../../schema/schema";
 import { PlayerSystem } from "./PlayerSystem";
 import { GameData } from "../GameDataModel/GameData";
 import { StorySystem } from "./StorySystem";
-import { HeroineData } from "../GameDataModel/HeroineData";
-import { HeroineDataManager } from "../../UIMain/HeroineDataManager";
 
 export enum ConditionAndOr {
     And = 1,
@@ -20,8 +18,7 @@ export enum ConditionType {
     RuCan = 5,              //
     Guide = 6,
     StoryComplete = 7,      //
-    EnterUITimeWithAvatorId = 8, //UI id  uiid id
-    HeroineLv = 9,//
+    EnterUITimeWithAvatorId = 8 //UI id  uiid id
 }
 
 export class ConditionMgr {
@@ -147,9 +144,7 @@ export class ConditionMgr {
             case ConditionType.EnterUITimeWithAvatorId:
                 let time2 = GameData.GetOpenUICountWithAvatorId(condition.Param1, condition.Param2);
                 return time2;
-            case ConditionType.HeroineLv://
-                let heroineLv = HeroineDataManager.Instance.getLvCur();
-                return heroineLv;
+
             default:
                 console.error("" + conditionType);
                 return 0;

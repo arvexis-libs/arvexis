@@ -106,8 +106,12 @@ export enum GameEvent {
     UITransformToCloseEvent = "UITransformToCloseEvent",
 
     OnReturnUIHome = "OnReturnUIHome",
-
+    
+///////////////////////////////////////////////
     OnHeroineDataChange = "OnHeroineDataChange",//
+    OnHeroineNameChange = "OnHeroineNameChange",//
+    OnHeroineHeadIconChange = "OnHeroineHeadIconChange",//
+    onHeroineLevelUp = "onHeroineLevelUp",//
 
 
 }

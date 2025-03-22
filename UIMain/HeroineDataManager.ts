@@ -86,7 +86,7 @@ export class HeroineDataManager
 
     public AddExp(expDelta:number)
     {
-        let trLevel = ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Level)!
+        let trLevel = ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Lv)!
         let exp = GameData.PlayerData.HeroineData.ExpCur + expDelta;
         if (exp >= trLevel.NeedExp) {
             if (GameData.PlayerData.HeroineData.Lv < this.getLvMax()) {

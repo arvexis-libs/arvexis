@@ -130,6 +130,7 @@ export enum UIID {
     UIEffect_1=67,
     UIEffect_2=68,
     UITextReward,//+
+    UIMainLevelUp,//
 }
 
 /**  */
@@ -185,5 +186,5 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UIEffect_1]: { layer: LayerType.PopUp, prefab: "Prefab/UIEffect_1", bundle:"UIMain" },
     [UIID.UIEffect_2]: { layer: LayerType.PopUp, prefab: "Prefab/UIEffect_2", bundle:"UIMain" },
     [UIID.UITextReward]: { layer: LayerType.UI, prefab: "Prefab/UITextReward", bundle:"UIMain" },
-
+    [UIID.UIMainLevelUp]: { layer: LayerType.UI, prefab: "Prefab/UIMainLevelUp", bundle:"UIMainLevelUp" },
 }

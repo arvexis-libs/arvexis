@@ -50,6 +50,15 @@ import { config } from 'process';
 import * as exp from 'constants';
 const { ccclass, property } = _decorator;
 
+///
+enum KeySources
+{
+    Ads = 0,//
+    Store = 1,//
+    LvUp = 2,//
+    RealTime = 3,//
+}
+
 @ccclass('HeroineDataManager')
 export class HeroineDataManager
 {
@@ -59,6 +68,15 @@ export class HeroineDataManager
         if (this._instance == null)
         {
             this._instance = new HeroineDataManager();
+            if (!GameData.PlayerData.HeroineData.ListUsedMagicBoxId) {
+                GameData.PlayerData.HeroineData.ListUsedMagicBoxId = [];
+            }
+            if (!GameData.PlayerData.HeroineData.ListClothes) {
+                GameData.PlayerData.HeroineData.ListClothes = [];
+            }
+            if (!GameData.PlayerData.HeroineData.ListIdentity) {
+                GameData.PlayerData.HeroineData.ListIdentity = [];
+            } 
         }
         return this._instance;
     }
@@ -136,12 +154,12 @@ export class HeroineDataManager
 
     public GetClothes()
     {
-        return GameData.PlayerData.HeroineData.ClothesList;
+        return GameData.PlayerData.HeroineData.ListClothes;
     }
 
     public GiveClothes(clothesId:number)
     {
-        let clothesList = GameData.PlayerData.HeroineData.ClothesList;
+        let clothesList = GameData.PlayerData.HeroineData.ListClothes;
         if(clothesList.indexOf(clothesId) != -1) 
             return;
 
@@ -151,12 +169,12 @@ export class HeroineDataManager
 
     public GetIdentity()
     {
-        return GameData.PlayerData.HeroineData.IdentityList;
+        return GameData.PlayerData.HeroineData.ListIdentity;
     }
     
     public GiveIdentity(identityId:number)
     {
-        let identityList = GameData.PlayerData.HeroineData.IdentityList;
+        let identityList = GameData.PlayerData.HeroineData.ListIdentity;
         if(identityList.indexOf(identityId) != -1) 
             return;
 
@@ -177,7 +195,51 @@ export class HeroineDataManager
 
     public IsMagicBoxUsed(idMagicBox:number)
     {
-        return GameData.PlayerData.HeroineData.UsedMagicBoxId.indexOf(idMagicBox) >= 0;
+        return GameData.PlayerData.HeroineData.ListUsedMagicBoxId.indexOf(idMagicBox) >= 0;
 
+    }
+
+    public SetMagicBoxUsed(idMagicBox:number)//
+    {
+        if (GameData.PlayerData.HeroineData.ListUsedMagicBoxId.indexOf(idMagicBox) >= 0)
+            return;
+
+        GameData.PlayerData.HeroineData.ListUsedMagicBoxId.push(idMagicBox);
+    }
+
+    public GetKeyCountCur()
+    {
+        return GameData.PlayerData.CurrencyData.get(ItemEnum.Key);
+    }
+
+    public GetKeyCountMax()
+    {
+        let lv = this.getLvCur();
+        let tab = ConfigManager.tables.TbLevel.get(lv);
+        return tab?.MagicKeyMax;
+    }
+
+    public AddKey(keySources: KeySources, count: number)
+    {
+        let keyCountCur = GameData.PlayerData.CurrencyData.get(ItemEnum.Key)!;
+        let value1 = keyCountCur + count;
+        let value2 = Math.min(value1, this.GetKeyCountMax()!);
+        switch(keySources)
+        {
+            case KeySources.Ads:
+                GameData.PlayerData.CurrencyData.set(ItemEnum.Key, value1);
+                break;
+            case KeySources.Store:
+                GameData.PlayerData.CurrencyData.set(ItemEnum.Key, value1);
+            break;
+            case KeySources.LvUp:
+                GameData.PlayerData.CurrencyData.set(ItemEnum.Key, value1);
+                break;
+            case KeySources.RealTime:
+                GameData.PlayerData.CurrencyData.set(ItemEnum.Key, value2);
+                break;
+                
+        }
+        
     }
 }

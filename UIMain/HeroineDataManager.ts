@@ -51,7 +51,7 @@ import * as exp from 'constants';
 const { ccclass, property } = _decorator;
 
 ///
-export enum KeySources
+enum KeySources
 {
     Ads = 0,//
     Store = 1,//
@@ -215,16 +215,15 @@ export class HeroineDataManager
     public GetKeyCountMax()
     {
         let lv = this.getLvCur();
-        let tab = ConfigManager.tables.TbLevel.get(lv);
-        return tab?.MagicKeyMax;
+        let tab = ConfigManager.tables.TbLevel.get(lv)!;
+        return tab.MagicKeyMax;
     }
 
     public AddKey(keySources: KeySources, count: number)
     {
         let keyCountCur = GameData.PlayerData.CurrencyData.get(ItemEnum.Key)!;
-        let value1 = Math.max(keyCountCur + count, 0) ;
-        let value2 = value1 >= this.GetKeyCountMax()! ? keyCountCur : value1;
-
+        let value1 = keyCountCur + count;
+        let value2 = Math.min(value1, this.GetKeyCountMax()!);
         switch(keySources)
         {
             case KeySources.Ads:
@@ -242,6 +241,5 @@ export class HeroineDataManager
                 
         }
         
-        oops.message.dispatchEvent(GameEvent.onHeroineKeyChange);
     }
 }

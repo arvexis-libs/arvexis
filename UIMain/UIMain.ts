@@ -123,8 +123,6 @@ export class UIMain extends CCComp {
     RefreshLv()
     {
         this.TxtRoleLv.string = `LV.${HeroineDataManager.Instance.getLvCur()}`;
-        // 
-        oops.gui.open(UIID.UIMainLevelUp);
     }
     RefreshCurrency()    ///
     {
@@ -185,11 +183,17 @@ export class UIMain extends CCComp {
         
     }
 
+    onHeroineLevelUp() {
+        this.RefreshLv();
+        // 
+        oops.gui.open(UIID.UIMainLevelUp);
+    }
+
     private RegistEvents() {
         this.on(GameEvent.OnHeroineNameChange, this.RefreshName, this);
         this.on(GameEvent.OnHeroineHeadIconChange, this.RefreshHeadIcon, this);
         this.on(GameEvent.OnMoneyChange, this.RefreshCurrency, this);
-        this.on(GameEvent.onHeroineLevelUp, this.RefreshLv, this);
+        this.on(GameEvent.onHeroineLevelUp, this.onHeroineLevelUp, this);
     }
 
     private UnRegistEvents() {

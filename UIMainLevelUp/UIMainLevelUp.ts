@@ -24,6 +24,9 @@ export class UIMainLevelUp extends CCComp {
 
     @property({type: AnimationUtil, displayName: ""})
     animationUtil: AnimationUtil = null!;
+
+    @property({type: Boolean, displayName: ""})
+    enableClose: boolean = false;
     
 
     onAdded(_isClick: boolean) {
@@ -37,6 +40,7 @@ export class UIMainLevelUp extends CCComp {
         this.rightLvLabel.string = toLv.toString();
         this.toLvLabel.string = toLv.toString();
         this.animationUtil.onTriggerEvent = this.onTriggerEvent.bind(this);
+        this.enableClose = false;
         const animation = this.animationUtil.node.getComponent(Animation)!;
         animation.play();
         // animation.on(Animation.EventType.FINISHED, this.onTriggerEvent, this);
@@ -47,14 +51,18 @@ export class UIMainLevelUp extends CCComp {
     }
 
     onDestroy() {
-
+        this.animationUtil.onTriggerEvent = null!;
     }
 
     onClose() {
+        if (!this.enableClose) return;
         oops.gui.remove(UIID.UIMainLevelUp);
     }
 
     onTriggerEvent(event: string) {
-        console.log(`[LevelUp]onTriggerEvent: ${event}`);
+        if (event === "step4") {
+            this.enableClose = true;
+        }
+        console.log(`[LevelUp]onTriggerEvent: ${event}, enableClose: ${this.enableClose}`);
     }
 }

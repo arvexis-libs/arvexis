@@ -140,9 +140,7 @@ export class UIMain extends CCComp {
     }
 
     BtnHeadIcon_Click() {
-        // todo  
-        console.log("[LevelUp]BtnHeadIcon_Click");
-        oops.gui.open(UIID.UIMainLevelUp);
+        oops.gui.open(UIID.UIHeroineInfo);
     }
     BtnTimeState_click() {
 

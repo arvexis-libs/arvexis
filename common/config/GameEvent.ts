@@ -112,6 +112,6 @@ export enum GameEvent {
     OnHeroineNameChange = "OnHeroineNameChange",//
     OnHeroineHeadIconChange = "OnHeroineHeadIconChange",//
     onHeroineLevelUp = "onHeroineLevelUp",//
-
+    onHeroineKeyChange = "onHeroineKeyChange",//
 
 }

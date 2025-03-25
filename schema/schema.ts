@@ -95,9 +95,6 @@ export class Item {
      * Bundle,resource
      */
     readonly BundleName: string
-    /**
-     * 
-     */
     readonly Param: string
     /**
      * 
@@ -409,172 +406,6 @@ export class TrBook {
     resolve(tables:Tables) {
         
         
-        
-        
-    }
-}
-
-
-
-
-
-export class TrBoyFriend {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.BriefIntro = _buf_.ReadString()
-        this.Icon = _buf_.ReadString()
-        this.PhoneIcon = _buf_.ReadString()
-        this.Pic = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.Unlock.set(_k0, _v0);  } }
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.FavoriteItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.FavoriteItem.push(_e0);}}
-        this.FavoriteItemNum = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ConfuseItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ConfuseItem.push(_e0);}}
-        this.ConfuseItemNum = _buf_.ReadInt()
-        this.FavoriteItemVideo = _buf_.ReadString()
-        this.ConfuseItemVideo = _buf_.ReadString()
-        this.NormalItemVideo = _buf_.ReadString()
-        this.Age = _buf_.ReadInt()
-        this.Height = _buf_.ReadInt()
-        this.Character = _buf_.ReadString()
-        this.Favorite = _buf_.ReadString()
-        this.Hate = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Intro = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Intro.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.IntroUnlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.IntroUnlock.push(_e0);}}
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly BriefIntro: string
-    /**
-     * 
-     */
-    readonly Icon: string
-    /**
-     * 
-     */
-    readonly PhoneIcon: string
-    /**
-     * 
-     */
-    readonly Pic: string
-    /**
-     * 
-     */
-    readonly Unlock: Map<number, number>
-    /**
-     * id
-     */
-    readonly FavoriteItem: number[]
-    /**
-     * 
-     */
-    readonly FavoriteItemNum: number
-    /**
-     * id
-     */
-    readonly ConfuseItem: number[]
-    /**
-     * 
-     */
-    readonly ConfuseItemNum: number
-    /**
-     * 
-     */
-    readonly FavoriteItemVideo: string
-    /**
-     * 
-     */
-    readonly ConfuseItemVideo: string
-    /**
-     * 
-     */
-    readonly NormalItemVideo: string
-    /**
-     * 
-     */
-    readonly Age: number
-    /**
-     * 
-     */
-    readonly Height: number
-    /**
-     * 
-     */
-    readonly Character: string
-    /**
-     * 
-     */
-    readonly Favorite: string
-    /**
-     * 
-     */
-    readonly Hate: string
-    /**
-     * 1|2
-     */
-    readonly Intro: string[]
-    /**
-     * 1|2
-     */
-    readonly IntroUnlock: number[]
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrBoyFriendLevel {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Exp = _buf_.ReadInt()
-    }
-
-    /**
-     * 1001-2001
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Exp: number
-
-    resolve(tables:Tables) {
         
         
     }
@@ -4520,72 +4351,6 @@ export class TbMagicBoxRandom {
 
 
 
-export class TbBoyFriend {
-    private _dataMap: Map<number, TrBoyFriend>
-    private _dataList: TrBoyFriend[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrBoyFriend>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrBoyFriend
-            _v = new TrBoyFriend(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrBoyFriend> { return this._dataMap; }
-    getDataList(): TrBoyFriend[] { return this._dataList; }
-
-    get(key: number): TrBoyFriend | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbBoyFriendLevel {
-    private _dataMap: Map<number, TrBoyFriendLevel>
-    private _dataList: TrBoyFriendLevel[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrBoyFriendLevel>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrBoyFriendLevel
-            _v = new TrBoyFriendLevel(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrBoyFriendLevel> { return this._dataMap; }
-    getDataList(): TrBoyFriendLevel[] { return this._dataList; }
-
-    get(key: number): TrBoyFriendLevel | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4679,10 +4444,6 @@ export class Tables {
     get TbZhaoChaItem(): TbZhaoChaItem  { return this._TbZhaoChaItem;}
     private _TbMagicBoxRandom: TbMagicBoxRandom
     get TbMagicBoxRandom(): TbMagicBoxRandom  { return this._TbMagicBoxRandom;}
-    private _TbBoyFriend: TbBoyFriend
-    get TbBoyFriend(): TbBoyFriend  { return this._TbBoyFriend;}
-    private _TbBoyFriendLevel: TbBoyFriendLevel
-    get TbBoyFriendLevel(): TbBoyFriendLevel  { return this._TbBoyFriendLevel;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4731,8 +4492,6 @@ export class Tables {
         names.push('tbzhaochastage');
         names.push('tbzhaochaitem');
         names.push('tbmagicboxrandom');
-        names.push('tbboyfriend');
-        names.push('tbboyfriendlevel');
         return names;
     }
 
@@ -4782,8 +4541,6 @@ export class Tables {
         this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
         this._TbZhaoChaItem = new TbZhaoChaItem(loader('tbzhaochaitem'))
         this._TbMagicBoxRandom = new TbMagicBoxRandom(loader('tbmagicboxrandom'))
-        this._TbBoyFriend = new TbBoyFriend(loader('tbboyfriend'))
-        this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4830,8 +4587,6 @@ export class Tables {
         this._TbZhaoChaStage.resolve(this)
         this._TbZhaoChaItem.resolve(this)
         this._TbMagicBoxRandom.resolve(this)
-        this._TbBoyFriend.resolve(this)
-        this._TbBoyFriendLevel.resolve(this)
     }
 }
 

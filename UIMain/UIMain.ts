@@ -65,10 +65,14 @@ export class UIMain extends CCComp {
     @property(Button) BtnKeyAdd:Button = null!;//
 
     @property(Sprite) SpriteHeadIcon: Sprite = null!;
+    @property(Sprite) SpriteBg: Sprite = null!;
     @property(Node) MagicBoxTips: Node = null!;
+    @property(Node) ArrBg: Node[] = []!;
+    @property(Node) TimeTips: Node = null!;
 
     onLoad() {
         this.RegistEvents();
+        this.TimeTips.active =  false
     }
 
     async start() {
@@ -100,6 +104,8 @@ export class UIMain extends CCComp {
         this.RefreshHeadIcon();
         this.RefreshCurrency();
         this.RefreshLv();
+        this.RefreshKey();
+        this.RefreshBg();
     }
 
 
@@ -123,12 +129,26 @@ export class UIMain extends CCComp {
     RefreshLv()
     {
         this.TxtRoleLv.string = `LV.${HeroineDataManager.Instance.getLvCur()}`;
+        this.RefreshKey();
     }
     RefreshCurrency()    ///
     {
         this.TxtCashValue.string = GameData.getCurrency(ItemEnum.Cash).toString();
         this.TxtGemValue.string = GameData.getCurrency(ItemEnum.Gem).toString();
-        this.TxtKeyCount.string = `${GameData.getCurrency(ItemEnum.Key)}/100`;
+    }
+
+    RefreshKey()
+    {
+        this.TxtKeyCount.string = `${GameData.getCurrency(ItemEnum.Key)}/${HeroineDataManager.Instance.GetKeyCountMax()}`;
+    }
+
+    RefreshBg()
+    {
+        // let curVirtualTime = HeroineDataManager.Instance.GetCurVirtualTimeArea();
+        // for (let i = 0; i < this.ArrBg.length; i++) {
+        //     const element = this.ArrBg[i];
+        //     element.active = i == curVirtualTime;
+        // }
     }
 
     BtnCashAdd_Click() {
@@ -166,7 +186,7 @@ export class UIMain extends CCComp {
 
     }
     BtnShop_Click() {
-
+        let tA = HeroineDataManager.Instance.GetNextVirtualTimePoint()
     }
     BtnBoyFriend_Click() {
         // 
@@ -191,7 +211,10 @@ export class UIMain extends CCComp {
         this.on(GameEvent.OnHeroineNameChange, this.RefreshName, this);
         this.on(GameEvent.OnHeroineHeadIconChange, this.RefreshHeadIcon, this);
         this.on(GameEvent.OnMoneyChange, this.RefreshCurrency, this);
-        this.on(GameEvent.onHeroineLevelUp, this.onHeroineLevelUp, this);
+
+        this.on(GameEvent.onHeroineLevelUp, this.RefreshLv, this);
+        this.on(GameEvent.onHeroineKeyChange, this.RefreshKey, this);
+        this.on(GameEvent.onHeroineVirtualTimeChange, this.RefreshBg, this);
     }
 
     private UnRegistEvents() {
@@ -199,6 +222,8 @@ export class UIMain extends CCComp {
         this.off(GameEvent.OnHeroineHeadIconChange);
         this.off(GameEvent.OnMoneyChange);
         this.off(GameEvent.onHeroineLevelUp);
+        this.off(GameEvent.onHeroineKeyChange);
+        this.off(GameEvent.onHeroineVirtualTimeChange) 
     }
 }
 

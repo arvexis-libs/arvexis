@@ -24,7 +24,6 @@ import { GameDot } from './GameDot';
 import { StorySystem } from './StorySystem';
 import { Notification } from "../../common/UINotification/Notification";
 import { GlobalData } from '../GameDataModel/GlobalData';
-import { BoyFriend } from '../GameDataModel/BoyFriend';
 
 const { ccclass } = _decorator;
 
@@ -56,9 +55,9 @@ export class Player extends SerializeClass {
     public usedInteraction: number[] = [];//
     @SerializeData()
     public InteractionCount: Map<number, number> = new Map();         //
-    
-    @SerializeData()
-    public BoyFriends: Map<number, BoyFriend> = new Map();
+    constructor() {
+        super();
+    }
 }
 
 export class PlayerSystem {
@@ -90,38 +89,6 @@ export class PlayerSystem {
             players.set(lv, p);
         }
         return players.get(lv)!;
-    }
-
-    /**
-     * 
-     * @param id id
-     * @param playerId id
-     * @returns 
-     */
-    public GetBoyFriendById(id: number, playerId:number = -1): BoyFriend {
-        if(playerId < 0) {
-            playerId = this.CurPlayId;
-        }
-        const players = GameData.PlayerData.UserData.Players;
-        let player = null;
-        if (!players.has(playerId)) {
-            let p = new Player();
-            p.cfgId = playerId;
-            players.set(playerId, p);
-            player = p;
-        }
-        else {
-            player = players.get(playerId)!;
-        }
-        
-        if(!player.BoyFriends.has(id)) {
-            let bf = new BoyFriend();
-            bf.onInit(id);
-            player.BoyFriends.set(id, bf);
-            return bf;
-        }
-        
-        return player.BoyFriends.get(playerId)!;
     }
 
     public init() {

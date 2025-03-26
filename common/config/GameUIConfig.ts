@@ -5,7 +5,6 @@
  */
 
 import { LayerType, UIConfig } from "../../../../../extensions/oops-plugin-framework/assets/core/gui/layer/LayerManager";
-import { UIBoyFriend } from '../../UIBoyFriend/UIBoyFriend';
 
 /**  */
 export enum UIID {
@@ -135,7 +134,6 @@ export enum UIID {
     UIMainLevelUp,
     /** */
     UIHeroineInfo,
-    UIBoyFriend,
 }
 
 /**  */
@@ -147,7 +145,6 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.Demo_Role_Info]: { layer: LayerType.UI, prefab: "gui/prefab/role_info" },
     [UIID.MainVideo]: { layer: LayerType.Video, prefab: "Prefab/UIMainVideo", bundle:"UIMainVideo" },
     [UIID.UIHome]: { layer: LayerType.UI, prefab: "Prefab/UIHome", bundle:"UIHome" },
-    [UIID.UIBoyFriend]: { layer: LayerType.UI, prefab: "Prefab/UIBoyFriend", bundle:"UIBoyFriend" },
     [UIID.UILevelUp]: { layer: LayerType.UI, prefab: "Prefab/UILevelUp", bundle:"UILevelUp" },
     [UIID.UITTReward]: { layer: LayerType.UI, prefab: "Prefab/UISideBarReward", bundle: "SDK"},
     [UIID.UIBigCityMap]: { layer: LayerType.UI, prefab: "Prefab/UIBigCityMap", bundle: "UIBigCityMap"},

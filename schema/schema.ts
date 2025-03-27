@@ -2919,6 +2919,44 @@ export class TrVideo {
 
 
 
+export class TrVirtualTime {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Icon = _buf_.ReadString()
+        this.Name = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Time = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Time.push(_e0);}}
+    }
+
+    /**
+     * id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Icon: string
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * 
+     */
+    readonly Time: number[]
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrZhaoChaItem {
 
     constructor(_buf_: ByteBuf) {
@@ -4586,6 +4624,39 @@ export class TbBoyFriendLevel {
 
 
 
+export class TbVirtualTime {
+    private _dataMap: Map<number, TrVirtualTime>
+    private _dataList: TrVirtualTime[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrVirtualTime>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrVirtualTime
+            _v = new TrVirtualTime(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrVirtualTime> { return this._dataMap; }
+    getDataList(): TrVirtualTime[] { return this._dataList; }
+
+    get(key: number): TrVirtualTime | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4683,6 +4754,8 @@ export class Tables {
     get TbBoyFriend(): TbBoyFriend  { return this._TbBoyFriend;}
     private _TbBoyFriendLevel: TbBoyFriendLevel
     get TbBoyFriendLevel(): TbBoyFriendLevel  { return this._TbBoyFriendLevel;}
+    private _TbVirtualTime: TbVirtualTime
+    get TbVirtualTime(): TbVirtualTime  { return this._TbVirtualTime;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4733,6 +4806,7 @@ export class Tables {
         names.push('tbmagicboxrandom');
         names.push('tbboyfriend');
         names.push('tbboyfriendlevel');
+        names.push('tbvirtualtime');
         return names;
     }
 
@@ -4784,6 +4858,7 @@ export class Tables {
         this._TbMagicBoxRandom = new TbMagicBoxRandom(loader('tbmagicboxrandom'))
         this._TbBoyFriend = new TbBoyFriend(loader('tbboyfriend'))
         this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
+        this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4832,6 +4907,7 @@ export class Tables {
         this._TbMagicBoxRandom.resolve(this)
         this._TbBoyFriend.resolve(this)
         this._TbBoyFriendLevel.resolve(this)
+        this._TbVirtualTime.resolve(this)
     }
 }
 

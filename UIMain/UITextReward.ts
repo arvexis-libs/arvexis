@@ -9,6 +9,7 @@ import { Utility } from '../gameplay/Utility/Utility';
 import { oops } from 'db://oops-framework/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { GameData } from '../gameplay/GameDataModel/GameData';
+import { HeroineDataManager } from './HeroineDataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('UITextReward')
@@ -77,9 +78,9 @@ export class UITextReward extends CCComp {
             case 3:
                 return {iconName:Utility.GetCurrencyIcon(id), rewardName:Utility.GetCurrencyName(id), rewardValue:value};
             case 4:
-                return {iconName:Utility.GetHeroineIcon(id), rewardName:Utility.GetHeroineName(id), rewardValue:value};
+                return {iconName:HeroineDataManager.Instance.GetPropIcon(id), rewardName:HeroineDataManager.Instance.GetPropName(id), rewardValue:value};
             case 5:
-                return {iconName:Utility.GetExpIcon(), rewardName:Utility.GetExpName(), rewardValue:value};
+                return {iconName:HeroineDataManager.Instance.GetExpIcon(), rewardName:HeroineDataManager.Instance.GetExpName(), rewardValue:value};
             default:
                 break;
         }

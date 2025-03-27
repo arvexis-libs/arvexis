@@ -192,6 +192,23 @@ export class HeroineDataManager
         }
     }
 
+    public GetPropIcon(itemId: number) {
+        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
+        return tb!.Icon;
+    }
+    public GetPropName(itemId: number) {
+        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
+        return tb!.Name;
+    }
+
+    public GetExpIcon() {
+        return "Sprites/icon_heart";
+    }
+
+    public GetExpName() {
+        return "";
+    }
+
     public GetClothes()
     {
         return GameData.PlayerData.HeroineData.ListClothes;

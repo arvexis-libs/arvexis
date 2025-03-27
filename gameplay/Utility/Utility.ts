@@ -207,21 +207,4 @@ export class Utility
         let tb = ConfigManager.tables.TbItem.get(itemId);
         return tb!.Name;
     }
-
-    public static GetHeroineIcon(itemId: number) {
-        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
-        return tb!.Icon;
-    }
-    public static GetHeroineName(itemId: number) {
-        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
-        return tb!.Name;
-    }
-
-    public static GetExpIcon() {
-        return "Sprites/icon_heart";
-    }
-
-    public static GetExpName() {
-        return "";
-    }
 }

@@ -31,6 +31,7 @@ export interface ICurrencyBonus {
     getCurrencyBonus(currencyType: number): number;
 }
 
+//#region 
 export class PlayerData extends SerializeClass {
     __className:string = "PlayerData";
     @SerializeData()
@@ -59,7 +60,8 @@ export class PlayerData extends SerializeClass {
     @SerializeData()
     TalkDic: Map<number,number> = new Map();
 }
-// endregion
+//#endregion 
+
 
 /**  */
 const MAX_PHONE_NUM = 30;

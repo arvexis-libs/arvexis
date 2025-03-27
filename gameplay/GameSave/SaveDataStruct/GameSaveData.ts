@@ -12,13 +12,13 @@ export class GameSaveData extends SerializeClass
     // ...
     __className:string = "GameSaveData";
 
-    public title:string="";
+    public title:string = "";
 
-    public date:number=0;
+    public date:number = 0;
 
     // 
     @SerializeData()
-    public playerData:PlayerData=new PlayerData();
+    public playerData:PlayerData = new PlayerData();
 
     //
     //if else newpublic productClassByName()

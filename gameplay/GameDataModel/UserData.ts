@@ -1,5 +1,3 @@
-// PlayerDataTypes.ts
-
 import { RegisterClass, SerializeClass, SerializeData } from "../../../modules/base/SerializeClass";
 import { Player } from "../Manager/PlayerSystem";
 

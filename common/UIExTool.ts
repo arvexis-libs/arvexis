@@ -25,8 +25,8 @@ export async function changeSpriteImage(sprite: Sprite, path: string, bundleName
     }
     sprite.node.active = false;
     let sp = await oops.res.loadAsync<SpriteFrame>(bundleName, path + "/spriteFrame");
+    sprite.node.active = true;
     if(sp && sprite.isValid){
-        sprite.node.active = true;
         sprite.spriteFrame = sp;
     }
     /*

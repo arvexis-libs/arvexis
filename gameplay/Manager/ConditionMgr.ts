@@ -1,6 +1,6 @@
 import { oops } from "db://oops-framework/core/Oops";
 import ConfigManager from "../../manager/Config/ConfigManager";
-import { TrCondition } from "../../schema/schema";
+import { TrCondition, TrPropValue } from "../../schema/schema";
 import { PlayerSystem } from "./PlayerSystem";
 import { GameData } from "../GameDataModel/GameData";
 import { StorySystem } from "./StorySystem";
@@ -24,6 +24,10 @@ export enum ConditionType {
     HeroineLv = 9,//
 }
 
+enum BoyFriendConditionType {
+    Level = 1,
+}
+
 export class ConditionMgr {
     private static instance: ConditionMgr;
     public static get inst(): ConditionMgr {
@@ -33,6 +37,21 @@ export class ConditionMgr {
         return this.instance;
     }
 
+    /**
+     * 
+     * @param conditions 
+     * @returns 
+     */
+    public checkBoyFriendCondition(conditions: Map<number, number>) {
+
+        for (const [idType, num] of conditions) {
+            if(idType == BoyFriendConditionType.Level) {
+                return PlayerSystem.Instance.CurLv >= num;
+            }
+        }
+
+        return true;
+    }
 
     public checkAllConditions(conditions: number[], andOr: ConditionAndOr, inParam: number = -1): boolean {
         if (andOr == ConditionAndOr.And) {

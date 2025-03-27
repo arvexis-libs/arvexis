@@ -39,7 +39,7 @@ export class GameSaveManager  {
     get gameRecordData(): PlayerData{
         return this.current?.playerData!;
     }
-
+    
     Init()
     {
         oops.message.on(GameEvent.OpenUICount,this.SaveOpenUICount,this);

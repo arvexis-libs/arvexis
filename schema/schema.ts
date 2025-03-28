@@ -2957,6 +2957,56 @@ export class TrVirtualTime {
 
 
 
+export class TrZhaoChaDragItem {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Stage = _buf_.ReadInt()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ItemId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ItemId.push(_e0);}}
+        this.InstanceId = _buf_.ReadInt()
+        this.DragItemType = _buf_.ReadInt()
+        this.Num = _buf_.ReadInt()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Stage: number
+    /**
+     * ID
+     */
+    readonly ItemId: number[]
+    /**
+     * Id
+     */
+    readonly InstanceId: number
+    /**
+     * 
+     */
+    readonly DragItemType: number
+    /**
+     * 
+     */
+    readonly Num: number
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrZhaoChaItem {
 
     constructor(_buf_: ByteBuf) {
@@ -4657,6 +4707,39 @@ export class TbVirtualTime {
 
 
 
+export class TbZhaoChaDragItem {
+    private _dataMap: Map<number, TrZhaoChaDragItem>
+    private _dataList: TrZhaoChaDragItem[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaDragItem>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaDragItem
+            _v = new TrZhaoChaDragItem(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaDragItem> { return this._dataMap; }
+    getDataList(): TrZhaoChaDragItem[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaDragItem | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4756,6 +4839,8 @@ export class Tables {
     get TbBoyFriendLevel(): TbBoyFriendLevel  { return this._TbBoyFriendLevel;}
     private _TbVirtualTime: TbVirtualTime
     get TbVirtualTime(): TbVirtualTime  { return this._TbVirtualTime;}
+    private _TbZhaoChaDragItem: TbZhaoChaDragItem
+    get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4807,6 +4892,7 @@ export class Tables {
         names.push('tbboyfriend');
         names.push('tbboyfriendlevel');
         names.push('tbvirtualtime');
+        names.push('tbzhaochadragitem');
         return names;
     }
 
@@ -4859,6 +4945,7 @@ export class Tables {
         this._TbBoyFriend = new TbBoyFriend(loader('tbboyfriend'))
         this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
         this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
+        this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4908,6 +4995,7 @@ export class Tables {
         this._TbBoyFriend.resolve(this)
         this._TbBoyFriendLevel.resolve(this)
         this._TbVirtualTime.resolve(this)
+        this._TbZhaoChaDragItem.resolve(this)
     }
 }
 

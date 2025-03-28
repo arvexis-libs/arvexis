@@ -10,6 +10,7 @@ import { oops } from 'db://oops-framework/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { GameData } from '../gameplay/GameDataModel/GameData';
 import { HeroineDataManager } from './HeroineDataManager';
+import { MagicBoxRewardType } from '../gameplay/GameDataModel/GameEnum';
 const { ccclass, property } = _decorator;
 
 @ccclass('UITextReward')
@@ -58,10 +59,35 @@ export class UITextReward extends CCComp {
 
         let label2 = rewardItem.getChildByPath("Layout/RewardName")?.getComponent(Label)!
         label2.string = r.rewardName;
+        this.giveReward(reward);
     }
 
-    private giveReward(rewardId: number, rewardValue: number) { 
-        GameData.updateCurrency(rewardId, rewardValue);
+    private giveReward(arrReward : number[]) { 
+        let rewardType=arrReward[0]
+        let rewardId=arrReward[1]
+        let rewardValue=arrReward[2]
+        switch (rewardType) {
+            case MagicBoxRewardType.Item:
+                //
+                break;
+            case MagicBoxRewardType.Identity:
+                HeroineDataManager.Instance.GiveIdentity(rewardId)
+
+                break;
+            case MagicBoxRewardType.Currency:
+                GameData.setCurrency(rewardId,rewardValue)
+                break;
+                
+            case MagicBoxRewardType.Property:
+                HeroineDataManager.Instance.SetProp(rewardId,rewardValue)
+                break;
+                
+            case MagicBoxRewardType.Exp:
+                break;
+                
+            default:
+                break;
+        }
     }
 
     getRewardData(arrReward:number[]):{iconName:string, rewardName:string, rewardValue:number}
@@ -71,15 +97,15 @@ export class UITextReward extends CCComp {
         let value =arrReward[2];
 
         switch (type) {
-            case 1:
+            case MagicBoxRewardType.Item:
                 break;
-            case 2:
+            case MagicBoxRewardType.Identity:
                 break;
-            case 3:
+            case MagicBoxRewardType.Currency:
                 return {iconName:Utility.GetCurrencyIcon(id), rewardName:Utility.GetCurrencyName(id), rewardValue:value};
-            case 4:
+            case MagicBoxRewardType.Property:
                 return {iconName:HeroineDataManager.Instance.GetPropIcon(id), rewardName:HeroineDataManager.Instance.GetPropName(id), rewardValue:value};
-            case 5:
+            case MagicBoxRewardType.Exp:
                 return {iconName:HeroineDataManager.Instance.GetExpIcon(), rewardName:HeroineDataManager.Instance.GetExpName(), rewardValue:value};
             default:
                 break;

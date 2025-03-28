@@ -61,7 +61,7 @@ export enum KeySources
 }
 
 /**  */
-export enum PowerType
+export enum PropType
 {
     Speak = 1,//
     Body = 2,//
@@ -151,45 +151,16 @@ export class HeroineDataManager
         return ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Lv)!.NeedExp;
     }
 
-    ///RoleDataManager.Instance.SetPower({powerBody:100,powerAgility:100});
     ///
-    public SetPower({ powerSpeak, powerBody, powerAgility, powerFeel, powerWisdom } : { powerSpeak?: number; powerBody?: number; powerAgility?: number; powerFeel?: number; powerWisdom?: number; })
+    public SetProp(powerType: PropType, value: number)
     {
-        if (powerSpeak) {
-            GameData.PlayerData.HeroineData.PowerSpeak = powerSpeak;
-        }
-        if (powerBody) {
-            GameData.PlayerData.HeroineData.PowerBody = powerBody;
-        }
-        if (powerAgility) {
-            GameData.PlayerData.HeroineData.PowerAgility = powerAgility;
-        }
-        if (powerFeel) {
-            GameData.PlayerData.HeroineData.PowerFeel = powerFeel;
-        }
-        if (powerWisdom) {
-            GameData.PlayerData.HeroineData.PowerWisdom = powerWisdom;
-        }
-        
+        GameData.PlayerData.HeroineData.Prop.set(powerType,value);
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
     
     /**  */
-    public GetPower(powerType: PowerType): number {
-        switch (powerType) {
-            case PowerType.Speak:
-                return GameData.PlayerData.HeroineData.PowerSpeak;
-            case PowerType.Body:
-                return GameData.PlayerData.HeroineData.PowerBody;
-            case PowerType.Agility:
-                return GameData.PlayerData.HeroineData.PowerAgility;
-            case PowerType.Feel:
-                return GameData.PlayerData.HeroineData.PowerFeel;
-            case PowerType.Wisdom:
-                return GameData.PlayerData.HeroineData.PowerWisdom;
-            default:
-                return 0;
-        }
+    public GetPower(propType: PropType): number {
+        return GameData.PlayerData.HeroineData.Prop.get(propType) || 0;
     }
 
     public GetPropIcon(itemId: number) {

@@ -39,7 +39,6 @@ import { Sprite } from "cc";
 import { sp } from "cc";
 import { MagicBox } from "./MagicBox";
 import { BlockInputEvents } from "cc";
-import { PropType } from "./HeroineDataManager";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -77,7 +76,7 @@ export class UIMain extends CCComp {
     }
 
     async start() {
-        HeroineDataManager.Instance.SetProp(PropType.Wisdom, 100);
+        HeroineDataManager.Instance.SetPower({powerBody:100,powerAgility:100});
         this.InitPropShow();
     }
 
@@ -145,11 +144,11 @@ export class UIMain extends CCComp {
 
     RefreshBg()
     {
-        let curVirtualTime = HeroineDataManager.Instance.GetCurVirtualTimeArea();
-        for (let i = 0; i < this.ArrBg.length; i++) {
-            const element = this.ArrBg[i];
-            element.active = i == (curVirtualTime- 1);
-        }
+        // let curVirtualTime = HeroineDataManager.Instance.GetCurVirtualTimeArea();
+        // for (let i = 0; i < this.ArrBg.length; i++) {
+        //     const element = this.ArrBg[i];
+        //     element.active = i == curVirtualTime;
+        // }
     }
 
     BtnCashAdd_Click() {
@@ -164,15 +163,10 @@ export class UIMain extends CCComp {
         oops.gui.open(UIID.UIHeroineInfo);
     }
     BtnTimeState_click() {
-        let nextVirtualTime = HeroineDataManager.Instance.GetNextVirtualTimeArea()!;
-        let nextVirtualTimePoint = HeroineDataManager.Instance.GetFirstTimePointByTimeArea(nextVirtualTime)!;
-        HeroineDataManager.Instance.SetCurVirtualTimePoint(nextVirtualTimePoint);
+
     }
     BtnTips_Click() { 
-        this.TimeTips.active = true;
-    }
-    BtnCloseTips_Click() { 
-        this.TimeTips.active = false;
+
     }
     BtnPhone_Click() {
         oops.gui.openAsync(UIID.TalkView, {Id:200001});

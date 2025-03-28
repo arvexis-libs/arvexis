@@ -1,6 +1,5 @@
 
 
-import { serialize } from "v8";
 import {RegisterClass, SerializeClass, SerializeData } from "../../../modules/base/SerializeClass";
 import { TimeUtility } from "../Utility/TimeUtility";
 
@@ -17,14 +16,20 @@ export class HeroineData extends SerializeClass {
     public HeadIcon: string = "";
 
     @SerializeData()
-    Prop: Map<number, number> = new Map();//
+    public PowerSpeak: number = 0;//
     @SerializeData()
-    public ListClothes:number[] = [];//
+    public PowerBody: number = 0;//
     @SerializeData()
-    public ListIdentity:number[] = [];//
+    public PowerAgility: number = 0;//
     @SerializeData()
-    public ListUsedMagicBoxId:number[] = [];//
-
+    public PowerFeel: number = 0;//
     @SerializeData()
-    public CurVirtualTimePoint: number = 0;//,3 ([7, 8, 9, 10|10, 12, 16, 18|18, 20, 22, 7])
+    public PowerWisdom: number = 0;//
+    
+    @SerializeData()
+    public ClothesList:number[] = [];//
+    @SerializeData()
+    public IdentityList:number[] = [];//
+    @SerializeData()
+    public UsedMagicBoxId:number[] = [];//
 }

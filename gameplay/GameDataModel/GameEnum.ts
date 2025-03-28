@@ -31,6 +31,15 @@ export enum ItemEnum{
     ExpEnd = 20000100,
 }
 
+export enum MagicBoxRewardType
+{
+    Item = 1,//
+    Identity = 2,////
+    Currency = 3,//
+    Property = 4,//
+    Exp = 5,//
+}
+
 export interface ICurrencyClass{
     name:string,
     currency: number[];

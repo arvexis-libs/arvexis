@@ -48,6 +48,7 @@ import { UINotification } from "../common/UINotification/UINotification";
 import { EventHandler } from "cc";
 import { config } from 'process';
 import * as exp from 'constants';
+import { time } from 'console';
 const { ccclass, property } = _decorator;
 
 ///
@@ -60,7 +61,7 @@ export enum KeySources
 }
 
 /**  */
-export enum PowerType
+export enum PropType
 {
     Speak = 1,//
     Body = 2,//
@@ -78,17 +79,24 @@ export class HeroineDataManager
         if (this._instance == null)
         {
             this._instance = new HeroineDataManager();
-            if (!GameData.PlayerData.HeroineData.ListUsedMagicBoxId) {
-                GameData.PlayerData.HeroineData.ListUsedMagicBoxId = [];
-            }
-            if (!GameData.PlayerData.HeroineData.ListClothes) {
-                GameData.PlayerData.HeroineData.ListClothes = [];
-            }
-            if (!GameData.PlayerData.HeroineData.ListIdentity) {
-                GameData.PlayerData.HeroineData.ListIdentity = [];
-            } 
         }
         return this._instance;
+    }
+
+    constructor() { 
+        if (!GameData.PlayerData.HeroineData.ListUsedMagicBoxId) {
+            GameData.PlayerData.HeroineData.ListUsedMagicBoxId = [];
+        }
+        if (!GameData.PlayerData.HeroineData.ListClothes) {
+            GameData.PlayerData.HeroineData.ListClothes = [];
+        }
+        if (!GameData.PlayerData.HeroineData.ListIdentity) {
+            GameData.PlayerData.HeroineData.ListIdentity = [];
+        } 
+        if (GameData.PlayerData.HeroineData.CurVirtualTimePoint == 0||undefined) {
+            let timePoint = ConfigManager.tables.TbConst.get("TimeInitial")?.Int ?? 7;
+            GameData.PlayerData.HeroineData.CurVirtualTimePoint = timePoint;
+        }
     }
 
     public SetHeadIcon(headIcon:string)
@@ -143,45 +151,33 @@ export class HeroineDataManager
         return ConfigManager.tables.TbLevel.get(GameData.PlayerData.HeroineData.Lv)!.NeedExp;
     }
 
-    ///RoleDataManager.Instance.SetPower({powerBody:100,powerAgility:100});
     ///
-    public SetPower({ powerSpeak, powerBody, powerAgility, powerFeel, powerWisdom } : { powerSpeak?: number; powerBody?: number; powerAgility?: number; powerFeel?: number; powerWisdom?: number; })
+    public SetProp(powerType: PropType, value: number)
     {
-        if (powerSpeak) {
-            GameData.PlayerData.HeroineData.PowerSpeak = powerSpeak;
-        }
-        if (powerBody) {
-            GameData.PlayerData.HeroineData.PowerBody = powerBody;
-        }
-        if (powerAgility) {
-            GameData.PlayerData.HeroineData.PowerAgility = powerAgility;
-        }
-        if (powerFeel) {
-            GameData.PlayerData.HeroineData.PowerFeel = powerFeel;
-        }
-        if (powerWisdom) {
-            GameData.PlayerData.HeroineData.PowerWisdom = powerWisdom;
-        }
-        
+        GameData.PlayerData.HeroineData.Prop.set(powerType,value);
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
     
     /**  */
-    public GetPower(powerType: PowerType): number {
-        switch (powerType) {
-            case PowerType.Speak:
-                return GameData.PlayerData.HeroineData.PowerSpeak;
-            case PowerType.Body:
-                return GameData.PlayerData.HeroineData.PowerBody;
-            case PowerType.Agility:
-                return GameData.PlayerData.HeroineData.PowerAgility;
-            case PowerType.Feel:
-                return GameData.PlayerData.HeroineData.PowerFeel;
-            case PowerType.Wisdom:
-                return GameData.PlayerData.HeroineData.PowerWisdom;
-            default:
-                return 0;
-        }
+    public GetPower(propType: PropType): number {
+        return GameData.PlayerData.HeroineData.Prop.get(propType) || 0;
+    }
+
+    public GetPropIcon(itemId: number) {
+        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
+        return tb!.Icon;
+    }
+    public GetPropName(itemId: number) {
+        let tb = ConfigManager.tables.TbHeroinePropType.get(itemId);
+        return tb!.Name;
+    }
+
+    public GetExpIcon() {
+        return "Sprites/icon_heart";
+    }
+
+    public GetExpName() {
+        return "";
     }
 
     public GetClothes()
@@ -241,7 +237,7 @@ export class HeroineDataManager
 
     public GetKeyCountCur()
     {
-        return GameData.PlayerData.CurrencyData.get(ItemEnum.Key);
+        return GameData.PlayerData.CurrencyData.get(ItemEnum.Key) || 0;
     }
 
     public GetKeyCountMax()
@@ -253,9 +249,9 @@ export class HeroineDataManager
 
     public AddKey(keySources: KeySources, count: number)
     {
-        let keyCountCur = GameData.PlayerData.CurrencyData.get(ItemEnum.Key)!;
+        let keyCountCur = GameData.PlayerData.CurrencyData.get(ItemEnum.Key) || 0;
         let value1 = Math.max(keyCountCur + count, 0) ;
-        let value2 = value1 >= this.GetKeyCountMax()! ? keyCountCur : value1;
+        let value2 = value1 > this.GetKeyCountMax()! ? keyCountCur : value1;
 
         switch(keySources)
         {
@@ -276,4 +272,98 @@ export class HeroineDataManager
         
         oops.message.dispatchEvent(GameEvent.onHeroineKeyChange);
     }
+
+    public GetCurVirtualTimeArea()
+    {
+        let curVirtualTime = GameData.PlayerData.HeroineData.CurVirtualTimePoint;
+        let listTr = ConfigManager.tables.TbVirtualTime.getDataList();
+        for (let i = 0; i < listTr.length; i++) {
+            const element = listTr[i];
+            let arrTime:number[] = element.Time;
+            if (arrTime.indexOf(curVirtualTime) >= 0) {
+                return element.Id;
+            }
+        }
+        return 0;
+    }
+
+    public GetCurVirtualTimePoint()
+    {
+        let curVirtualTime = GameData.PlayerData.HeroineData.CurVirtualTimePoint;
+        return curVirtualTime;
+    }
+
+    public GetNextVirtualTimeArea()
+    {
+        let nextVirtualTimePoint = this.GetNextVirtualTimePoint()!;
+        let listTr = ConfigManager.tables.TbVirtualTime.getDataList();
+        for (let i = 0; i < listTr.length; i++) {
+            let element = listTr[i];
+            if (element.Time.indexOf(nextVirtualTimePoint) >= 0) {
+                if (i < listTr.length - 1) {
+                    return listTr[i + 1].Id;
+                }
+                else {
+                    return listTr[0].Id;
+                }
+            }
+        }
+
+        // for (let i = 0; i < this.ArrVirtualTime.length; i++) {
+        //     const element = this.ArrVirtualTime[i];
+        //     if (element == curVirtualTime) {
+        //         if (i< this.ArrVirtualTime.length-1) {
+        //             return this.ArrVirtualTime[i+1];
+        //         }
+        //         else {
+        //             return this.ArrVirtualTime[0];
+        //         }
+        //     }
+        // }
+    }
+
+    public GetNextVirtualTimePoint()
+    {
+        let arrAllTimePoint:number[] = [];
+        let listTr = ConfigManager.tables.TbVirtualTime.getDataList();
+        for (let i = 0; i < listTr.length; i++) {
+            let element = listTr[i].Time;
+            arrAllTimePoint = arrAllTimePoint.concat(element)
+        }
+
+        let curVirtualTime = GameData.PlayerData.HeroineData.CurVirtualTimePoint;
+        for (let j = 0; j < arrAllTimePoint.length; j++) {
+            let ele = arrAllTimePoint[j];
+            if (ele == curVirtualTime) {
+                if (j<arrAllTimePoint.length-1) {
+                    return arrAllTimePoint[j+1];
+                }
+                else
+                {
+                    return arrAllTimePoint[0];
+                }
+            }
+        }
+    }
+
+    public GetFirstTimePointByTimeArea(timeArea:number)
+    {
+        let listTr = ConfigManager.tables.TbVirtualTime.getDataList();
+        for (let i = 0; i < listTr.length; i++) {
+            let element = listTr[i];
+            if (timeArea == element.Id) {
+                return element.Time[0]
+            }
+        }
+
+        return 0;
+    }
+
+    public SetCurVirtualTimePoint(value: number) {
+        if (value && value != 0) {
+            GameData.PlayerData.HeroineData.CurVirtualTimePoint = value;
+            oops.message.dispatchEvent(GameEvent.onHeroineVirtualTimeChange);
+        }
+    }
+
 }

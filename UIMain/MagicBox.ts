@@ -12,6 +12,7 @@ import { TrMagicBoxRandom } from '../schema/schema';
 import { StorySystem } from '../gameplay/Manager/StorySystem';
 import { Scheduler } from 'cc';
 import { BlockInputEvents } from 'cc';
+import { KeySources } from './HeroineDataManager';
 const { ccclass, property } = _decorator;
 
 export enum MagicType {
@@ -112,7 +113,7 @@ export class MagicBox {
     {
         let sumWeight = 0;
         let listResult = [];
-        let nowTimeType = 2//
+        let nowTimeType = HeroineDataManager.Instance.GetCurVirtualTimeArea();//
         for (let i = 0; i < this._listMagicBox.length; i++) {
             const element = this._listMagicBox[i];
             if (element.TriggerTime == nowTimeType && element.Weight != -1) {
@@ -190,7 +191,7 @@ export class MagicBox {
         }
 
         this.nodeRoot.getComponent(BlockInputEvents)!.enabled = false;
-        GameData.updateCurrency(ItemEnum.Key, -1);
+        HeroineDataManager.Instance.AddKey(KeySources.Ads, -1);
     }
 
 

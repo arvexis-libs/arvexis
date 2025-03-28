@@ -2919,45 +2919,33 @@ export class TrVideo {
 
 
 
-export class TrZhaoChaDragItem {
+export class TrVirtualTime {
 
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
-        this.Stage = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ItemId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ItemId.push(_e0);}}
-        this.InstanceId = _buf_.ReadInt()
-        this.DragItemType = _buf_.ReadInt()
-        this.Num = _buf_.ReadInt()
+        this.Icon = _buf_.ReadString()
+        this.Name = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Time = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Time.push(_e0);}}
     }
 
     /**
-     * Id
+     * id
      */
     readonly Id: number
     /**
      * 
      */
-    readonly Stage: number
-    /**
-     * ID
-     */
-    readonly ItemId: number[]
-    /**
-     * Id
-     */
-    readonly InstanceId: number
+    readonly Icon: string
     /**
      * 
      */
-    readonly DragItemType: number
+    readonly Name: string
     /**
      * 
      */
-    readonly Num: number
+    readonly Time: number[]
 
     resolve(tables:Tables) {
-        
-        
         
         
         
@@ -4636,24 +4624,24 @@ export class TbBoyFriendLevel {
 
 
 
-export class TbZhaoChaDragItem {
-    private _dataMap: Map<number, TrZhaoChaDragItem>
-    private _dataList: TrZhaoChaDragItem[]
+export class TbVirtualTime {
+    private _dataMap: Map<number, TrVirtualTime>
+    private _dataList: TrVirtualTime[]
     constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrZhaoChaDragItem>()
+        this._dataMap = new Map<number, TrVirtualTime>()
         this._dataList = []
         for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrZhaoChaDragItem
-            _v = new TrZhaoChaDragItem(_buf_)
+            let _v: TrVirtualTime
+            _v = new TrVirtualTime(_buf_)
             this._dataList.push(_v)
             this._dataMap.set(_v.Id, _v)
         }
     }
 
-    getDataMap(): Map<number, TrZhaoChaDragItem> { return this._dataMap; }
-    getDataList(): TrZhaoChaDragItem[] { return this._dataList; }
+    getDataMap(): Map<number, TrVirtualTime> { return this._dataMap; }
+    getDataList(): TrVirtualTime[] { return this._dataList; }
 
-    get(key: number): TrZhaoChaDragItem | undefined {
+    get(key: number): TrVirtualTime | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -4766,8 +4754,8 @@ export class Tables {
     get TbBoyFriend(): TbBoyFriend  { return this._TbBoyFriend;}
     private _TbBoyFriendLevel: TbBoyFriendLevel
     get TbBoyFriendLevel(): TbBoyFriendLevel  { return this._TbBoyFriendLevel;}
-    private _TbZhaoChaDragItem: TbZhaoChaDragItem
-    get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
+    private _TbVirtualTime: TbVirtualTime
+    get TbVirtualTime(): TbVirtualTime  { return this._TbVirtualTime;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4818,7 +4806,7 @@ export class Tables {
         names.push('tbmagicboxrandom');
         names.push('tbboyfriend');
         names.push('tbboyfriendlevel');
-        names.push('tbzhaochadragitem');
+        names.push('tbvirtualtime');
         return names;
     }
 
@@ -4870,7 +4858,7 @@ export class Tables {
         this._TbMagicBoxRandom = new TbMagicBoxRandom(loader('tbmagicboxrandom'))
         this._TbBoyFriend = new TbBoyFriend(loader('tbboyfriend'))
         this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
-        this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
+        this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -4919,7 +4907,7 @@ export class Tables {
         this._TbMagicBoxRandom.resolve(this)
         this._TbBoyFriend.resolve(this)
         this._TbBoyFriendLevel.resolve(this)
-        this._TbZhaoChaDragItem.resolve(this)
+        this._TbVirtualTime.resolve(this)
     }
 }
 

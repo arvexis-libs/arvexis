@@ -185,7 +185,10 @@ export class MagicBox {
             case 2:
                 //
                 let uiid: UIID = magicBox.UIId;
-                oops.gui.openAsync(uiid);
+                oops.gui.openAsync(uiid, 
+                    { 
+                        trMagicBoxRandom: magicBox 
+                    });
                 break;
             case 3:
                 //

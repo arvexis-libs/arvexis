@@ -122,6 +122,10 @@ export class MagicBox {
             }
         }
 
+        if (listResult.length==0) {
+            oops.gui.openAsync(UIID.UIConstellationTips, "1001");
+        }
+
         //20   30    60\\ 49
         let rand = this.getRand(0, sumWeight);
         for (let i = 0; i < listResult.length; i++) {
@@ -132,6 +136,7 @@ export class MagicBox {
             }
         }
 
+        oops.gui.openAsync(UIID.UIConstellationTips, "1002");
         console.error("");
         return null;
     }

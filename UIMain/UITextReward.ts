@@ -75,7 +75,7 @@ export class UITextReward extends CCComp {
 
                 break;
             case MagicBoxRewardType.Currency:
-                GameData.setCurrency(rewardId,rewardValue)
+                GameData.updateCurrency(rewardId,rewardValue)
                 break;
                 
             case MagicBoxRewardType.Property:
@@ -83,6 +83,7 @@ export class UITextReward extends CCComp {
                 break;
                 
             case MagicBoxRewardType.Exp:
+                HeroineDataManager.Instance.AddExp(rewardValue)
                 break;
                 
             default:

@@ -107,7 +107,6 @@ export class UIMain extends CCComp {
         this.RefreshLv();
         this.RefreshKey();
         this.RefreshBg();
-        this.RefreshTimeState();
     }
 
 
@@ -120,11 +119,9 @@ export class UIMain extends CCComp {
         });
     }
 
-    RefreshTimeState()    ////UI
+    SetTimeState(timeString:string)    ////UI
     {
-        let timePoint = HeroineDataManager.Instance.GetCurVirtualTimePoint().toString();
-        this.TxtGameTime.string = `${timePoint}:00`
-        //todo/
+        this.TxtGameTime.string = timeString;
     }
     RefreshName()
     {
@@ -224,7 +221,6 @@ export class UIMain extends CCComp {
         this.on(GameEvent.onHeroineLevelUp, this.RefreshLv, this);
         this.on(GameEvent.onHeroineKeyChange, this.RefreshKey, this);
         this.on(GameEvent.onHeroineVirtualTimeChange, this.RefreshBg, this);
-        this.on(GameEvent.onHeroineVirtualTimeChange, this.RefreshTimeState, this);
     }
 
     private UnRegistEvents() {

@@ -40,6 +40,7 @@ import { sp } from "cc";
 import { MagicBox } from "./MagicBox";
 import { BlockInputEvents } from "cc";
 import { PropType } from "./HeroineDataManager";
+import { Skeleton } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -70,6 +71,7 @@ export class UIMain extends CCComp {
     @property(Node) MagicBoxTips: Node = null!;
     @property(Node) ArrBg: Node[] = []!;
     @property(Node) TimeTips: Node = null!;
+    @property(Node) RoleSpine: Node = null!;
 
     onLoad() {
         this.RegistEvents();
@@ -195,7 +197,7 @@ export class UIMain extends CCComp {
 
     }
     BtnShop_Click() {
-        let tA = HeroineDataManager.Instance.GetNextVirtualTimePoint()
+      
     }
     BtnBoyFriend_Click() {
         // 

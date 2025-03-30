@@ -441,7 +441,7 @@ export class TrBoyFriend {
         this.Favorite = _buf_.ReadString()
         this.Hate = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Intro = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Intro.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.IntroUnlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.IntroUnlock.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.IntroUnlock = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.IntroUnlock.set(_k0, _v0);  } }
     }
 
     /**
@@ -525,9 +525,9 @@ export class TrBoyFriend {
      */
     readonly Intro: string[]
     /**
-     * 1|2
+     * |,|
      */
-    readonly IntroUnlock: number[]
+    readonly IntroUnlock: Map<number, number>
 
     resolve(tables:Tables) {
         
@@ -566,7 +566,7 @@ export class TrBoyFriendLevel {
     }
 
     /**
-     * 1001-2001
+     * id*1000+
      */
     readonly Id: number
     /**

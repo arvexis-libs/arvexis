@@ -3018,6 +3018,7 @@ export class TrZhaoChaItem {
         this.TalkText = _buf_.ReadString()
         this.TalkTime = _buf_.ReadInt()
         this.TalkDirection = _buf_.ReadInt()
+        this.AnimationType = _buf_.ReadInt()
     }
 
     /**
@@ -3052,8 +3053,13 @@ export class TrZhaoChaItem {
      * 
      */
     readonly TalkDirection: number
+    /**
+     * 
+     */
+    readonly AnimationType: number
 
     resolve(tables:Tables) {
+        
         
         
         

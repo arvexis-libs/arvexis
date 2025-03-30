@@ -195,15 +195,9 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 
-    public GetIdentityList()
+    public GetIdentity()
     {
         return GameData.PlayerData.HeroineData.ListIdentity;
-    }
-
-    public HadIdentity(identityId: number)
-    {
-        let result = this.GetIdentityList().indexOf(identityId);
-        return result != -1;
     }
     
     public GiveIdentity(identityId:number)

@@ -26,6 +26,7 @@ export enum ConditionType {
 
 enum BoyFriendConditionType {
     Level = 1,
+    SFCard = 2, // id
 }
 
 export class ConditionMgr {
@@ -44,9 +45,13 @@ export class ConditionMgr {
      */
     public checkBoyFriendCondition(conditions: Map<number, number>) {
 
-        for (const [idType, num] of conditions) {
-            if(idType == BoyFriendConditionType.Level) {
-                return PlayerSystem.Instance.CurLv >= num;
+        for (const [idType, v] of conditions) {
+            if(idType == BoyFriendConditionType.Level && PlayerSystem.Instance.CurLv < v) {
+
+                return false;
+            }
+            else if(idType == BoyFriendConditionType.SFCard) {
+
             }
         }
 

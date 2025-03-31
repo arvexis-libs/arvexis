@@ -32,6 +32,9 @@ import { UIMusicManager } from "../../gameplay/Manager/UIMusicManager";
 import { StorySystem } from "../../gameplay/Manager/StorySystem";
 import { GameDot } from "../../gameplay/Manager/GameDot";
 import { GameData } from "../../gameplay/GameDataModel/GameData";
+import { ConditionMgr, ConditionType } from "../../gameplay/Manager/ConditionMgr";
+import { HeroineData } from "../../gameplay/GameDataModel/HeroineData";
+import { HeroineDataManager, KeySources } from "../../UIMain/HeroineDataManager";
 
 const { ccclass, property } = _decorator;
 
@@ -83,6 +86,7 @@ export class LoadingViewComp extends CCComp {
                 GameDot.Instance.RegisterDot();
                 GameDot.Instance.RoleDot();
                 GameDot.Instance.LoginDot();
+                this.initData();
                 this.openUIMain();
                 //this.OpenUIHome();
                 // 
@@ -93,6 +97,14 @@ export class LoadingViewComp extends CCComp {
                     smc.account.connect();
                 }, "");
                 break;
+        }
+    }
+
+    private initData()
+    {
+        if (!ConditionMgr.inst.checkCondition(401)) {
+            let value = ConfigManager.tables.TbConst.get("InitialKey")?.Int!;
+            HeroineDataManager.Instance.AddKey(KeySources.Store,value);
         }
     }
 

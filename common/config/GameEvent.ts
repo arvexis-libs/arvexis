@@ -1,4 +1,3 @@
-import { BoyFriend } from '../../gameplay/GameDataModel/BoyFriend';
 /*
  * @Author: dgflash
  * @Date: 2021-11-23 15:28:39
@@ -115,8 +114,5 @@ export enum GameEvent {
     onHeroineLevelUp = "onHeroineLevelUp",//
     onHeroineKeyChange = "onHeroineKeyChange",//
     onHeroineVirtualTimeChange = "onHeroineVirtualTimeChange",//
-
-    BoyFriendLevelUp = "BoyFriendLevelUp",
-    BoyFriendGetGift = "BoyFriendGetGift", 
 
 }

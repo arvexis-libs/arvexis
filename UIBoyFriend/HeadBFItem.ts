@@ -2,7 +2,7 @@ import { Label } from 'cc';
 import { Sprite } from 'cc';
 import { _decorator, Component, Node } from 'cc';
 import ConfigManager from '../manager/Config/ConfigManager';
-import { changeSpriteImage, getImagePath } from '../common/UIExTool';
+import { changeSpriteImage } from '../common/UIExTool';
 import { PlayerSystem } from '../gameplay/Manager/PlayerSystem';
 import { Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
@@ -37,8 +37,7 @@ export class HeadBFItem extends Component {
         }
         this._clickCallBack = clickCallback;
 
-        const path = getImagePath(isSelect ? cfg.Pic : cfg.Icon);
-        changeSpriteImage(this.spIcon, path, "UIBoyFriend");
+        changeSpriteImage(this.spIcon, isSelect ? cfg.Pic : cfg.Icon, "UIBoyFriend");
         const scale = isSelect ? 1.2 : 1;
         this.spIcon.node.setScale(scale, scale, scale);
 

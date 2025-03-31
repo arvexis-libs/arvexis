@@ -11,9 +11,6 @@ import { sys } from "cc";
 import { v3 } from "cc";
 import { ScrollView } from "cc";
 import { HeadBFItem } from "./HeadBFItem";
-import { UIMainVideoComp } from "../UIMainVideo/UIMainVideoComp";
-import { oops } from "db://oops-framework/core/Oops";
-import { UIID } from "../common/config/GameUIConfig";
 const { ccclass, property } = _decorator;
 
 
@@ -57,7 +54,6 @@ export class UIBoyFriend extends CCComp {
     private _rightBtnBottomGroupInitPosY: number = 0;
     private readonly _handTapMoveHeight: number = 230;
     private _isInitBottom: boolean = false;
-    private _currentPlayVideoId: number = -1;
 
 
     //#endregion
@@ -82,8 +78,6 @@ export class UIBoyFriend extends CCComp {
 
     async start() {
         this._onRefresh();
-
-        UIMainVideoComp.getInstance().playUrl(PlayerSystem.Instance.HomeVideoId, true);
     }
 
     private _initBottomPos() {
@@ -151,14 +145,6 @@ export class UIBoyFriend extends CCComp {
         this._changeHeadBottomState();
     }
 
-    private _boyFriendPlayVideo(id: number) {
-        PlayerSystem.Instance.PlayVideo(id, this._videoPlayEnd.bind(this));
-    }
-
-    private _videoPlayEnd() {
-        UIMainVideoComp.getInstance().playUrl(PlayerSystem.Instance.HomeVideoId, true);
-    }
-
     // 
     private _onUpdateBottomHeadList() {
         let totolX = 0;
@@ -166,7 +152,7 @@ export class UIBoyFriend extends CCComp {
         const count = bfList.length;
         this.nodeLastBoy.active = this._curHeadBottomIsOpen && this._selectBFHeadIdx > 0;
         this.nodeNextBoy.active = this._curHeadBottomIsOpen && (this._selectBFHeadIdx+1) < count;
-        if(!this._curHeadBottomIsOpen && this._selectBFHeadIdx > 0) {
+        if(!this._curHeadBottomIsOpen) {
             return;
         }
         for (let i = 0; i < count; i++) {
@@ -266,14 +252,7 @@ export class UIBoyFriend extends CCComp {
 
     // 
     public onClickBtnInfo() {
-        const bfList = ConfigManager.tables.TbBoyFriend.getDataList();
-        if(this._selectBFHeadIdx < 0 || this._selectBFHeadIdx >= bfList.length) {
-            console.error(",index:%s", this._selectBFHeadIdx);
-            return;
-        }
-        const cfg = bfList[this._selectBFHeadIdx];
 
-        oops.gui.openAsync(UIID.UIBoyFriendInfo, {Id: cfg.Id});
     }
 
     // 

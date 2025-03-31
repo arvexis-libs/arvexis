@@ -427,6 +427,7 @@ export class TrBoyFriend {
         this.Icon = _buf_.ReadString()
         this.PhoneIcon = _buf_.ReadString()
         this.Pic = _buf_.ReadString()
+        this.HalfPic = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.Unlock.set(_k0, _v0);  } }
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.FavoriteItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.FavoriteItem.push(_e0);}}
         this.FavoriteItemNum = _buf_.ReadInt()
@@ -468,6 +469,10 @@ export class TrBoyFriend {
      * 
      */
     readonly Pic: string
+    /**
+     * 
+     */
+    readonly HalfPic: string
     /**
      * 
      */
@@ -530,6 +535,7 @@ export class TrBoyFriend {
     readonly IntroUnlock: Map<number, number>
 
     resolve(tables:Tables) {
+        
         
         
         

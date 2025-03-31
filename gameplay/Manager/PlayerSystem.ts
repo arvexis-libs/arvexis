@@ -116,7 +116,7 @@ export class PlayerSystem {
         
         if(!player.BoyFriends.has(id)) {
             let bf = new BoyFriend();
-            bf.onInit(playerId, id);
+            bf.onInit(id);
             player.BoyFriends.set(id, bf);
             return bf;
         }

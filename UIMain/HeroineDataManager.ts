@@ -49,6 +49,7 @@ import { EventHandler } from "cc";
 import { config } from 'process';
 import * as exp from 'constants';
 import { time } from 'console';
+import { Scheduler } from 'cc';
 const { ccclass, property } = _decorator;
 
 ///
@@ -97,6 +98,8 @@ export class HeroineDataManager
             let timePoint = ConfigManager.tables.TbConst.get("TimeInitial")?.Int ?? 7;
             GameData.PlayerData.HeroineData.CurVirtualTimePoint = timePoint;
         }
+
+        this.giveKeyByTime();
     }
 
     public SetHeadIcon(headIcon:string)
@@ -370,6 +373,14 @@ export class HeroineDataManager
             GameData.PlayerData.HeroineData.CurVirtualTimePoint = value;
             oops.message.dispatchEvent(GameEvent.onHeroineVirtualTimeChange);
         }
+    }
+
+    private giveKeyByTime() {
+        let time = ConfigManager.tables.TbConst.get("GetKey")?.Int!;
+        oops.timer.schedule(() => {
+            this.AddKey(KeySources.RealTime,1)
+        }, time * 60)
+
     }
 
 }

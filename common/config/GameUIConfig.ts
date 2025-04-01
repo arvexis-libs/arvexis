@@ -138,6 +138,9 @@ export enum UIID {
     UIHeroineInfo,
     UIBoyFriend,
     UIBoyFriendInfo,
+
+    UILevel,
+
 }
 
 /**  */
@@ -197,4 +200,6 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UITextReward]: { layer: LayerType.UI, prefab: "Prefab/UITextReward", bundle:"UIMain" },
     [UIID.UIMainLevelUp]: { layer: LayerType.UI, prefab: "Prefab/UIMainLevelUp", bundle:"UIMainLevelUp" },
     [UIID.UIHeroineInfo]: { layer: LayerType.UI, prefab: "Prefab/UIHeroineInfo", bundle:"UIHeroineInfo" },
+    [UIID.UILevel]: { layer: LayerType.UI, prefab: "Prefab/UILevel", bundle:"UILevel" },
+
 }

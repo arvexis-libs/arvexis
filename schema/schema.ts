@@ -3093,6 +3093,7 @@ export class TrZhaoChaStage {
         this.LimitTime = _buf_.ReadInt()
         this.FailAnim = _buf_.ReadString()
         this.WinAnim = _buf_.ReadString()
+        this.ClickEffect = _buf_.ReadString()
     }
 
     /**
@@ -3131,8 +3132,13 @@ export class TrZhaoChaStage {
      * 
      */
     readonly WinAnim: string
+    /**
+     * 
+     */
+    readonly ClickEffect: string
 
     resolve(tables:Tables) {
+        
         
         
         

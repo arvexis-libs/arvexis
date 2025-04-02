@@ -140,7 +140,8 @@ export enum UIID {
     UIBoyFriendInfo,
 
     UILevel,
-
+    UIAVGMap,
+    UIAVGScene,
 }
 
 /**  */
@@ -201,5 +202,7 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UIMainLevelUp]: { layer: LayerType.UI, prefab: "Prefab/UIMainLevelUp", bundle:"UIMainLevelUp" },
     [UIID.UIHeroineInfo]: { layer: LayerType.UI, prefab: "Prefab/UIHeroineInfo", bundle:"UIHeroineInfo" },
     [UIID.UILevel]: { layer: LayerType.UI, prefab: "Prefab/UILevel", bundle:"UILevel" },
+    [UIID.UIAVGMap]: { layer: LayerType.UI, prefab: "Prefab/UIAVGMap", bundle:"UIAVGMap" },
+    [UIID.UIAVGScene]: { layer: LayerType.UI, prefab: "Prefab/UIAVGScene", bundle:"UIAVGMap" },
 
 }

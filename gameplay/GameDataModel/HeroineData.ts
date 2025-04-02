@@ -27,4 +27,6 @@ export class HeroineData extends SerializeClass {
 
     @SerializeData()
     public CurVirtualTimePoint: number = 0;//,3 ([7, 8, 9, 10|10, 12, 16, 18|18, 20, 22, 7])
+    @SerializeData()
+    public LastGiveKeyTime: number = 0;//()
 }

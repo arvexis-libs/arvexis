@@ -23,17 +23,17 @@ import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UILevel')
-@ecs.register('UILevel', false)
+@ccclass('UIAVGMap')
+@ecs.register('UIAVGMap', false)
 export class UITapUp extends CCComp {
     @property(Button)
     private closeBtn: Button = null!;
     @property(Button)
     private testBtn: Button = null!;
 
-    private playerid: number = 0;
-    onAdded(playerid: any) {
-        this.playerid = playerid;
+    private Id: number = 0;
+    onAdded(id: any) {
+        this.Id = id;
         return true;
     }
 
@@ -54,11 +54,11 @@ export class UITapUp extends CCComp {
     }
 
     private onClickClose() {
-        oops.gui.remove(UIID.UILevel);
+        oops.gui.remove(UIID.UIAVGMap);
     }
 
     private onClickTest() {
-        oops.gui.open(UIID.UIAVGMap, 1);
+        oops.gui.open(UIID.UIAVGScene, 1);
     }
 }
 

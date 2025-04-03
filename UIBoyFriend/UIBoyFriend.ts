@@ -48,6 +48,8 @@ export class UIBoyFriend extends CCComp {
     nodeLastBoy: Node = null!;
     @property(Node)
     nodeNextBoy: Node = null!;
+    @property(Node)
+    storyBtn: Node = null!;
 
     private _bfListCache: HeadBFItem[] = [];
     private _selectBFHeadIdx: number = -1;
@@ -78,6 +80,8 @@ export class UIBoyFriend extends CCComp {
             GameData.updateCurrency(player1?.ItemId!, player1InitXinWu);
             GameData.updateCurrency(player2?.ItemId!, player2InitXinWu);
         }
+
+        this.storyBtn.on('click', this.onClickTheStoryWithHim, this);
     }
 
     async start() {
@@ -293,9 +297,11 @@ export class UIBoyFriend extends CCComp {
 
     // 
     public onClickTheStoryWithHim() {
-
+        let playerid = 1;
+        oops.gui.open(UIID.UILevel, playerid);
     }
 
     //#endregion
+    
 }
 

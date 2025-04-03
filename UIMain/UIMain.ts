@@ -41,7 +41,6 @@ import { MagicBox } from "./MagicBox";
 import { BlockInputEvents } from "cc";
 import { PropType } from "./HeroineDataManager";
 import { Skeleton } from "cc";
-import { TimeState } from "./TimeState";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -53,7 +52,6 @@ export class UIMain extends CCComp {
     @property(Label) TxtGameTime: Label = null!;//
     @property(Label) TxtTimeState: Label = null!;//
     @property(Label) TxtKeyCount: Label = null!;//
-    @property(Label) TxtKeyDesc: Label = null!;//
 
     @property(Button) BtnCashAdd:Button = null!;//
     @property(Button) BtnGemAdd:Button = null!;//
@@ -73,9 +71,7 @@ export class UIMain extends CCComp {
     @property(Node) MagicBoxTips: Node = null!;
     @property(Node) ArrBg: Node[] = []!;
     @property(Node) TimeTips: Node = null!;
-    @property(TimeState) TimeState: TimeState = null!;
     @property(Node) RoleSpine: Node = null!;
-    @property(sp.Skeleton) SpineMagicBox : sp.Skeleton = null!;
 
     onLoad() {
         this.RegistEvents();
@@ -128,17 +124,9 @@ export class UIMain extends CCComp {
 
     RefreshTimeState()    ////UI
     {
-        let timePoint = HeroineDataManager.Instance.GetCurVirtualTimePoint();
-        //this.TxtGameTime.string = `${timePoint}`
+        let timePoint = HeroineDataManager.Instance.GetCurVirtualTimePoint().toString();
+        this.TxtGameTime.string = `${timePoint}:00`
         //todo/
-        this.TimeState.changeTimeAnim(timePoint)
-        this.TimeState.SetLastTime(timePoint);
-    }
-    RefreshGetKeyTimeLeft()
-    {
-        this.schedule(() => {
-            this.TxtKeyDesc.string = `${HeroineDataManager.Instance.GetKeyTimeLeft()}        X1`;
-        }, 1)
     }
     RefreshName()
     {
@@ -217,18 +205,11 @@ export class UIMain extends CCComp {
         oops.gui.remove(UIID.UIMain);
     }
     BtnMagicBox_Click() {
-        let nextVirtualTime = HeroineDataManager.Instance.GetNextVirtualTimePoint()!;
-        HeroineDataManager.Instance.SetCurVirtualTimePoint(nextVirtualTime);
-
-        this.SpineMagicBox.setAnimation(0, "click", true);
-        this.scheduleOnce(() => { 
-            this.SpineMagicBox.setAnimation(0, "idle", true);
-        }, 2);
         let magicBox = new MagicBox();
         magicBox.Init(this.MagicBoxTips);
     }
     BtnKeyAdd_Click() {
-        let d = HeroineDataManager.Instance.GetKeyTimeLeft();
+        
     }
 
     onHeroineLevelUp() {

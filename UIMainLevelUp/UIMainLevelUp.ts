@@ -81,7 +81,7 @@ export class UIMainLevelUp extends CCComp {
         oops.gui.remove(UIID.UIMainLevelUp);
     }
 
-    onTriggerEvent(event: string) {
+    onTriggerEvent(node: Node, event: string) {
         if (event === "step4") {
             this.enableClose = true;
         }

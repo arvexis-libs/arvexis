@@ -94,10 +94,6 @@ export class HeroineDataManager
         if (!GameData.PlayerData.HeroineData.ListIdentity) {
             GameData.PlayerData.HeroineData.ListIdentity = [];
         } 
-        if(!GameData.PlayerData.HeroineData.LastGiveKeyTime)
-        {
-            GameData.PlayerData.HeroineData.LastGiveKeyTime = Date.now();
-        }
         if (GameData.PlayerData.HeroineData.CurVirtualTimePoint == 0||undefined) {
             let timePoint = ConfigManager.tables.TbConst.get("TimeInitial")?.Int ?? 7;
             GameData.PlayerData.HeroineData.CurVirtualTimePoint = timePoint;
@@ -263,10 +259,8 @@ export class HeroineDataManager
     public AddKey(keySources: KeySources, count: number)
     {
         let keyCountCur = GameData.PlayerData.CurrencyData.get(ItemEnum.Key) || 0;
-        let keyCountMax = this.GetKeyCountMax();
-        let baseKeyCount = Math.max(keyCountCur, keyCountMax);
         let value1 = Math.max(keyCountCur + count, 0) ;
-        let value2 = value1 > keyCountMax ? baseKeyCount : value1;
+        let value2 = value1 > this.GetKeyCountMax()! ? keyCountCur : value1;
 
         switch(keySources)
         {
@@ -323,6 +317,18 @@ export class HeroineDataManager
                 }
             }
         }
+
+        // for (let i = 0; i < this.ArrVirtualTime.length; i++) {
+        //     const element = this.ArrVirtualTime[i];
+        //     if (element == curVirtualTime) {
+        //         if (i< this.ArrVirtualTime.length-1) {
+        //             return this.ArrVirtualTime[i+1];
+        //         }
+        //         else {
+        //             return this.ArrVirtualTime[0];
+        //         }
+        //     }
+        // }
     }
 
     public GetNextVirtualTimePoint()
@@ -369,24 +375,11 @@ export class HeroineDataManager
         }
     }
 
-    public GetKeyTimeLeft()// 
-    {
-        let time = ConfigManager.tables.TbConst.get("GetKey")?.Int!;
-        let timeLeft = (time * 60000 - (Date.now() - GameData.PlayerData.HeroineData.LastGiveKeyTime))/1000;
-        return Math.max(0,Math.round(timeLeft));
-
-    }
-
     private giveKeyByTime() {
         let time = ConfigManager.tables.TbConst.get("GetKey")?.Int!;
         oops.timer.schedule(() => {
-            let t = Date.now() - GameData.PlayerData.HeroineData.LastGiveKeyTime||0
-            let addValue = Math.trunc(t/(time*60*1000));
-            if (addValue>0) {
-                this.AddKey(KeySources.RealTime,addValue)
-                GameData.PlayerData.HeroineData.LastGiveKeyTime = Date.now()
-            }
-        }, 1)
+            this.AddKey(KeySources.RealTime,1)
+        }, time * 60)
 
     }
 

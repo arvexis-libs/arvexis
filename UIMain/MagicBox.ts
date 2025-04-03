@@ -114,9 +114,12 @@ export class MagicBox {
         let sumWeight = 0;
         let listResult = [];
         let nowTimeType = HeroineDataManager.Instance.GetCurVirtualTimeArea();//
+        let arr:number[] = [ConfigManager.tables.TbConst.get("RandomType1Weight")?.Int!, ConfigManager.tables.TbConst.get("RandomType2Weight")?.Int!, ConfigManager.tables.TbConst.get("RandomType3Weight")?.Int!]!;
+        let magicBoxType =  this.getRandMagicBoxType(arr)//
+
         for (let i = 0; i < this._listMagicBox.length; i++) {
             const element = this._listMagicBox[i];
-            if (element.TriggerTime == nowTimeType && element.Weight != -1) {
+            if (element.TriggerTime == nowTimeType && element.Weight != -1 && element.MagicBoxType == magicBoxType) {
                 listResult.push(element);
                 sumWeight+=element.Weight;
             }
@@ -145,6 +148,23 @@ export class MagicBox {
         let mi = Math.ceil(min);
         let ma = Math.floor(max);
         return Math.floor(Math.random() * (ma - mi + 1)) + mi;
+    }
+
+    private getRandMagicBoxType(arrTarget:number[])
+    {
+        let sum = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            sum += arrTarget[i];
+        }
+
+        let rand = this.getRand(0, sum);
+        for (let i = 0; i < arrTarget.length; i++) {
+            const element = arrTarget[i];
+            rand -= element;
+            if (rand <= 0) {
+                return i+1;
+            }
+        }
     }
 
     private showTips(magicBox: TrMagicBoxRandom) {

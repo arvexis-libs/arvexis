@@ -58,6 +58,8 @@ export class UITapUp extends CCComp {
     }
 
     private onClickTest() {
+        oops.gui.remove(UIID.UIAVGScene);
+
         let nextId = 2;
         oops.gui.open(UIID.UIAVGScene, nextId);
     }

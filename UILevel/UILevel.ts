@@ -31,12 +31,6 @@ export class UITapUp extends CCComp {
     @property(Button)
     private testBtn: Button = null!;
 
-    private playerid: number = 0;
-    onAdded(playerid: any) {
-        this.playerid = playerid;
-        return true;
-    }
-
     /**  */
     start() {
         this.closeBtn.node.on('click', this.onClickClose, this);
@@ -58,7 +52,7 @@ export class UITapUp extends CCComp {
     }
 
     private onClickTest() {
-        oops.gui.open(UIID.UIAVGMap, 1);
+        // oops.gui.open(UIID.UITapUp);
     }
 }
 

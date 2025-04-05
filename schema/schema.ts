@@ -1232,6 +1232,104 @@ export class TrHeroinePropType {
 
 
 
+export class TrIdentity {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Actor = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+        this.Bg = _buf_.ReadString()
+        this.Icon = _buf_.ReadString()
+        this.TendProp = _buf_.ReadInt()
+        this.Desc = _buf_.ReadString()
+        this.TxtSubliming = _buf_.ReadString()
+        this.SublimingLevel = _buf_.ReadInt()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature1 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature1.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature2 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature2.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature3 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature3.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature4 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature4.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature5 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature5.push(_e0);}}
+    }
+
+    /**
+     * ID
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Actor: number
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * 
+     */
+    readonly Bg: string
+    /**
+     * 
+     */
+    readonly Icon: string
+    /**
+     * ID
+     */
+    readonly TendProp: number
+    /**
+     * 
+     */
+    readonly Desc: string
+    /**
+     * 
+     */
+    readonly TxtSubliming: string
+    /**
+     * 
+     */
+    readonly SublimingLevel: number
+    /**
+     * 1
+     */
+    readonly Feature1: string[]
+    /**
+     * 2
+     */
+    readonly Feature2: string[]
+    /**
+     * 3
+     */
+    readonly Feature3: string[]
+    /**
+     * 4
+     */
+    readonly Feature4: string[]
+    /**
+     * 5
+     */
+    readonly Feature5: string[]
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrInteraction {
 
     constructor(_buf_: ByteBuf) {
@@ -3081,6 +3179,41 @@ export class TrZhaoChaItem {
 
 
 
+export class TrZhaoChaSection {
+
+    constructor(_buf_: ByteBuf) {
+        this.SectionId = _buf_.ReadInt()
+        this.Stage = _buf_.ReadInt()
+        this.LimitTime = _buf_.ReadInt()
+        this.Animation = new ZhaoCha.SectionAnimation(_buf_)
+    }
+
+    /**
+     * Id
+     */
+    readonly SectionId: number
+    /**
+     * 
+     */
+    readonly Stage: number
+    /**
+     * 
+     */
+    readonly LimitTime: number
+    readonly Animation: ZhaoCha.SectionAnimation
+
+    resolve(tables:Tables) {
+        
+        
+        
+        this.Animation?.resolve(tables);
+    }
+}
+
+
+
+
+
 export class TrZhaoChaStage {
 
     constructor(_buf_: ByteBuf) {
@@ -3164,6 +3297,44 @@ export class TrZhaoChaStage {
 }
 
 
+
+
+export namespace ZhaoCha {
+export class SectionAnimation {
+
+    constructor(_buf_: ByteBuf) {
+        this.Condition = _buf_.ReadInt()
+        this.Arg1 = _buf_.ReadInt()
+        this.Arg2 = _buf_.ReadInt()
+        this.Prefab = _buf_.ReadString()
+    }
+
+    /**
+     * 
+     */
+    readonly Condition: number
+    /**
+     * 1
+     */
+    readonly Arg1: number
+    /**
+     * 2
+     */
+    readonly Arg2: number
+    /**
+     * 
+     */
+    readonly Prefab: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+    }
+}
+
+}
 
 
 
@@ -4770,6 +4941,72 @@ export class TbZhaoChaDragItem {
 
 
 
+export class TbIdentity {
+    private _dataMap: Map<number, TrIdentity>
+    private _dataList: TrIdentity[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrIdentity>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrIdentity
+            _v = new TrIdentity(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrIdentity> { return this._dataMap; }
+    getDataList(): TrIdentity[] { return this._dataList; }
+
+    get(key: number): TrIdentity | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbZhaoChaSection {
+    private _dataMap: Map<number, TrZhaoChaSection>
+    private _dataList: TrZhaoChaSection[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaSection>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaSection
+            _v = new TrZhaoChaSection(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.SectionId, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaSection> { return this._dataMap; }
+    getDataList(): TrZhaoChaSection[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaSection | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -4871,6 +5108,10 @@ export class Tables {
     get TbVirtualTime(): TbVirtualTime  { return this._TbVirtualTime;}
     private _TbZhaoChaDragItem: TbZhaoChaDragItem
     get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
+    private _TbIdentity: TbIdentity
+    get TbIdentity(): TbIdentity  { return this._TbIdentity;}
+    private _TbZhaoChaSection: TbZhaoChaSection
+    get TbZhaoChaSection(): TbZhaoChaSection  { return this._TbZhaoChaSection;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -4923,6 +5164,8 @@ export class Tables {
         names.push('tbboyfriendlevel');
         names.push('tbvirtualtime');
         names.push('tbzhaochadragitem');
+        names.push('tbidentity');
+        names.push('tbzhaochasection');
         return names;
     }
 
@@ -4976,6 +5219,8 @@ export class Tables {
         this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
         this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
         this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
+        this._TbIdentity = new TbIdentity(loader('tbidentity'))
+        this._TbZhaoChaSection = new TbZhaoChaSection(loader('tbzhaochasection'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -5026,6 +5271,8 @@ export class Tables {
         this._TbBoyFriendLevel.resolve(this)
         this._TbVirtualTime.resolve(this)
         this._TbZhaoChaDragItem.resolve(this)
+        this._TbIdentity.resolve(this)
+        this._TbZhaoChaSection.resolve(this)
     }
 }
 

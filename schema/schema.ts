@@ -348,6 +348,206 @@ export class TrAudio {
 
 
 
+export class TrAVGMap {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Path = _buf_.ReadString()
+        this.Name = _buf_.ReadString()
+        this.BGM = _buf_.ReadString()
+        this.Ambient = _buf_.ReadString()
+        this.Isdrag = _buf_.ReadBool()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
+        this.Text = _buf_.ReadString()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Path: string
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * bgm
+     */
+    readonly BGM: string
+    /**
+     * 
+     */
+    readonly Ambient: string
+    /**
+     * 
+     */
+    readonly Isdrag: boolean
+    /**
+     * 
+     */
+    readonly Bgunlock: number[]
+    /**
+     * 
+     */
+    readonly Text: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
+export class TrAVGNPC {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Name: string
+
+    resolve(tables:Tables) {
+        
+        
+    }
+}
+
+
+
+
+
+export class TrAVGScene {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Path = _buf_.ReadString()
+        this.Name = _buf_.ReadString()
+        this.BGM = _buf_.ReadString()
+        this.Ambient = _buf_.ReadString()
+        this.Isdrag = _buf_.ReadBool()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
+        this.Text = _buf_.ReadString()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Path: string
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * bgm
+     */
+    readonly BGM: string
+    /**
+     * 
+     */
+    readonly Ambient: string
+    /**
+     * 
+     */
+    readonly Isdrag: boolean
+    /**
+     * 
+     */
+    readonly Bgunlock: number[]
+    /**
+     * 
+     */
+    readonly Text: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
+export class TrAVGSceneGroup {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
+        this.Mapkey = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Scenegroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Scenegroup.push(_e0);}}
+        this.Initialscene = _buf_.ReadInt()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * 
+     */
+    readonly Bgunlock: number[]
+    /**
+     * 
+     */
+    readonly Mapkey: string
+    /**
+     * id
+     */
+    readonly Scenegroup: number[]
+    /**
+     * id
+     */
+    readonly Initialscene: number
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrBigMapPopInfo {
 
     constructor(_buf_: ByteBuf) {
@@ -1313,6 +1513,80 @@ export class TrIdentity {
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
+export class TrIdentityLevel {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.IdentityId = _buf_.ReadInt()
+        this.Level = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedItem.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedCurrency = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedCurrency.push(_e0);}}
+        this.Prop1 = _buf_.ReadInt()
+        this.Prop2 = _buf_.ReadInt()
+        this.Prop3 = _buf_.ReadInt()
+        this.Prop4 = _buf_.ReadInt()
+        this.Prop5 = _buf_.ReadInt()
+    }
+
+    /**
+     * ID
+     */
+    readonly Id: number
+    /**
+     * id
+     */
+    readonly IdentityId: number
+    /**
+     * 
+     */
+    readonly Level: string
+    /**
+     * 
+     */
+    readonly NeedItem: number[]
+    /**
+     * 
+     */
+    readonly NeedCurrency: number[]
+    /**
+     * id1
+     */
+    readonly Prop1: number
+    /**
+     * id2
+     */
+    readonly Prop2: number
+    /**
+     * id3
+     */
+    readonly Prop3: number
+    /**
+     * id4
+     */
+    readonly Prop4: number
+    /**
+     * id5
+     */
+    readonly Prop5: number
+
+    resolve(tables:Tables) {
         
         
         
@@ -3179,41 +3453,6 @@ export class TrZhaoChaItem {
 
 
 
-export class TrZhaoChaSection {
-
-    constructor(_buf_: ByteBuf) {
-        this.SectionId = _buf_.ReadInt()
-        this.Stage = _buf_.ReadInt()
-        this.LimitTime = _buf_.ReadInt()
-        this.Animation = new ZhaoCha.SectionAnimation(_buf_)
-    }
-
-    /**
-     * Id
-     */
-    readonly SectionId: number
-    /**
-     * 
-     */
-    readonly Stage: number
-    /**
-     * 
-     */
-    readonly LimitTime: number
-    readonly Animation: ZhaoCha.SectionAnimation
-
-    resolve(tables:Tables) {
-        
-        
-        
-        this.Animation?.resolve(tables);
-    }
-}
-
-
-
-
-
 export class TrZhaoChaStage {
 
     constructor(_buf_: ByteBuf) {
@@ -3297,44 +3536,6 @@ export class TrZhaoChaStage {
 }
 
 
-
-
-export namespace ZhaoCha {
-export class SectionAnimation {
-
-    constructor(_buf_: ByteBuf) {
-        this.Condition = _buf_.ReadInt()
-        this.Arg1 = _buf_.ReadInt()
-        this.Arg2 = _buf_.ReadInt()
-        this.Prefab = _buf_.ReadString()
-    }
-
-    /**
-     * 
-     */
-    readonly Condition: number
-    /**
-     * 1
-     */
-    readonly Arg1: number
-    /**
-     * 2
-     */
-    readonly Arg2: number
-    /**
-     * 
-     */
-    readonly Prefab: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-    }
-}
-
-}
 
 
 
@@ -4974,24 +5175,156 @@ export class TbIdentity {
 
 
 
-export class TbZhaoChaSection {
-    private _dataMap: Map<number, TrZhaoChaSection>
-    private _dataList: TrZhaoChaSection[]
+export class TbIdentityLevel {
+    private _dataMap: Map<number, TrIdentityLevel>
+    private _dataList: TrIdentityLevel[]
     constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrZhaoChaSection>()
+        this._dataMap = new Map<number, TrIdentityLevel>()
         this._dataList = []
         for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrZhaoChaSection
-            _v = new TrZhaoChaSection(_buf_)
+            let _v: TrIdentityLevel
+            _v = new TrIdentityLevel(_buf_)
             this._dataList.push(_v)
-            this._dataMap.set(_v.SectionId, _v)
+            this._dataMap.set(_v.Id, _v)
         }
     }
 
-    getDataMap(): Map<number, TrZhaoChaSection> { return this._dataMap; }
-    getDataList(): TrZhaoChaSection[] { return this._dataList; }
+    getDataMap(): Map<number, TrIdentityLevel> { return this._dataMap; }
+    getDataList(): TrIdentityLevel[] { return this._dataList; }
 
-    get(key: number): TrZhaoChaSection | undefined {
+    get(key: number): TrIdentityLevel | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbAVGMap {
+    private _dataMap: Map<number, TrAVGMap>
+    private _dataList: TrAVGMap[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrAVGMap>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrAVGMap
+            _v = new TrAVGMap(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrAVGMap> { return this._dataMap; }
+    getDataList(): TrAVGMap[] { return this._dataList; }
+
+    get(key: number): TrAVGMap | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbAVGSceneGroup {
+    private _dataMap: Map<number, TrAVGSceneGroup>
+    private _dataList: TrAVGSceneGroup[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrAVGSceneGroup>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrAVGSceneGroup
+            _v = new TrAVGSceneGroup(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrAVGSceneGroup> { return this._dataMap; }
+    getDataList(): TrAVGSceneGroup[] { return this._dataList; }
+
+    get(key: number): TrAVGSceneGroup | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbAVGScene {
+    private _dataMap: Map<number, TrAVGScene>
+    private _dataList: TrAVGScene[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrAVGScene>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrAVGScene
+            _v = new TrAVGScene(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrAVGScene> { return this._dataMap; }
+    getDataList(): TrAVGScene[] { return this._dataList; }
+
+    get(key: number): TrAVGScene | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbAVGNPC {
+    private _dataMap: Map<number, TrAVGNPC>
+    private _dataList: TrAVGNPC[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrAVGNPC>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrAVGNPC
+            _v = new TrAVGNPC(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrAVGNPC> { return this._dataMap; }
+    getDataList(): TrAVGNPC[] { return this._dataList; }
+
+    get(key: number): TrAVGNPC | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -5110,8 +5443,16 @@ export class Tables {
     get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
     private _TbIdentity: TbIdentity
     get TbIdentity(): TbIdentity  { return this._TbIdentity;}
-    private _TbZhaoChaSection: TbZhaoChaSection
-    get TbZhaoChaSection(): TbZhaoChaSection  { return this._TbZhaoChaSection;}
+    private _TbIdentityLevel: TbIdentityLevel
+    get TbIdentityLevel(): TbIdentityLevel  { return this._TbIdentityLevel;}
+    private _TbAVGMap: TbAVGMap
+    get TbAVGMap(): TbAVGMap  { return this._TbAVGMap;}
+    private _TbAVGSceneGroup: TbAVGSceneGroup
+    get TbAVGSceneGroup(): TbAVGSceneGroup  { return this._TbAVGSceneGroup;}
+    private _TbAVGScene: TbAVGScene
+    get TbAVGScene(): TbAVGScene  { return this._TbAVGScene;}
+    private _TbAVGNPC: TbAVGNPC
+    get TbAVGNPC(): TbAVGNPC  { return this._TbAVGNPC;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -5165,7 +5506,11 @@ export class Tables {
         names.push('tbvirtualtime');
         names.push('tbzhaochadragitem');
         names.push('tbidentity');
-        names.push('tbzhaochasection');
+        names.push('tbidentitylevel');
+        names.push('tbavgmap');
+        names.push('tbavgscenegroup');
+        names.push('tbavgscene');
+        names.push('tbavgnpc');
         return names;
     }
 
@@ -5220,7 +5565,11 @@ export class Tables {
         this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
         this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
         this._TbIdentity = new TbIdentity(loader('tbidentity'))
-        this._TbZhaoChaSection = new TbZhaoChaSection(loader('tbzhaochasection'))
+        this._TbIdentityLevel = new TbIdentityLevel(loader('tbidentitylevel'))
+        this._TbAVGMap = new TbAVGMap(loader('tbavgmap'))
+        this._TbAVGSceneGroup = new TbAVGSceneGroup(loader('tbavgscenegroup'))
+        this._TbAVGScene = new TbAVGScene(loader('tbavgscene'))
+        this._TbAVGNPC = new TbAVGNPC(loader('tbavgnpc'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -5272,7 +5621,11 @@ export class Tables {
         this._TbVirtualTime.resolve(this)
         this._TbZhaoChaDragItem.resolve(this)
         this._TbIdentity.resolve(this)
-        this._TbZhaoChaSection.resolve(this)
+        this._TbIdentityLevel.resolve(this)
+        this._TbAVGMap.resolve(this)
+        this._TbAVGSceneGroup.resolve(this)
+        this._TbAVGScene.resolve(this)
+        this._TbAVGNPC.resolve(this)
     }
 }
 

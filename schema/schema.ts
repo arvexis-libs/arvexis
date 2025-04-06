@@ -3453,6 +3453,41 @@ export class TrZhaoChaItem {
 
 
 
+export class TrZhaoChaSection {
+
+    constructor(_buf_: ByteBuf) {
+        this.SectionId = _buf_.ReadInt()
+        this.Stage = _buf_.ReadInt()
+        this.LimitTime = _buf_.ReadInt()
+        this.Animation = new ZhaoCha.SectionAnimation(_buf_)
+    }
+
+    /**
+     * Id
+     */
+    readonly SectionId: number
+    /**
+     * 
+     */
+    readonly Stage: number
+    /**
+     * 
+     */
+    readonly LimitTime: number
+    readonly Animation: ZhaoCha.SectionAnimation
+
+    resolve(tables:Tables) {
+        
+        
+        
+        this.Animation?.resolve(tables);
+    }
+}
+
+
+
+
+
 export class TrZhaoChaStage {
 
     constructor(_buf_: ByteBuf) {
@@ -3536,6 +3571,44 @@ export class TrZhaoChaStage {
 }
 
 
+
+
+export namespace ZhaoCha {
+export class SectionAnimation {
+
+    constructor(_buf_: ByteBuf) {
+        this.Condition = _buf_.ReadInt()
+        this.Arg1 = _buf_.ReadInt()
+        this.Arg2 = _buf_.ReadInt()
+        this.Prefab = _buf_.ReadString()
+    }
+
+    /**
+     * 
+     */
+    readonly Condition: number
+    /**
+     * 1
+     */
+    readonly Arg1: number
+    /**
+     * 2
+     */
+    readonly Arg2: number
+    /**
+     * 
+     */
+    readonly Prefab: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+    }
+}
+
+}
 
 
 
@@ -4977,6 +5050,72 @@ export class TbZhaoChaItem {
 
 
 
+export class TbZhaoChaDragItem {
+    private _dataMap: Map<number, TrZhaoChaDragItem>
+    private _dataList: TrZhaoChaDragItem[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaDragItem>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaDragItem
+            _v = new TrZhaoChaDragItem(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaDragItem> { return this._dataMap; }
+    getDataList(): TrZhaoChaDragItem[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaDragItem | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbZhaoChaSection {
+    private _dataMap: Map<number, TrZhaoChaSection>
+    private _dataList: TrZhaoChaSection[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrZhaoChaSection>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrZhaoChaSection
+            _v = new TrZhaoChaSection(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.SectionId, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrZhaoChaSection> { return this._dataMap; }
+    getDataList(): TrZhaoChaSection[] { return this._dataList; }
+
+    get(key: number): TrZhaoChaSection | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 export class TbMagicBoxRandom {
     private _dataMap: Map<number, TrMagicBoxRandom>
     private _dataList: TrMagicBoxRandom[]
@@ -5094,39 +5233,6 @@ export class TbVirtualTime {
     getDataList(): TrVirtualTime[] { return this._dataList; }
 
     get(key: number): TrVirtualTime | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbZhaoChaDragItem {
-    private _dataMap: Map<number, TrZhaoChaDragItem>
-    private _dataList: TrZhaoChaDragItem[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrZhaoChaDragItem>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrZhaoChaDragItem
-            _v = new TrZhaoChaDragItem(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrZhaoChaDragItem> { return this._dataMap; }
-    getDataList(): TrZhaoChaDragItem[] { return this._dataList; }
-
-    get(key: number): TrZhaoChaDragItem | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -5431,6 +5537,10 @@ export class Tables {
     get TbZhaoChaStage(): TbZhaoChaStage  { return this._TbZhaoChaStage;}
     private _TbZhaoChaItem: TbZhaoChaItem
     get TbZhaoChaItem(): TbZhaoChaItem  { return this._TbZhaoChaItem;}
+    private _TbZhaoChaDragItem: TbZhaoChaDragItem
+    get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
+    private _TbZhaoChaSection: TbZhaoChaSection
+    get TbZhaoChaSection(): TbZhaoChaSection  { return this._TbZhaoChaSection;}
     private _TbMagicBoxRandom: TbMagicBoxRandom
     get TbMagicBoxRandom(): TbMagicBoxRandom  { return this._TbMagicBoxRandom;}
     private _TbBoyFriend: TbBoyFriend
@@ -5439,8 +5549,6 @@ export class Tables {
     get TbBoyFriendLevel(): TbBoyFriendLevel  { return this._TbBoyFriendLevel;}
     private _TbVirtualTime: TbVirtualTime
     get TbVirtualTime(): TbVirtualTime  { return this._TbVirtualTime;}
-    private _TbZhaoChaDragItem: TbZhaoChaDragItem
-    get TbZhaoChaDragItem(): TbZhaoChaDragItem  { return this._TbZhaoChaDragItem;}
     private _TbIdentity: TbIdentity
     get TbIdentity(): TbIdentity  { return this._TbIdentity;}
     private _TbIdentityLevel: TbIdentityLevel
@@ -5500,11 +5608,12 @@ export class Tables {
         names.push('tbpropvalue');
         names.push('tbzhaochastage');
         names.push('tbzhaochaitem');
+        names.push('tbzhaochadragitem');
+        names.push('tbzhaochasection');
         names.push('tbmagicboxrandom');
         names.push('tbboyfriend');
         names.push('tbboyfriendlevel');
         names.push('tbvirtualtime');
-        names.push('tbzhaochadragitem');
         names.push('tbidentity');
         names.push('tbidentitylevel');
         names.push('tbavgmap');
@@ -5559,11 +5668,12 @@ export class Tables {
         this._TbPropValue = new TbPropValue(loader('tbpropvalue'))
         this._TbZhaoChaStage = new TbZhaoChaStage(loader('tbzhaochastage'))
         this._TbZhaoChaItem = new TbZhaoChaItem(loader('tbzhaochaitem'))
+        this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
+        this._TbZhaoChaSection = new TbZhaoChaSection(loader('tbzhaochasection'))
         this._TbMagicBoxRandom = new TbMagicBoxRandom(loader('tbmagicboxrandom'))
         this._TbBoyFriend = new TbBoyFriend(loader('tbboyfriend'))
         this._TbBoyFriendLevel = new TbBoyFriendLevel(loader('tbboyfriendlevel'))
         this._TbVirtualTime = new TbVirtualTime(loader('tbvirtualtime'))
-        this._TbZhaoChaDragItem = new TbZhaoChaDragItem(loader('tbzhaochadragitem'))
         this._TbIdentity = new TbIdentity(loader('tbidentity'))
         this._TbIdentityLevel = new TbIdentityLevel(loader('tbidentitylevel'))
         this._TbAVGMap = new TbAVGMap(loader('tbavgmap'))
@@ -5615,11 +5725,12 @@ export class Tables {
         this._TbPropValue.resolve(this)
         this._TbZhaoChaStage.resolve(this)
         this._TbZhaoChaItem.resolve(this)
+        this._TbZhaoChaDragItem.resolve(this)
+        this._TbZhaoChaSection.resolve(this)
         this._TbMagicBoxRandom.resolve(this)
         this._TbBoyFriend.resolve(this)
         this._TbBoyFriendLevel.resolve(this)
         this._TbVirtualTime.resolve(this)
-        this._TbZhaoChaDragItem.resolve(this)
         this._TbIdentity.resolve(this)
         this._TbIdentityLevel.resolve(this)
         this._TbAVGMap.resolve(this)

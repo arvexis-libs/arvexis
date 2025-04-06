@@ -2618,6 +2618,29 @@ export class TrShare {
 
 
 
+export class TrShopGift {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.ItemId = _buf_.ReadInt()
+    }
+
+    /**
+     * Id
+     */
+    readonly Id: number
+    readonly ItemId: number
+
+    resolve(tables:Tables) {
+        
+        
+    }
+}
+
+
+
+
+
 export class TrSpecialEvent {
 
     constructor(_buf_: ByteBuf) {
@@ -5446,6 +5469,39 @@ export class TbAVGNPC {
 
 
 
+export class TbShopGift {
+    private _dataMap: Map<number, TrShopGift>
+    private _dataList: TrShopGift[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrShopGift>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrShopGift
+            _v = new TrShopGift(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrShopGift> { return this._dataMap; }
+    getDataList(): TrShopGift[] { return this._dataList; }
+
+    get(key: number): TrShopGift | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -5561,6 +5617,8 @@ export class Tables {
     get TbAVGScene(): TbAVGScene  { return this._TbAVGScene;}
     private _TbAVGNPC: TbAVGNPC
     get TbAVGNPC(): TbAVGNPC  { return this._TbAVGNPC;}
+    private _TbShopGift: TbShopGift
+    get TbShopGift(): TbShopGift  { return this._TbShopGift;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -5620,6 +5678,7 @@ export class Tables {
         names.push('tbavgscenegroup');
         names.push('tbavgscene');
         names.push('tbavgnpc');
+        names.push('tbshopgift');
         return names;
     }
 
@@ -5680,6 +5739,7 @@ export class Tables {
         this._TbAVGSceneGroup = new TbAVGSceneGroup(loader('tbavgscenegroup'))
         this._TbAVGScene = new TbAVGScene(loader('tbavgscene'))
         this._TbAVGNPC = new TbAVGNPC(loader('tbavgnpc'))
+        this._TbShopGift = new TbShopGift(loader('tbshopgift'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -5737,6 +5797,7 @@ export class Tables {
         this._TbAVGSceneGroup.resolve(this)
         this._TbAVGScene.resolve(this)
         this._TbAVGNPC.resolve(this)
+        this._TbShopGift.resolve(this)
     }
 }
 

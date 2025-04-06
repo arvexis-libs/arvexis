@@ -415,6 +415,10 @@ export class TrAVGNPC {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
+        this.SpinePath = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.SpineUnlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.SpineUnlock.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceStory = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ChoiceStory.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceText = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.ChoiceText.push(_e0);}}
     }
 
     /**
@@ -425,8 +429,28 @@ export class TrAVGNPC {
      * 
      */
     readonly Name: string
+    /**
+     * Spine
+     */
+    readonly SpinePath: string
+    /**
+     * 
+     */
+    readonly SpineUnlock: number[]
+    /**
+     * AVG
+     */
+    readonly ChoiceStory: number[]
+    /**
+     * AVG
+     */
+    readonly ChoiceText: string[]
 
     resolve(tables:Tables) {
+        
+        
+        
+        
         
         
     }

@@ -65,11 +65,9 @@ export class UIBoyFriend extends CCComp {
     @property(Button)
     btnOpenTap: Button = null!;
     @property(Node)
-    nodeTapChangeView: Node = null!;
-    
+    nodeTapChangeView: Node = null!;    
     @property(Sprite)
     spBtnInters: Sprite[] = [];
-
     @property(Animation)
     animationTapChangeView: Animation | null = null;
     @property(Label)
@@ -81,6 +79,8 @@ export class UIBoyFriend extends CCComp {
     @property(Sprite)
     spInteractionOut: Sprite = null!;
     // end
+    @property(Node)
+    nodeTipsTap: Node = null!;
 
     private _bfListCache: HeadBFItem[] = [];
     private _selectBFHeadIdx: number = -1;
@@ -93,6 +93,9 @@ export class UIBoyFriend extends CCComp {
     private _currentPlayVideoId: number = -1;
     //
     private _playingActionVideoId: number = 0;
+    // 
+    private _tipsTapTimeCd = 6;
+    private readonly _tipsTapTimeTotal = 5;
 
 
     //#endregion
@@ -160,7 +163,11 @@ export class UIBoyFriend extends CCComp {
         this._rightBtnBottomGroupInitPosY = this.nodeRightBtnBottomGroup.getPosition().y;
     }
 
-    _onRefresh() {
+    _onRefresh() {        
+        this.btnOpenTap.node.active = true;
+        this.nodeTapChangeView.active = false;
+        this._tipsTapTimeCd = this._tipsTapTimeTotal;
+
         this._onUpdateInfo();
     }
 
@@ -169,7 +176,14 @@ export class UIBoyFriend extends CCComp {
 
 
     protected update(dt: number): void {
-
+        // 
+        if(this._playingActionVideoId == 0){
+            this._tipsTapTimeCd -= dt;
+            if (this._tipsTapTimeCd < 0) {
+                this.nodeTipsTap.active = true;
+                this._tipsTapTimeCd = this._tipsTapTimeTotal;
+            }
+        }
     }
 
     onDestroy() {
@@ -200,6 +214,7 @@ export class UIBoyFriend extends CCComp {
 
         this._onUpdateBottomHeadList();
         this._changeHeadBottomState();
+        this._updateInteractionUI();
     }
 
     private _boyFriendPlayVideo(id: number) {
@@ -422,7 +437,7 @@ export class UIBoyFriend extends CCComp {
         this.btnOpenTap.node.active = false;
         this.nodeTapChangeView.active = true;
         // this.buttomBtnsParent.active = false;
-        
+        this.animationTapChangeView?.stop();
         this.animationTapChangeView?.play();
         this._updateBtnInters();
     }
@@ -449,9 +464,11 @@ export class UIBoyFriend extends CCComp {
             this._playInterVideo();
         }
     }
+    // 
     private onClickInteractioClose(event: EventTouch, data: any) {
         this.btnOpenTap.node.active = true;
         this.nodeTapChangeView.active = false;
+        this.animationTapChangeView?.stop();
     }
 
     

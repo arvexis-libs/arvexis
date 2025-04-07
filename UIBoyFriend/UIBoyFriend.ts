@@ -56,8 +56,12 @@ export class UIBoyFriend extends CCComp {
     nodeHandTap: Node = null!;
     @property(Node)
     nodeLastBoy: Node = null!;
+    @property(Label)
+    labLastBoyName: Label = null!;
     @property(Node)
     nodeNextBoy: Node = null!;
+    @property(Label)
+    labNextBoyName: Label = null!;
     @property(Node)
     storyBtn: Node = null!;
 
@@ -125,27 +129,7 @@ export class UIBoyFriend extends CCComp {
     }
 
     protected onDisable(): void {
-        // this.off(GameEvent.ShowPhone);
-        // this.off(GameEvent.RefreshHomeView);
-        // this.off(GameEvent.OnWealthChanged);
-        // this.off(GameEvent.OnSkinChange);
-        // this.off(GameEvent.OnShowHomeTip);
-        // this.off(GameEvent.OnGuideShow);
-        // this.off(GameEvent.PlayerLevelChange);
-        // this.off(GameEvent.TaskListRefresh);
-        // this.off(GameEvent.OnlineClock);
-        // this.off(GameEvent.OnCloseLvup);
-        // this.off(GameEvent.LayerRemove);
         this.off(GameEvent.MAIN_VIDEO_END);
-        // this.off(GameEvent.OnPlayHomeVideo);
-        // this.off(GameEvent.RoleSelectItemClick);
-        // this.off(GameEvent.OnItemValueChanged);
-        // this.off(GameEvent.ConstellationStarUp);
-        // this.off(GameEvent.ConstellationLevelUp);
-        // this.off(GameEvent.UIStoryLineRefresh);
-        // this.off(GameEvent.UIStoryKilledEvent);
-        // this.off(GameEvent.UIStoryCompleteEvent);
-        // this.off(GameEvent.OnReturnUIHome);
     }
 
     async start() {
@@ -172,6 +156,12 @@ export class UIBoyFriend extends CCComp {
     }
 
     reset() {
+        this._tipsTapTimeCd = this._tipsTapTimeTotal;
+        this._bfListCache.length = 0;
+        this._selectBFHeadIdx = -1;
+        this._curHeadBottomIsOpen = false;
+        this._currentPlayVideoId = -1;
+        this._playingActionVideoId = 0;
     }
 
 
@@ -189,6 +179,7 @@ export class UIBoyFriend extends CCComp {
     onDestroy() {
         
     }
+
     private onHandler(event: string, args: any): void {
         switch (event) {
             case GameEvent.MAIN_VIDEO_END:
@@ -233,6 +224,10 @@ export class UIBoyFriend extends CCComp {
         const count = bfList.length;
         this.nodeLastBoy.active = this._curHeadBottomIsOpen && this._selectBFHeadIdx > 0;
         this.nodeNextBoy.active = this._curHeadBottomIsOpen && (this._selectBFHeadIdx+1) < count;
+
+        this.labLastBoyName.string = this._selectBFHeadIdx > 0 ? bfList[this._selectBFHeadIdx-1].Name : "";
+        this.labNextBoyName.string = (this._selectBFHeadIdx+1) < count ? bfList[this._selectBFHeadIdx+1].Name : "";
+
         if(!this._curHeadBottomIsOpen && this._selectBFHeadIdx > 0) {
             return;
         }
@@ -361,7 +356,9 @@ export class UIBoyFriend extends CCComp {
     //#region 
 
 
-
+    private onClickBack() {
+        oops.gui.remove(UIID.UIBoyFriend);
+    }
     // 
     private onClickHeadBottomOpen(){
         if(this._curHeadBottomIsOpen)
@@ -418,7 +415,7 @@ export class UIBoyFriend extends CCComp {
 
     // 
     private onClickBtnGift() {
-
+        oops.gui.open(UIID.UIBoyFriendSendGift);
     }
 
     // 

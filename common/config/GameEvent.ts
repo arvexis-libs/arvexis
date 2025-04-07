@@ -117,6 +117,7 @@ export enum GameEvent {
     onHeroineVirtualTimeChange = "onHeroineVirtualTimeChange",//
 
     BoyFriendLevelUp = "BoyFriendLevelUp",
-    BoyFriendGetGift = "BoyFriendGetGift", 
+    BoyFriendExpChange = "BoyFriendExpChange", // 
+    BoyFriendAddExp = "BoyFriendAddExp", // 
 
 }

@@ -44,14 +44,12 @@ export class ConditionMgr {
      * @returns 
      */
     public checkBoyFriendCondition(conditions: Map<number, number>) {
-
-        for (const [idType, v] of conditions) {
-            if(idType == BoyFriendConditionType.Level && PlayerSystem.Instance.CurLv < v) {
-
+        for (const [k, v] of conditions) {
+            if(k == BoyFriendConditionType.Level && PlayerSystem.Instance.CurLv < v) {
                 return false;
             }
-            else if(idType == BoyFriendConditionType.SFCard) {
-
+            else if(k == BoyFriendConditionType.SFCard && !HeroineDataManager.Instance.HadIdentity(v)) {
+                return false;
             }
         }
 

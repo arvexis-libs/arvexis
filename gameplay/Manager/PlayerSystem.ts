@@ -59,6 +59,8 @@ export class Player extends SerializeClass {
     
     @SerializeData()
     public BoyFriends: Map<number, BoyFriend> = new Map();
+    @SerializeData()
+    public Items: Map<number, number> = new Map();
 }
 
 export class PlayerSystem {
@@ -71,26 +73,7 @@ export class PlayerSystem {
 
         return this._instance;
     }
-    //region 
-    public get PlayerData(): Player {
-        const players = GameData.PlayerData.UserData.Players;
-        if (!players.has(this.CurPlayId)) {
-            let p = new Player();
-            p.cfgId = this.CurPlayId;
-            players.set(this.CurPlayId, p);
-        }
-        return players.get(this.CurPlayId)!;
-    }
-
-    public GetPlayerData(lv: number = this.CurPlayId): Player {
-        const players = GameData.PlayerData.UserData.Players;
-        if (!players.has(lv)) {
-            let p = new Player();
-            p.cfgId = lv;
-            players.set(lv, p);
-        }
-        return players.get(lv)!;
-    }
+    //#region 
 
     /**
      * 
@@ -124,10 +107,45 @@ export class PlayerSystem {
         return player.BoyFriends.get(playerId)!;
     }
 
+    // 
+    public AddBoyFriendExp(id: number, count: number) {
+        const player = this.GetBoyFriendById(id);
+        player.AddExp(count);
+    }
+
+    //#endregion
+    //region 
+    public get PlayerData(): Player {
+        const players = GameData.PlayerData.UserData.Players;
+        if (!players.has(this.CurPlayId)) {
+            let p = new Player();
+            p.cfgId = this.CurPlayId;
+            players.set(this.CurPlayId, p);
+        }
+        return players.get(this.CurPlayId)!;
+    }
+
+    public GetPlayerData(lv: number = this.CurPlayId): Player {
+        const players = GameData.PlayerData.UserData.Players;
+        if (!players.has(lv)) {
+            let p = new Player();
+            p.cfgId = lv;
+            players.set(lv, p);
+        }
+        return players.get(lv)!;
+    }
+
+
     public init() {
         oops.message.on(GameEvent.MAIN_VIDEO_END, this.onHandler, this);
+        oops.message.on(GameEvent.BoyFriendAddExp, this.onHandler, this);        
     }
     private onHandler(event: string, args: any): void {
+        if(event == GameEvent.BoyFriendAddExp) {
+            // args {Id: id Exp: }
+            this.AddBoyFriendExp(args.Id, args.Exp);
+            return;
+        }
         // if (StorySystem.Instance.NextIsChoice()) {
         //     //
         //     return;
@@ -226,6 +244,37 @@ export class PlayerSystem {
     }
 
     //endregion
+
+    //#region 
+    /**
+     * 
+     * @param itemId 
+     * @param value 
+     */
+    public UpdateItemCount(itemId: number, value: number) {
+        if(value === 0) {
+            console.error(",value0, itemId:%s", itemId);
+            return;
+        }
+        const player = this.GetPlayerData();
+        let count = 0;
+        if(player.Items.has(itemId)) {
+            count = player.Items.get(itemId)!;
+        }
+        count += value;
+        player.Items.set(itemId, count);
+    }
+
+    public GetItemCount(itemId: number) : number {
+        const player = this.GetPlayerData();
+        let count = 0;
+        if(player.Items.has(itemId)) {
+            count = player.Items.get(itemId)!;
+        }
+
+        return count;
+    }
+    //#endregion
 
     //region 
     public TryLevelUp(): void {

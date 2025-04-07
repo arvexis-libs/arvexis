@@ -20,7 +20,7 @@ export class BoyFriend extends SerializeClass {
     
 
     private _isUnlock: boolean = false;
-    private _nextLevelUpNeedExp: number = 0;
+    private _nextLevelUpNeedTotalExp: number = 0;
 
     public onInit(playerId: number,id: number) {
         this.MasterId = playerId;
@@ -32,11 +32,11 @@ export class BoyFriend extends SerializeClass {
     }
 
     get NextLvTotalExp() {
-        if(this._nextLevelUpNeedExp <= 0) {
+        if(this._nextLevelUpNeedTotalExp <= 0) {
             this._updateData();
         }
 
-        return this._nextLevelUpNeedExp;
+        return this._nextLevelUpNeedTotalExp;
     }
 
     public IsUnlock() {
@@ -55,12 +55,16 @@ export class BoyFriend extends SerializeClass {
     public LevelUp() {
         const id = this.Id * 1000 + this.Level + 1;
         const lvCfg = ConfigManager.tables.TbBoyFriendLevel.get(id);
-        if(lvCfg != undefined) {
-            this.Id = id;
-            this.Level += 1;
-            this._updateData();
-            oops.message.dispatchEvent(GameEvent.BoyFriendLevelUp, this.Id);
+        // 
+        if(lvCfg == undefined) {
+
+            return;
         }
+    
+        this.Id = lvCfg.Id;
+        this.Level += 1;
+        this._updateData();
+        oops.message.dispatchEvent(GameEvent.BoyFriendLevelUp, this.Id);
     }
 
     private _updateData() {
@@ -73,12 +77,14 @@ export class BoyFriend extends SerializeClass {
             }
             nextLvTotalExp += tmpCfg.Exp;
         }
-        this._nextLevelUpNeedExp = nextLvTotalExp;
+        this._nextLevelUpNeedTotalExp = nextLvTotalExp;
     }
 
-    public GetGift(value: number) {
+    public AddExp(value: number) {
+        const lastExp = this.Exp;
         this.Exp += value;
-        if(this.Exp >= this._nextLevelUpNeedExp) {
+        oops.message.dispatchEvent(GameEvent.BoyFriendExpChange, this.Exp - lastExp)
+        if(this.Exp >= this._nextLevelUpNeedTotalExp) {
             this.LevelUp();
         }
     }

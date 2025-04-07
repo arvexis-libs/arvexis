@@ -14,16 +14,6 @@ import { HeadBFItem } from "./HeadBFItem";
 import { UIMainVideoComp } from "../UIMainVideo/UIMainVideoComp";
 import { oops } from "db://oops-framework/core/Oops";
 import { UIID } from "../common/config/GameUIConfig";
-import { Animation } from "cc";
-import { Sprite } from "cc";
-import { HeartSystem } from "../gameplay/Manager/HeartSystem";
-import { color } from "cc";
-import { UINotification } from "../common/UINotification/UINotification";
-import { Notification } from "../common/UINotification/Notification";
-import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
-import { TrInteraction } from "../schema/schema";
-import { Utility } from "../gameplay/Utility/Utility";
-import { GameEvent } from "../common/config/GameEvent";
 const { ccclass, property } = _decorator;
 
 
@@ -61,27 +51,6 @@ export class UIBoyFriend extends CCComp {
     @property(Node)
     storyBtn: Node = null!;
 
-    // 
-    @property(Button)
-    btnOpenTap: Button = null!;
-    @property(Node)
-    nodeTapChangeView: Node = null!;
-    
-    @property(Sprite)
-    spBtnInters: Sprite[] = [];
-
-    @property(Animation)
-    animationTapChangeView: Animation | null = null;
-    @property(Label)
-    labInteractionIn: Label = null!;
-    @property(Sprite)
-    spInteractionIn: Sprite = null!;
-    @property(Label)
-    labInteractionOut: Label = null!;
-    @property(Sprite)
-    spInteractionOut: Sprite = null!;
-    // end
-
     private _bfListCache: HeadBFItem[] = [];
     private _selectBFHeadIdx: number = -1;
     private readonly _noSlideOnScrollCount: number = 4;
@@ -91,8 +60,6 @@ export class UIBoyFriend extends CCComp {
     private readonly _handTapMoveHeight: number = 230;
     private _isInitBottom: boolean = false;
     private _currentPlayVideoId: number = -1;
-    //
-    private _playingActionVideoId: number = 0;
 
 
     //#endregion
@@ -115,34 +82,6 @@ export class UIBoyFriend extends CCComp {
         }
 
         this.storyBtn.on('click', this.onClickTheStoryWithHim, this);
-    }
-
-    protected onEnable(): void {
-        this.on(GameEvent.MAIN_VIDEO_END, this.onHandler, this);
-    }
-
-    protected onDisable(): void {
-        // this.off(GameEvent.ShowPhone);
-        // this.off(GameEvent.RefreshHomeView);
-        // this.off(GameEvent.OnWealthChanged);
-        // this.off(GameEvent.OnSkinChange);
-        // this.off(GameEvent.OnShowHomeTip);
-        // this.off(GameEvent.OnGuideShow);
-        // this.off(GameEvent.PlayerLevelChange);
-        // this.off(GameEvent.TaskListRefresh);
-        // this.off(GameEvent.OnlineClock);
-        // this.off(GameEvent.OnCloseLvup);
-        // this.off(GameEvent.LayerRemove);
-        this.off(GameEvent.MAIN_VIDEO_END);
-        // this.off(GameEvent.OnPlayHomeVideo);
-        // this.off(GameEvent.RoleSelectItemClick);
-        // this.off(GameEvent.OnItemValueChanged);
-        // this.off(GameEvent.ConstellationStarUp);
-        // this.off(GameEvent.ConstellationLevelUp);
-        // this.off(GameEvent.UIStoryLineRefresh);
-        // this.off(GameEvent.UIStoryKilledEvent);
-        // this.off(GameEvent.UIStoryCompleteEvent);
-        // this.off(GameEvent.OnReturnUIHome);
     }
 
     async start() {
@@ -173,15 +112,29 @@ export class UIBoyFriend extends CCComp {
     }
 
     onDestroy() {
-        
+        // this.off(GameEvent.ShowPhone);
+        // this.off(GameEvent.RefreshHomeView);
+        // this.off(GameEvent.OnWealthChanged);
+        // this.off(GameEvent.OnSkinChange);
+        // this.off(GameEvent.OnShowHomeTip);
+        // this.off(GameEvent.OnGuideShow);
+        // this.off(GameEvent.PlayerLevelChange);
+        // this.off(GameEvent.TaskListRefresh);
+        // this.off(GameEvent.OnlineClock);
+        // this.off(GameEvent.OnCloseLvup);
+        // this.off(GameEvent.LayerRemove);
+        // this.off(GameEvent.MAIN_VIDEO_END);
+        // this.off(GameEvent.OnPlayHomeVideo);
+        // this.off(GameEvent.RoleSelectItemClick);
+        // this.off(GameEvent.OnItemValueChanged);
+        // this.off(GameEvent.ConstellationStarUp);
+        // this.off(GameEvent.ConstellationLevelUp);
+        // this.off(GameEvent.UIStoryLineRefresh);
+        // this.off(GameEvent.UIStoryKilledEvent);
+        // this.off(GameEvent.UIStoryCompleteEvent);
+        // this.off(GameEvent.OnReturnUIHome);
     }
-    private onHandler(event: string, args: any): void {
-        switch (event) {
-            case GameEvent.MAIN_VIDEO_END:
-                this._playIdleVideo();
-                break;
-        }
-    }
+
     
     
     //#region 
@@ -203,11 +156,10 @@ export class UIBoyFriend extends CCComp {
     }
 
     private _boyFriendPlayVideo(id: number) {
-        PlayerSystem.Instance.PlayVideo(id, this._playIdleVideo.bind(this));
+        PlayerSystem.Instance.PlayVideo(id, this._videoPlayEnd.bind(this));
     }
 
-    private _playIdleVideo() {
-        this._playingActionVideoId = 0;
+    private _videoPlayEnd() {
         UIMainVideoComp.getInstance().playUrl(PlayerSystem.Instance.HomeVideoId, true);
     }
 
@@ -278,77 +230,9 @@ export class UIBoyFriend extends CCComp {
 
         this._onUpdateBottomHeadList();
     }
-    //#region 
-    // 
-    private _updateInteractionUI() {
-        this._updateBtnInters();
-        let actionId = PlayerSystem.Instance.GetInteractionType();
-        let actionCfgId = HeartSystem.Instance.getCurActionCfgId(actionId);
-        let data: TrInteraction = ConfigManager.tables.TbInteraction.get(actionCfgId)!;
-        this.labInteractionIn.string = this.labInteractionOut.string = data.Name;
-        this._updateInteractionIcon(data.Icon);
-    }
-
-    private async _updateInteractionIcon(url: string) {
-        let spF = await Utility.loadImage(url, "UIBoyFriend");
-        if (spF) {
-            this.spInteractionIn.spriteFrame = this.spInteractionOut.spriteFrame = spF;
-            this.spInteractionIn.sizeMode = this.spInteractionOut.sizeMode = Sprite.SizeMode.RAW; // 
-        }
-    }
 
     // 
-    private _updateBtnInters() {
-        for (let index = 0; index < this.spBtnInters.length; index++) {
-            const element = this.spBtnInters[index];
-            let [unlock, lv] = HeartSystem.Instance.IsInterUnlocked(index + 1);
-
-            if (unlock)
-                element.color = color(255, 255, 255, 255);
-            else
-                element.color = color(255, 255, 255, 153);
-
-
-            // 
-            const txtLockDes = element.node.getChildByName('txtLockDes')?.getComponent(Label);
-            if (txtLockDes != null) {
-                txtLockDes.node.active = !unlock;
-                txtLockDes.string = `${lv}`;
-            }
-
-            let notiType = element.node.getComponent(UINotification);
-            if(notiType != null)
-                Notification.SetNeedRefresh(notiType.GetTypeKey());            
-        }
-    }
-    
-    private _playInterVideo() {
-        let id = PlayerSystem.Instance.GetInteractionType();
-        let actionCfgId = HeartSystem.Instance.getCurActionCfgId(id);//actionCfgId
-
-        let cfg = ConfigManager.tables.TbInteraction.get(actionCfgId);
-        if (cfg == null)
-            return;
-
-        let randomIndex = Math.floor(Math.random() * cfg.VideoIdList.length);
-        console.log(randomIndex);
-        let videoCfg = ConfigManager.tables.TbVideo.get(cfg.VideoIdList[randomIndex]);
-        if (videoCfg == null)
-            return;
-
-        if (this._playingActionVideoId == videoCfg.Id && this._playingActionVideoId != 0)
-            return;
-
-        this._playingActionVideoId = videoCfg.Id;
-
-        UIMainVideoComp.getInstance().playUrl(videoCfg.Id, false, undefined, true);
-    }
-    //#region 
-
-
-
-    // 
-    private onClickHeadBottomOpen(){
+    public onClickHeadBottomOpen(){
         if(this._curHeadBottomIsOpen)
             return;
         this._initBottomPos();
@@ -357,7 +241,7 @@ export class UIBoyFriend extends CCComp {
     }
 
     // 
-    private onClickHeadBottomClose(){
+    public onClickHeadBottomClose(){
         if(!this._curHeadBottomIsOpen)
             return;
         this._initBottomPos();
@@ -366,7 +250,7 @@ export class UIBoyFriend extends CCComp {
     }
 
     // 
-    private onClickLastBoy() {
+    public onClickLastBoy() {
         if(this._selectBFHeadIdx <= 0) {
             return;
         }
@@ -375,7 +259,7 @@ export class UIBoyFriend extends CCComp {
     }
 
     // 
-    private onClickNextBoy() {
+    public onClickNextBoy() {
         const list = ConfigManager.tables.TbBoyFriend.getDataList();
         if(this._selectBFHeadIdx >= list.length) {
             return;
@@ -385,7 +269,7 @@ export class UIBoyFriend extends CCComp {
     }
 
     // 
-    private onClickBtnInfo() {
+    public onClickBtnInfo() {
         const bfList = ConfigManager.tables.TbBoyFriend.getDataList();
         if(this._selectBFHeadIdx < 0 || this._selectBFHeadIdx >= bfList.length) {
             console.error(",index:%s", this._selectBFHeadIdx);
@@ -397,64 +281,25 @@ export class UIBoyFriend extends CCComp {
     }
 
     // 
-    private onClickBtnFashion() {
+    public onClickBtnFashion() {
 
     }
 
     // 
-    private onClickBtnGift() {
+    public onClickBtnGift() {
 
     }
 
     // 
-    private onClickOurStory() {
+    public onClickOurStory() {
 
     }
 
     // 
-    private onClickTheStoryWithHim() {
+    public onClickTheStoryWithHim() {
         let playerid = 1;
         oops.gui.open(UIID.UILevel, playerid);
     }
-
-    // 
-    private onClickOpenTap() {
-        this.btnOpenTap.node.active = false;
-        this.nodeTapChangeView.active = true;
-        // this.buttomBtnsParent.active = false;
-        
-        this.animationTapChangeView?.play();
-        this._updateBtnInters();
-    }
-    
-    ///
-    private onClickTapChanged(event: EventTouch, data: any) {
-        let id = parseInt(data);
-        //
-        let [isUnlock, lv, Name] = HeartSystem.Instance.IsInterUnlocked(id);
-        if (!isUnlock) {
-            let audio = ConfigManager.tables.TbAudio.get(2016)!;
-            oops.audio.playEffect(audio?.Resource, "Audios");
-            TipsNoticeUtil.PlayNotice(Name + "");
-            return;
-        }
-
-        this.btnOpenTap.node.active = true;
-        this.nodeTapChangeView.active = false;
-        
-        PlayerSystem.Instance.SetInteractionType(id);
-        this._updateInteractionUI();
-
-        if (GameData.GetGuideStep()>=1120) {
-            this._playInterVideo();
-        }
-    }
-    private onClickInteractioClose(event: EventTouch, data: any) {
-        this.btnOpenTap.node.active = true;
-        this.nodeTapChangeView.active = false;
-    }
-
-    
 
     //#endregion
     

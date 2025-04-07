@@ -415,10 +415,6 @@ export class TrAVGNPC {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
-        this.SpinePath = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.SpineUnlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.SpineUnlock.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceStory = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ChoiceStory.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceText = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.ChoiceText.push(_e0);}}
     }
 
     /**
@@ -429,28 +425,8 @@ export class TrAVGNPC {
      * 
      */
     readonly Name: string
-    /**
-     * Spine
-     */
-    readonly SpinePath: string
-    /**
-     * 
-     */
-    readonly SpineUnlock: number[]
-    /**
-     * AVG
-     */
-    readonly ChoiceStory: number[]
-    /**
-     * AVG
-     */
-    readonly ChoiceText: string[]
 
     resolve(tables:Tables) {
-        
-        
-        
-        
         
         
     }
@@ -2642,29 +2618,6 @@ export class TrShare {
 
 
 
-export class TrShopGift {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.ItemId = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    readonly ItemId: number
-
-    resolve(tables:Tables) {
-        
-        
-    }
-}
-
-
-
-
-
 export class TrSpecialEvent {
 
     constructor(_buf_: ByteBuf) {
@@ -3506,6 +3459,7 @@ export class TrZhaoChaSection {
         this.SectionId = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
         this.LimitTime = _buf_.ReadInt()
+        this.SectionPrefab = _buf_.ReadString()
         this.Animation = new ZhaoCha.SectionAnimation(_buf_)
     }
 
@@ -3521,9 +3475,14 @@ export class TrZhaoChaSection {
      * 
      */
     readonly LimitTime: number
+    /**
+     * 
+     */
+    readonly SectionPrefab: string
     readonly Animation: ZhaoCha.SectionAnimation
 
     resolve(tables:Tables) {
+        
         
         
         
@@ -3543,7 +3502,6 @@ export class TrZhaoChaStage {
         this.Name = _buf_.ReadString()
         this.Title = _buf_.ReadString()
         this.CoverImg = _buf_.ReadString()
-        this.Prefab = _buf_.ReadString()
         this.LimitTime = _buf_.ReadInt()
         this.FailAnim = _buf_.ReadString()
         this.WinAnim = _buf_.ReadString()
@@ -3575,10 +3533,6 @@ export class TrZhaoChaStage {
     /**
      * 
      */
-    readonly Prefab: string
-    /**
-     * 
-     */
     readonly LimitTime: number
     /**
      * 
@@ -3602,7 +3556,6 @@ export class TrZhaoChaStage {
     readonly InvalidDrag: number
 
     resolve(tables:Tables) {
-        
         
         
         
@@ -5493,39 +5446,6 @@ export class TbAVGNPC {
 
 
 
-export class TbShopGift {
-    private _dataMap: Map<number, TrShopGift>
-    private _dataList: TrShopGift[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrShopGift>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrShopGift
-            _v = new TrShopGift(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrShopGift> { return this._dataMap; }
-    getDataList(): TrShopGift[] { return this._dataList; }
-
-    get(key: number): TrShopGift | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 type ByteBufLoader = (file: string) => ByteBuf
 
 export class Tables {
@@ -5641,8 +5561,6 @@ export class Tables {
     get TbAVGScene(): TbAVGScene  { return this._TbAVGScene;}
     private _TbAVGNPC: TbAVGNPC
     get TbAVGNPC(): TbAVGNPC  { return this._TbAVGNPC;}
-    private _TbShopGift: TbShopGift
-    get TbShopGift(): TbShopGift  { return this._TbShopGift;}
 
     static getTableNames(): string[] {
         let names: string[] = [];
@@ -5702,7 +5620,6 @@ export class Tables {
         names.push('tbavgscenegroup');
         names.push('tbavgscene');
         names.push('tbavgnpc');
-        names.push('tbshopgift');
         return names;
     }
 
@@ -5763,7 +5680,6 @@ export class Tables {
         this._TbAVGSceneGroup = new TbAVGSceneGroup(loader('tbavgscenegroup'))
         this._TbAVGScene = new TbAVGScene(loader('tbavgscene'))
         this._TbAVGNPC = new TbAVGNPC(loader('tbavgnpc'))
-        this._TbShopGift = new TbShopGift(loader('tbshopgift'))
 
         this._TbItem.resolve(this)
         this._TbStrDictionary.resolve(this)
@@ -5821,7 +5737,6 @@ export class Tables {
         this._TbAVGSceneGroup.resolve(this)
         this._TbAVGScene.resolve(this)
         this._TbAVGNPC.resolve(this)
-        this._TbShopGift.resolve(this)
     }
 }
 

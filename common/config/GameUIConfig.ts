@@ -7,7 +7,6 @@
 import { LayerType, UIConfig } from "../../../../../extensions/oops-plugin-framework/assets/core/gui/layer/LayerManager";
 import { UIBoyFriend } from '../../UIBoyFriend/UIBoyFriend';
 import { UIBoyFriendInfo } from '../../UIBoyFriend/UIBoyFriendInfo';
-import { UIBoyFriendSendGift } from '../../UIBoyFriend/UIBoyFriendSendGift';
 
 /**  */
 export enum UIID {
@@ -139,7 +138,6 @@ export enum UIID {
     UIHeroineInfo,
     UIBoyFriend,
     UIBoyFriendInfo,
-    UIBoyFriendSendGift,
 
     UILevel,
     UIAVGMap,
@@ -157,8 +155,6 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UIHome]: { layer: LayerType.UI, prefab: "Prefab/UIHome", bundle:"UIHome" },
     [UIID.UIBoyFriend]: { layer: LayerType.UI, prefab: "Prefab/UIBoyFriend", bundle:"UIBoyFriend" },
     [UIID.UIBoyFriendInfo]: { layer: LayerType.PopUp, prefab: "Prefab/UIBoyFriendInfo", bundle:"UIBoyFriend" },
-    [UIID.UIBoyFriendSendGift]: { layer: LayerType.PopUp, prefab: "Prefab/UIBoyFriendSendGift", bundle:"UIBoyFriend" },
-    
     [UIID.UILevelUp]: { layer: LayerType.UI, prefab: "Prefab/UILevelUp", bundle:"UILevelUp" },
     [UIID.UITTReward]: { layer: LayerType.UI, prefab: "Prefab/UISideBarReward", bundle: "SDK"},
     [UIID.UIBigCityMap]: { layer: LayerType.UI, prefab: "Prefab/UIBigCityMap", bundle: "UIBigCityMap"},

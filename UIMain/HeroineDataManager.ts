@@ -91,8 +91,8 @@ export class HeroineDataManager
         if (!GameData.PlayerData.HeroineData.ListClothes) {
             GameData.PlayerData.HeroineData.ListClothes = [];
         }
-        if (!GameData.PlayerData.HeroineData.ListIdentity) {
-            GameData.PlayerData.HeroineData.ListIdentity = [];
+        if (!GameData.PlayerData.HeroineData.DicIdentity) {
+            GameData.PlayerData.HeroineData.DicIdentity = new Map();
         } 
         if(!GameData.PlayerData.HeroineData.LastGiveKeyTime)
         {
@@ -202,24 +202,23 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 
-    public GetIdentityList()
+    public GetDicIdentity()
     {
-        return GameData.PlayerData.HeroineData.ListIdentity;
+        return GameData.PlayerData.HeroineData.DicIdentity;
     }
 
     public HadIdentity(identityId: number)
     {
-        let result = this.GetIdentityList().indexOf(identityId);
-        return result != -1;
+        return GameData.PlayerData.HeroineData.DicIdentity.has(identityId);
     }
     
     public GiveIdentity(identityId:number)
     {
-        let identityList = GameData.PlayerData.HeroineData.ListIdentity;
-        if(identityList.indexOf(identityId) != -1) 
+        let dicIdentity = GameData.PlayerData.HeroineData.DicIdentity;
+        if(dicIdentity.has(identityId)) 
             return;
 
-        identityList.push(identityId);
+        dicIdentity.set(identityId, 1);
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 

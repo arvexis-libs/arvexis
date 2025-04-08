@@ -1480,7 +1480,7 @@ export class TrIdentity {
      */
     readonly Id: number
     /**
-     * 
+     * ID
      */
     readonly Actor: number
     /**

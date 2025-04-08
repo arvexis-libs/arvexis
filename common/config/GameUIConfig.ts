@@ -144,6 +144,7 @@ export enum UIID {
     UILevel,
     UIAVGMap,
     UIAVGScene,
+    UIIdentity,
 }
 
 /**  */
@@ -208,5 +209,6 @@ export var UIConfigData: { [key: number]: UIConfig } = {
     [UIID.UILevel]: { layer: LayerType.UI, prefab: "Prefab/UILevel", bundle:"UILevel" },
     [UIID.UIAVGMap]: { layer: LayerType.UI, prefab: "Prefab/UIAVGMap", bundle:"UIAVGMap" },
     [UIID.UIAVGScene]: { layer: LayerType.UI, prefab: "Prefab/UIAVGScene", bundle:"UIAVGMap" },
+    [UIID.UIIdentity]: { layer: LayerType.UI, prefab: "Prefab/UIIdentity", bundle:"UIIdentity" },
 
 }

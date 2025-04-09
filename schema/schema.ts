@@ -531,6 +531,7 @@ export class TrAVGSceneGroup {
         this.Mapkey = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Scenegroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Scenegroup.push(_e0);}}
         this.Initialscene = _buf_.ReadInt()
+        this.Event = _buf_.ReadInt()
     }
 
     /**
@@ -557,8 +558,13 @@ export class TrAVGSceneGroup {
      * id
      */
     readonly Initialscene: number
+    /**
+     * 
+     */
+    readonly Event: number
 
     resolve(tables:Tables) {
+        
         
         
         
@@ -1480,7 +1486,7 @@ export class TrIdentity {
      */
     readonly Id: number
     /**
-     * 
+     * ID
      */
     readonly Actor: number
     /**

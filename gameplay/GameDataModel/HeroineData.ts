@@ -21,7 +21,7 @@ export class HeroineData extends SerializeClass {
     @SerializeData()
     public ListClothes:number[] = [];//
     @SerializeData()
-    public ListIdentity:number[] = [];//
+    public DicIdentity: Map<number,number> = new Map();//<id,level>
     @SerializeData()
     public ListUsedMagicBoxId:number[] = [];//
 

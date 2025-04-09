@@ -105,6 +105,7 @@ export class LoadingViewComp extends CCComp {
         if (!ConditionMgr.inst.checkCondition(401)) {
             let value = ConfigManager.tables.TbConst.get("InitialKey")?.Int!;
             HeroineDataManager.Instance.AddKey(KeySources.Store,value);
+            HeroineDataManager.Instance.GiveIdentity(0)
         }
     }
 

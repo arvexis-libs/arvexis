@@ -19,6 +19,8 @@ import { ADEnum } from "../gameplay/Manager/GameDot";
 import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
+import ConfigManager from "../manager/Config/ConfigManager";
+import { find } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -33,17 +35,19 @@ export class UITapUp extends CCComp {
     private role: Node = null!;
     @property(Node)
     private choice: Node = null!;
+    @property(Node)
+    private btnBase: Node = null!;
 
 
     /**  */
     start() {
         this.role.on('click', this.onClickRole, this);
-        this.choice.on('click', this.onClickCoice, this);
 
         this.choice.active = false;
     }
     protected onEnable(): void {
-        
+
+        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -54,12 +58,47 @@ export class UITapUp extends CCComp {
 
     }
 
+    private refresh() {
+        if (this.Id == 0) {
+            return;
+        }
+
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+        for (let i = 1; i <= cfg.ChoiceStory.length; i++) {
+            this.refreshBtn(i);
+        }
+    }
+
+    private refreshBtn(id: number) {
+        let btn = instantiate(this.btnBase);
+        btn.active = true;
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+
+        btn.on(Button.EventType.CLICK, () => { this.OnChoice(cfg.ChoiceStory[id]); }, this);
+
+
+        const itemName = find("name", btn)?.getComponent(Label)!;
+        itemName.string = cfg.ChoiceText[id];
+
+    }
+
+
+
     private onClickRole() {
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+        if (cfg.ChoiceStory.length == 0) {
+            return;
+        }
+
         this.choice.active = !this.choice.active;
     }
 
-    private onClickCoice() {
-        
+
+    private OnChoice(choiceID: number): void {
+
+
     }
+
+
 }
 

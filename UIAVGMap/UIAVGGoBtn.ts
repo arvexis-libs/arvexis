@@ -20,33 +20,27 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
+import { find } from "cc";
 
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGMap')
-@ecs.register('UIAVGMap', false)
+@ccclass('UIAVGGoBtn')
+@ecs.register('UIAVGGoBtn', false)
 export class UITapUp extends CCComp {
-    @property(Button)
-    private closeBtn: Button = null!;
-    @property(Button)
-    private testBtn1: Button = null!;
-    @property(Button)
-    private testBtn2: Button = null!;
+    @property(Number)
+    public Id: number = 0;
 
-    private Id: number = 0;
-    onAdded(id: any) {
-        this.Id = id;
-        return true;
-    }
+    @property(Node)
+    private btn: Node = null!;
 
     /**  */
     start() {
-        this.closeBtn.node.on('click', this.onClickClose, this);
-        this.testBtn1.node.on('click', this.onClickTest1, this);
-        this.testBtn2.node.on('click', this.onClickTest2, this);
+        this.btn.on('click', this.onClick, this);
     }
     protected onEnable(): void {
+
+        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -57,18 +51,17 @@ export class UITapUp extends CCComp {
 
     }
 
-    private onClickClose() {
-        oops.gui.remove(UIID.UIAVGMap);
+    private refresh() {
+        
     }
 
-    private onClickTest1() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10101)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+
+    private onClick() {
+        oops.gui.remove(UIID.UIAVGScene);
+
+        oops.gui.open(UIID.UIAVGScene, this.Id);
     }
 
-    private onClickTest2() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10102)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
-    }
+
 }
 

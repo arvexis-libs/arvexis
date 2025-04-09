@@ -19,6 +19,7 @@ import { ADEnum } from "../gameplay/Manager/GameDot";
 import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
+import ConfigManager from "../manager/Config/ConfigManager";
 
 const { ccclass, property } = _decorator;
 
@@ -43,6 +44,7 @@ export class UITapUp extends CCComp {
         this.testBtn.node.on('click', this.onClickTest, this);
     }
     protected onEnable(): void {
+        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -63,5 +65,15 @@ export class UITapUp extends CCComp {
         let nextId = 2;
         oops.gui.open(UIID.UIAVGScene, nextId);
     }
+
+    private refresh() {
+        if (this.Id == 0) {
+            return;
+        }
+
+        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
+
+        
+    }    
 }
 

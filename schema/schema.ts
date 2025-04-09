@@ -531,7 +531,6 @@ export class TrAVGSceneGroup {
         this.Mapkey = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Scenegroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Scenegroup.push(_e0);}}
         this.Initialscene = _buf_.ReadInt()
-        this.Event = _buf_.ReadInt()
     }
 
     /**
@@ -558,13 +557,8 @@ export class TrAVGSceneGroup {
      * id
      */
     readonly Initialscene: number
-    /**
-     * 
-     */
-    readonly Event: number
 
     resolve(tables:Tables) {
-        
         
         
         
@@ -1486,7 +1480,7 @@ export class TrIdentity {
      */
     readonly Id: number
     /**
-     * ID
+     * 
      */
     readonly Actor: number
     /**
@@ -3393,6 +3387,7 @@ export class TrZhaoChaDragItem {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
+        this.Section = _buf_.ReadInt()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ItemId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ItemId.push(_e0);}}
         this.InstanceId = _buf_.ReadInt()
         this.DragItemType = _buf_.ReadInt()
@@ -3407,6 +3402,10 @@ export class TrZhaoChaDragItem {
      * 
      */
     readonly Stage: number
+    /**
+     * 
+     */
+    readonly Section: number
     /**
      * ID
      */
@@ -3431,6 +3430,7 @@ export class TrZhaoChaDragItem {
         
         
         
+        
     }
 }
 
@@ -3443,6 +3443,7 @@ export class TrZhaoChaItem {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
+        this.Section = _buf_.ReadInt()
         this.ItemId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         this.Img = _buf_.ReadString()
@@ -3460,6 +3461,10 @@ export class TrZhaoChaItem {
      * 
      */
     readonly Stage: number
+    /**
+     * 
+     */
+    readonly Section: number
     /**
      * ID
      */
@@ -3499,6 +3504,7 @@ export class TrZhaoChaItem {
         
         
         
+        
     }
 }
 
@@ -3509,8 +3515,9 @@ export class TrZhaoChaItem {
 export class TrZhaoChaSection {
 
     constructor(_buf_: ByteBuf) {
-        this.SectionId = _buf_.ReadInt()
+        this.Id = _buf_.ReadInt()
         this.Stage = _buf_.ReadInt()
+        this.SectionId = _buf_.ReadInt()
         this.LimitTime = _buf_.ReadInt()
         this.SectionPrefab = _buf_.ReadString()
         this.Animation = new ZhaoCha.SectionAnimation(_buf_)
@@ -3519,11 +3526,15 @@ export class TrZhaoChaSection {
     /**
      * Id
      */
-    readonly SectionId: number
+    readonly Id: number
     /**
      * 
      */
     readonly Stage: number
+    /**
+     * Id
+     */
+    readonly SectionId: number
     /**
      * 
      */
@@ -3535,6 +3546,7 @@ export class TrZhaoChaSection {
     readonly Animation: ZhaoCha.SectionAnimation
 
     resolve(tables:Tables) {
+        
         
         
         
@@ -5146,7 +5158,7 @@ export class TbZhaoChaSection {
             let _v: TrZhaoChaSection
             _v = new TrZhaoChaSection(_buf_)
             this._dataList.push(_v)
-            this._dataMap.set(_v.SectionId, _v)
+            this._dataMap.set(_v.Id, _v)
         }
     }
 

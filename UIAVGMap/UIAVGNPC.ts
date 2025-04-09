@@ -23,26 +23,27 @@ import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGScene')
-@ecs.register('UIAVGScene', false)
+@ccclass('UIAVGNPC')
+@ecs.register('UIAVGNPC', false)
 export class UITapUp extends CCComp {
-    @property(Button)
-    private closeBtn: Button = null!;
-    @property(Button)
-    private testBtn: Button = null!;
+    @property(Number)
+    public Id: number = 0;
 
-    private Id: number = 0;
-    onAdded(id: any) {
-        this.Id = id;
-        return true;
-    }
+    @property(Node)
+    private role: Node = null!;
+    @property(Node)
+    private choice: Node = null!;
+
 
     /**  */
     start() {
-        this.closeBtn.node.on('click', this.onClickClose, this);
-        this.testBtn.node.on('click', this.onClickTest, this);
+        this.role.on('click', this.onClickRole, this);
+        this.choice.on('click', this.onClickCoice, this);
+
+        this.choice.active = false;
     }
     protected onEnable(): void {
+        
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -53,15 +54,12 @@ export class UITapUp extends CCComp {
 
     }
 
-    private onClickClose() {
-        oops.gui.remove(UIID.UIAVGScene);
+    private onClickRole() {
+        this.choice.active = !this.choice.active;
     }
 
-    private onClickTest() {
-        oops.gui.remove(UIID.UIAVGScene);
-
-        let nextId = 2;
-        oops.gui.open(UIID.UIAVGScene, nextId);
+    private onClickCoice() {
+        
     }
 }
 

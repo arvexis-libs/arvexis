@@ -19,7 +19,6 @@ import { ADEnum } from "../gameplay/Manager/GameDot";
 import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
-import ConfigManager from "../manager/Config/ConfigManager";
 
 const { ccclass, property } = _decorator;
 
@@ -30,9 +29,7 @@ export class UITapUp extends CCComp {
     @property(Button)
     private closeBtn: Button = null!;
     @property(Button)
-    private testBtn1: Button = null!;
-    @property(Button)
-    private testBtn2: Button = null!;
+    private testBtn: Button = null!;
 
     private Id: number = 0;
     onAdded(id: any) {
@@ -43,8 +40,7 @@ export class UITapUp extends CCComp {
     /**  */
     start() {
         this.closeBtn.node.on('click', this.onClickClose, this);
-        this.testBtn1.node.on('click', this.onClickTest1, this);
-        this.testBtn2.node.on('click', this.onClickTest2, this);
+        this.testBtn.node.on('click', this.onClickTest, this);
     }
     protected onEnable(): void {
     }
@@ -61,14 +57,8 @@ export class UITapUp extends CCComp {
         oops.gui.remove(UIID.UIAVGMap);
     }
 
-    private onClickTest1() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10101)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
-    }
-
-    private onClickTest2() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10102)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+    private onClickTest() {
+        oops.gui.open(UIID.UIAVGScene, 1);
     }
 }
 

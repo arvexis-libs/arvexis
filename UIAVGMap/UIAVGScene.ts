@@ -20,33 +20,30 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
-import { find } from "cc";
 
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGNPC')
-@ecs.register('UIAVGNPC', false)
+@ccclass('UIAVGScene')
+@ecs.register('UIAVGScene', false)
 export class UITapUp extends CCComp {
-    @property(Number)
-    public Id: number = 0;
+    @property(Button)
+    private closeBtn: Button = null!;
+    @property(Button)
+    private testBtn: Button = null!;
 
-    @property(Node)
-    private role: Node = null!;
-    @property(Node)
-    private choice: Node = null!;
-    @property(Node)
-    private btnBase: Node = null!;
-
+    private Id: number = 0;
+    onAdded(id: any) {
+        this.Id = id;
+        return true;
+    }
 
     /**  */
     start() {
-        this.role.on('click', this.onClickRole, this);
-
-        this.choice.active = false;
+        this.closeBtn.node.on('click', this.onClickClose, this);
+        this.testBtn.node.on('click', this.onClickTest, this);
     }
     protected onEnable(): void {
-
         this.refresh();
     }
 
@@ -58,47 +55,25 @@ export class UITapUp extends CCComp {
 
     }
 
+    private onClickClose() {
+        oops.gui.remove(UIID.UIAVGScene);
+    }
+
+    private onClickTest() {
+        oops.gui.remove(UIID.UIAVGScene);
+
+        let nextId = 2;
+        oops.gui.open(UIID.UIAVGScene, nextId);
+    }
+
     private refresh() {
         if (this.Id == 0) {
             return;
         }
 
-        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
-        for (let i = 1; i <= cfg.ChoiceStory.length; i++) {
-            this.refreshBtn(i);
-        }
-    }
+        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
 
-    private refreshBtn(id: number) {
-        let btn = instantiate(this.btnBase);
-        btn.active = true;
-        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
-
-        btn.on(Button.EventType.CLICK, () => { this.OnChoice(cfg.ChoiceStory[id]); }, this);
-
-
-        const itemName = find("name", btn)?.getComponent(Label)!;
-        itemName.string = cfg.ChoiceText[id];
-
-    }
-
-
-
-    private onClickRole() {
-        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
-        if (cfg.ChoiceStory.length == 0) {
-            return;
-        }
-
-        this.choice.active = !this.choice.active;
-    }
-
-
-    private OnChoice(choiceID: number): void {
-
-
-    }
-
-
+        
+    }    
 }
 

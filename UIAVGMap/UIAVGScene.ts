@@ -27,10 +27,11 @@ const { ccclass, property } = _decorator;
 @ccclass('UIAVGScene')
 @ecs.register('UIAVGScene', false)
 export class UITapUp extends CCComp {
+    @property(Node)
+    private Scene: Node = null!;
     @property(Button)
     private closeBtn: Button = null!;
-    @property(Button)
-    private testBtn: Button = null!;
+
 
     private Id: number = 0;
     onAdded(id: any) {
@@ -41,10 +42,10 @@ export class UITapUp extends CCComp {
     /**  */
     start() {
         this.closeBtn.node.on('click', this.onClickClose, this);
-        this.testBtn.node.on('click', this.onClickTest, this);
+
+        this.init();
     }
     protected onEnable(): void {
-        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -66,14 +67,25 @@ export class UITapUp extends CCComp {
         oops.gui.open(UIID.UIAVGScene, nextId);
     }
 
-    private refresh() {
+    private async init() {
         if (this.Id == 0) {
             return;
         }
 
         const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
-
         
+        let prb = await this.loadPrefab(cfg.Path);
+        if (prb) {
+            const go = instantiate(prb);
+            this.Scene.addChild(go);
+        }
     }    
+
+    private async loadPrefab(urlPath: string):Promise<Prefab>
+    {
+        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Scene/" + urlPath);
+        return go;
+    }
+
 }
 

@@ -20,39 +20,27 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
+import { find } from "cc";
 
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGScene')
-@ecs.register('UIAVGScene', false)
-export class UIAVGScene extends CCComp {
-    @property(Node)
-    private Scene: Node = null!;
-    @property(Button)
-    private closeBtn: Button = null!;
+@ccclass('UIAVGGoBtn')
+@ecs.register('UIAVGGoBtn', false)
+export class UIAVGGoBtn extends CCComp {
+    @property(Number)
+    public Id: number = 0;
 
-    private go: Node = null!;
-    private Id: number = 0;
-    onAdded(id: any) {
-        this.Id = id;
-        return true;
-    }
+    @property(Node)
+    private btn: Node = null!;
 
     /**  */
     start() {
-        this.closeBtn.node.on('click', this.onClickClose, this);
-        oops.message.on(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
-
-        this.init();
+        this.btn.on('click', this.onClick, this);
     }
-
-    private UIAVGSceneInit(a: any, id: any) {
-        this.Id = id;
-        this.init();
-    }
-
     protected onEnable(): void {
+
+        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -60,35 +48,20 @@ export class UIAVGScene extends CCComp {
     }
 
     onDestroy() {
-        oops.message.off(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
+
     }
 
-    private onClickClose() {
-        oops.gui.remove(UIID.UIAVGScene);
-    }
-
-    private async init() {
-        if (this.Id == 0) {
-            return;
-        }
-        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
+    private refresh() {
         
-        let prb = await this.loadPrefab(cfg.Path);
-        if (prb) {
-            if (this.go != null) {
-                this.go.destroy();
-            }
-
-            this.go = instantiate(prb);
-            this.Scene.addChild(this.go);
-        }
-    }    
-
-    private async loadPrefab(urlPath: string):Promise<Prefab>
-    {
-        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Scene/" + urlPath);
-        return go;
     }
 
+
+    private onClick() {
+        // oops.gui.remove(UIID.UIAVGScene);
+        // oops.gui.openAsync(UIID.UIAVGScene, this.Id).then(() => {
+        // });
+
+        oops.message.dispatchEvent(GameEvent.UIAVGSceneInit, this.Id);
+    }
 }
 

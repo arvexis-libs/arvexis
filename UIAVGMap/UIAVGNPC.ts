@@ -28,7 +28,7 @@ const { ccclass, property } = _decorator;
 /**  */
 @ccclass('UIAVGNPC')
 @ecs.register('UIAVGNPC', false)
-export class UITapUp extends CCComp {
+export class UIAVGNPC extends CCComp {
     @property(Number)
     public Id: number = 0;
 

@@ -21,6 +21,7 @@ import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
 import { find } from "cc";
+import { StorySystem } from "../gameplay/Manager/StorySystem";
 
 const { ccclass, property } = _decorator;
 
@@ -64,18 +65,18 @@ export class UITapUp extends CCComp {
         }
 
         const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
-        for (let i = 1; i <= cfg.ChoiceStory.length; i++) {
+        for (let i = 0; i < cfg.ChoiceStory.length; i++) {
             this.refreshBtn(i);
         }
     }
 
     private refreshBtn(id: number) {
         let btn = instantiate(this.btnBase);
+        btn.parent = this.choice;
         btn.active = true;
         const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
 
         btn.on(Button.EventType.CLICK, () => { this.OnChoice(cfg.ChoiceStory[id]); }, this);
-
 
         const itemName = find("name", btn)?.getComponent(Label)!;
         itemName.string = cfg.ChoiceText[id];
@@ -94,8 +95,8 @@ export class UITapUp extends CCComp {
     }
 
 
-    private OnChoice(choiceID: number): void {
-
+    private OnChoice(id: number): void {
+        StorySystem.Instance.Play(id);
 
     }
 

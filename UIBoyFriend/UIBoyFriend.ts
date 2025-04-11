@@ -21,7 +21,7 @@ import { color } from "cc";
 import { UINotification } from "../common/UINotification/UINotification";
 import { Notification } from "../common/UINotification/Notification";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
-import { TrInteraction } from "../schema/schema";
+import { TrBoyFriend, TrInteraction } from "../schema/schema";
 import { Utility } from "../gameplay/Utility/Utility";
 import { GameEvent } from "../common/config/GameEvent";
 const { ccclass, property } = _decorator;
@@ -32,8 +32,8 @@ export class UIBoyFriend extends CCComp {
 
     //#region  
     // 
-    @property(Node)
-    nodeRoot: Node = null!;
+    // @property(Node)
+    // nodeRoot: Node = null!;
     @property(Label)
     labName: Label = null!;
     @property(Label)
@@ -62,8 +62,8 @@ export class UIBoyFriend extends CCComp {
     nodeNextBoy: Node = null!;
     @property(Label)
     labNextBoyName: Label = null!;
-    @property(Node)
-    storyBtn: Node = null!;
+    // @property(Node)
+    // storyBtn: Node = null!;
 
     // 
     @property(Button)
@@ -111,25 +111,27 @@ export class UIBoyFriend extends CCComp {
 
     onLoad() {
         
-        if(sys.platform == sys.Platform.DESKTOP_BROWSER) {
-            let player1 = ConfigManager.tables.TbPlayer.get(1);
-            let player2 = ConfigManager.tables.TbPlayer.get(2);
+        // if(sys.platform == sys.Platform.DESKTOP_BROWSER) {
+        //     let player1 = ConfigManager.tables.TbPlayer.get(1);
+        //     let player2 = ConfigManager.tables.TbPlayer.get(2);
 
-            const player1InitXinWu = ConfigManager.tables.TbConst.get("InitTokenNum1")?.Int || 0;
-            const player2InitXinWu = ConfigManager.tables.TbConst.get("InitTokenNum2")?.Int || 0;
-            GameData.updateCurrency(player1?.ItemId!, player1InitXinWu);
-            GameData.updateCurrency(player2?.ItemId!, player2InitXinWu);
-        }
+        //     const player1InitXinWu = ConfigManager.tables.TbConst.get("InitTokenNum1")?.Int || 0;
+        //     const player2InitXinWu = ConfigManager.tables.TbConst.get("InitTokenNum2")?.Int || 0;
+        //     GameData.updateCurrency(player1?.ItemId!, player1InitXinWu);
+        //     GameData.updateCurrency(player2?.ItemId!, player2InitXinWu);
+        // }
 
-        this.storyBtn.on('click', this.onClickTheStoryWithHim, this);
+        // this.storyBtn.on('click', this.onClickTheStoryWithHim, this);
     }
 
     protected onEnable(): void {
         this.on(GameEvent.MAIN_VIDEO_END, this.onHandler, this);
+        this.on(GameEvent.BoyFriendExpChange, this.onHandler, this);
     }
 
     protected onDisable(): void {
         this.off(GameEvent.MAIN_VIDEO_END);
+        this.off(GameEvent.BoyFriendExpChange);
     }
 
     async start() {
@@ -145,23 +147,6 @@ export class UIBoyFriend extends CCComp {
         this._isInitBottom = true;
         this._handTapInitPosY = this.nodeHandTap.getPosition().y;
         this._rightBtnBottomGroupInitPosY = this.nodeRightBtnBottomGroup.getPosition().y;
-    }
-
-    _onRefresh() {        
-        this.btnOpenTap.node.active = true;
-        this.nodeTapChangeView.active = false;
-        this._tipsTapTimeCd = this._tipsTapTimeTotal;
-
-        this._onUpdateInfo();
-    }
-
-    reset() {
-        this._tipsTapTimeCd = this._tipsTapTimeTotal;
-        this._bfListCache.length = 0;
-        this._selectBFHeadIdx = -1;
-        this._curHeadBottomIsOpen = false;
-        this._currentPlayVideoId = -1;
-        this._playingActionVideoId = 0;
     }
 
 
@@ -185,27 +170,47 @@ export class UIBoyFriend extends CCComp {
             case GameEvent.MAIN_VIDEO_END:
                 this._playIdleVideo();
                 break;
+            case GameEvent.BoyFriendExpChange:
+                this._onUpdateInfo();
+            break;
         }
     }
     
     
     //#region 
+
+    _onRefresh() {        
+        this.btnOpenTap.node.active = true;
+        this.nodeTapChangeView.active = false;
+        this._tipsTapTimeCd = this._tipsTapTimeTotal;
+
+        this._onUpdateInfo();
+        this._onUpdateBottomHeadList();
+        this._changeHeadBottomState();
+        this._updateInteractionUI();
+    }
+
+    reset() {
+        this._tipsTapTimeCd = this._tipsTapTimeTotal;
+        this._bfListCache.length = 0;
+        this._selectBFHeadIdx = -1;
+        this._curHeadBottomIsOpen = false;
+        this._currentPlayVideoId = -1;
+        this._playingActionVideoId = 0;
+    }
+
     // 
     private _onUpdateInfo() {
         const playerId = PlayerSystem.Instance.CurPlayId;
 
         const cfg = ConfigManager.tables.TbBoyFriend.get(playerId);
-        if(cfg == undefined || cfg == null) {
+        if(cfg == undefined) {
             return;
         }
 
         this.labName.string = cfg.Name;
         this.labIntro.string = cfg.BriefIntro;
         this.labLevel.string = `Lv${PlayerSystem.Instance.CurLv}`;
-
-        this._onUpdateBottomHeadList();
-        this._changeHeadBottomState();
-        this._updateInteractionUI();
     }
 
     private _boyFriendPlayVideo(id: number) {
@@ -231,28 +236,36 @@ export class UIBoyFriend extends CCComp {
         if(!this._curHeadBottomIsOpen && this._selectBFHeadIdx > 0) {
             return;
         }
-        for (let i = 0; i < count; i++) {
-            const trBoyFriend = bfList[i];
-            let item: HeadBFItem = null!;
-            if(i < this._bfListCache.length) {
-                item = this._bfListCache[i];
+
+        if(this._bfListCache.length > 0) {
+            for (let i = 0; i < this._bfListCache.length; i++) {
+                const trBoyFriend = bfList[i];
+                this._onUpdateBoyFriendItemCell(this._bfListCache[i], i, trBoyFriend.Id);
             }
-            else{
-                const node = instantiate(this.itemBFHeadPrefab);
-                node.active = true;
-                item = node.getComponent(HeadBFItem)!;
-                this.headBFScrollViewContent.addChild(node);
-                this._bfListCache.push(item);
-            }
-            item.node.setPosition(v3(totolX, 0));
-            totolX += item.node.size.width + 40;
-            
-            this._onUpdateBoyFriendItemCell(item, i, trBoyFriend.Id);
         }
-        
-        this.headBFScrollView.vertical = false;
-        this.headBFScrollView.horizontal = this._bfListCache.length > this._noSlideOnScrollCount;
-        this.headBFScrollViewContent.uiTransform.setContentSize(totolX, this.headBFScrollViewContent.uiTransform.height);
+        else {
+            for (let i = 0; i < count; i++) {
+                const trBoyFriend = bfList[i];
+                let item: HeadBFItem = null!;
+                if(i < this._bfListCache.length) {
+                    item = this._bfListCache[i];
+                }
+                else{
+                    const node = instantiate(this.itemBFHeadPrefab);
+                    node.active = true;
+                    item = node.getComponent(HeadBFItem)!;
+                    this.headBFScrollViewContent.addChild(node);
+                    this._bfListCache.push(item);
+                }
+                item.node.setPosition(v3(totolX, 0));
+                totolX += item.node.size.width + 40;
+                
+                this._onUpdateBoyFriendItemCell(item, i, trBoyFriend.Id);
+            }
+            this.headBFScrollView.vertical = false;
+            this.headBFScrollView.horizontal = this._bfListCache.length > this._noSlideOnScrollCount;
+            this.headBFScrollViewContent.uiTransform.setContentSize(totolX, this.headBFScrollViewContent.uiTransform.height);
+        }
     }
 
     private _onUpdateBoyFriendItemCell(item: HeadBFItem, index:number, id: number) {

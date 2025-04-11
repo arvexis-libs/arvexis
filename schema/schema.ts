@@ -1565,7 +1565,7 @@ export class TrIdentityLevel {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.IdentityId = _buf_.ReadInt()
-        this.Level = _buf_.ReadInt()
+        this.Level = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedItem.push(_e0);}}
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedCurrency = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedCurrency.push(_e0);}}
         this.Prop1 = _buf_.ReadInt()
@@ -1586,7 +1586,7 @@ export class TrIdentityLevel {
     /**
      * 
      */
-    readonly Level: number
+    readonly Level: string
     /**
      * 
      */
@@ -3526,6 +3526,7 @@ export class TrZhaoChaSection {
         this.SectionId = _buf_.ReadInt()
         this.LimitTime = _buf_.ReadInt()
         this.SectionPrefab = _buf_.ReadString()
+        this.ShowMask = _buf_.ReadBool()
         this.Animation = new ZhaoCha.SectionAnimation(_buf_)
     }
 
@@ -3549,9 +3550,14 @@ export class TrZhaoChaSection {
      * 
      */
     readonly SectionPrefab: string
+    /**
+     *  Mask
+     */
+    readonly ShowMask: boolean
     readonly Animation: ZhaoCha.SectionAnimation
 
     resolve(tables:Tables) {
+        
         
         
         

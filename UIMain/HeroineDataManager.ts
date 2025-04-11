@@ -164,7 +164,7 @@ export class HeroineDataManager
         GameData.PlayerData.HeroineData.Prop.set(powerType,value);
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
-    //#region 
+    
     /**  */
     public GetPower(propType: PropType): number {
         return GameData.PlayerData.HeroineData.Prop.get(propType) || 0;
@@ -187,7 +187,6 @@ export class HeroineDataManager
         return "";
     }
 
-    //#region 
     public GetClothes()
     {
         return GameData.PlayerData.HeroineData.ListClothes;
@@ -203,7 +202,11 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 
-    //#region 
+    public GetDicIdentity()
+    {
+        return GameData.PlayerData.HeroineData.DicIdentity;
+    }
+
     public HadIdentity(identityId: number)
     {
         return GameData.PlayerData.HeroineData.DicIdentity.has(identityId);
@@ -219,80 +222,6 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.OnHeroineDataChange);
     }
 
-    public GetDicIdentity()
-    {
-        return GameData.PlayerData.HeroineData.DicIdentity;
-    }
-
-    public GetTrIdentityLevelByIdAndlevel(identityId:number, level:number)
-    {
-        let list = this.GetTrIdentityLevelListById(identityId)
-        for (let i = 0; i < list.length; i++) {
-            const element = list[i];
-            if (element.Level == level) {
-                return element
-            }
-        }
-    }
-
-    public GetNextTrIdentityLevelById(identityId:number, curLevel:number)
-    {
-        let list = this.GetTrIdentityLevelListById(identityId)
-        for (let i = 0; i < list.length; i++) {
-            const element = list[i];
-            if (element.Level == curLevel) {
-                if (i<list.length-1) {
-                    return list[i+1]
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public GetTrIdentityLevelListById(identityId: number)
-    {
-        let trIdentityLevel = ConfigManager.tables.TbIdentityLevel.getDataList();
-        let result = trIdentityLevel.filter(x => x.IdentityId == identityId);
-        return result
-    }
-
-    public GetIdentityLevelById(identityId: number)
-    {
-        let dic = HeroineDataManager.Instance.GetDicIdentity()!
-        return dic.get(identityId)!;
-    }
-
-    public IdentityLevelup(identityId: number)
-    {
-        let list = this.GetTrIdentityLevelListById(identityId)
-        let maxLevel = list.reduce((a, b) => a.Level > b.Level ? a : b).Level
-        let curLevel = this.GetIdentityLevelById(identityId)
-        if (curLevel && curLevel >= maxLevel) {
-            return
-        }
-        
-        if (curLevel) {
-            GameData.PlayerData.HeroineData.DicIdentity.set(identityId, curLevel + 1);
-        }
-    }
-
-    //todo\lbb: 
-    public GetAllIdentityProp(identityId: number, level: number): number[]
-    {
-        let trIdentityLevel = this.GetTrIdentityLevelByIdAndlevel(identityId, level);
-        if (!trIdentityLevel) {
-            return [];
-        }
-        // let arr = [];
-        // arr.push(trIdentityLevel.Speak);
-        // arr.push(trIdentityLevel.Body);
-        // arr.push(trIdentityLevel.Agility);
-        // arr.push(trIdentityLevel.Feel);
-        // arr.push(trIdentityLevel.Wisdom);
-         return [];
-    }
-//#region 
     public getLvCur()
     {
         return GameData.PlayerData.HeroineData.Lv;
@@ -303,7 +232,7 @@ export class HeroineDataManager
     {
         return ConfigManager.tables.TbLevel.getDataList().length;
     }
-//#region 
+
     public IsMagicBoxUsed(idMagicBox:number)
     {
         return GameData.PlayerData.HeroineData.ListUsedMagicBoxId.indexOf(idMagicBox) >= 0;
@@ -358,7 +287,6 @@ export class HeroineDataManager
         oops.message.dispatchEvent(GameEvent.onHeroineKeyChange);
     }
 
-    //#region 
     public GetCurVirtualTimeArea()
     {
         let curVirtualTime = GameData.PlayerData.HeroineData.CurVirtualTimePoint;

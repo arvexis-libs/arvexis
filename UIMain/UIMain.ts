@@ -203,7 +203,7 @@ export class UIMain extends CCComp {
 
     }
     BtnIdentity_Click() {
-        oops.gui.openAsync(UIID.UIIdentity);
+
     }
     BtnClothStore_Click() {
 

@@ -1565,7 +1565,7 @@ export class TrIdentityLevel {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.IdentityId = _buf_.ReadInt()
-        this.Level = _buf_.ReadString()
+        this.Level = _buf_.ReadInt()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedItem.push(_e0);}}
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NeedCurrency = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.NeedCurrency.push(_e0);}}
         this.Prop1 = _buf_.ReadInt()
@@ -1586,7 +1586,7 @@ export class TrIdentityLevel {
     /**
      * 
      */
-    readonly Level: string
+    readonly Level: number
     /**
      * 
      */

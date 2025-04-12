@@ -7,6 +7,7 @@ import{TrIdentity} from '../schema/schema';
 import { HeroineDataManager } from '../UIMain/HeroineDataManager';
 import { oops } from 'db://oops-framework/core/Oops';
 import { Utility } from '../gameplay/Utility/Utility';
+import { UIIdentity } from '../UIIdentity/UIIdentity';
 const { ccclass, property } = _decorator;
 
 @ccclass('IdentityCard')
@@ -22,17 +23,17 @@ export class IdentityCard extends Component
     @property(Node)Container: Node = null!;//
     @property(Node)FeatureItem: Node = null!;
     public trIndentity: TrIdentity = null!;
-
     protected onLoad(): void {
     }
 
-    start()
-    {
+    Refresh() {
         this.setName(this.trIndentity.Name)
         this.setDesc(this.trIndentity.Desc)
         this.setSpecPropName()
         this.setSpecPropIcon();
         this.setFeature();
+        this.setIconIndent();
+        console.error(this.node.name)
     }
     
     setName(name: string)
@@ -70,6 +71,7 @@ export class IdentityCard extends Component
 
     setFeature()
     {
+        this.Container.removeAllChildren();
         let arr = this.getArrFeatureData();
         for (let i = 0; i < arr.length; i++) {
             const element = arr[i];
@@ -82,6 +84,12 @@ export class IdentityCard extends Component
                 sprite.spriteFrame = res;
             });
         }
+    }
+    setIconIndent()
+    {
+        oops.res.loadAsync<SpriteFrame>("UIIdentity", `Sprites/${this.trIndentity.Icon}/spriteFrame`).then(res => { 
+            this.IconIndent.spriteFrame = res;
+        });
     }
 
     private getArrFeatureData()

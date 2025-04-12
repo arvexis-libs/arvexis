@@ -24,6 +24,7 @@ import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import { TrBoyFriend, TrInteraction } from "../schema/schema";
 import { Utility } from "../gameplay/Utility/Utility";
 import { GameEvent } from "../common/config/GameEvent";
+import { devNull } from "os";
 const { ccclass, property } = _decorator;
 
 
@@ -100,6 +101,9 @@ export class UIBoyFriend extends CCComp {
     // 
     private _tipsTapTimeCd = 6;
     private readonly _tipsTapTimeTotal = 5;
+    private _isChangingBoy: boolean = false; // 
+    private _changBoyCd: number = 0.2; // s
+
 
 
     //#endregion
@@ -127,17 +131,30 @@ export class UIBoyFriend extends CCComp {
     protected onEnable(): void {
         this.on(GameEvent.MAIN_VIDEO_END, this.onHandler, this);
         this.on(GameEvent.BoyFriendExpChange, this.onHandler, this);
+        this.on(GameEvent.BoyFriendSendGift, this.onHandler, this);
+
+        
     }
 
     protected onDisable(): void {
         this.off(GameEvent.MAIN_VIDEO_END);
         this.off(GameEvent.BoyFriendExpChange);
+        this.off(GameEvent.BoyFriendSendGift);
     }
 
     async start() {
         this._onRefresh();
+        this._boyChangedReplayVideo();
+    }
 
-        UIMainVideoComp.getInstance().playUrl(PlayerSystem.Instance.HomeVideoId, true);
+    reset() {
+        this._tipsTapTimeCd = this._tipsTapTimeTotal;
+        this._bfListCache.length = 0;
+        this._selectBFHeadIdx = -1;
+        this._curHeadBottomIsOpen = false;
+        this._currentPlayVideoId = -1;
+        this._playingActionVideoId = 0;
+        this._isChangingBoy = false;
     }
 
     private _initBottomPos() {
@@ -159,6 +176,14 @@ export class UIBoyFriend extends CCComp {
                 this._tipsTapTimeCd = this._tipsTapTimeTotal;
             }
         }
+
+             
+        if(this._isChangingBoy && UIMainVideoComp.getInstance().IsMainVideoPlaying) {
+            this._changBoyCd -= dt;   
+            if(this._changBoyCd < 0) {
+                this._isChangingBoy = false;
+            }
+        }
     }
 
     onDestroy() {
@@ -172,7 +197,10 @@ export class UIBoyFriend extends CCComp {
                 break;
             case GameEvent.BoyFriendExpChange:
                 this._onUpdateInfo();
-            break;
+                break;
+            case GameEvent.BoyFriendSendGift:
+                this._receiveGiftCheckVideo(args.Id);
+                break;
         }
     }
     
@@ -184,26 +212,15 @@ export class UIBoyFriend extends CCComp {
         this.nodeTapChangeView.active = false;
         this._tipsTapTimeCd = this._tipsTapTimeTotal;
 
-        this._onUpdateInfo();
         this._onUpdateBottomHeadList();
+        this._onUpdateInfo();
         this._changeHeadBottomState();
         this._updateInteractionUI();
     }
 
-    reset() {
-        this._tipsTapTimeCd = this._tipsTapTimeTotal;
-        this._bfListCache.length = 0;
-        this._selectBFHeadIdx = -1;
-        this._curHeadBottomIsOpen = false;
-        this._currentPlayVideoId = -1;
-        this._playingActionVideoId = 0;
-    }
-
     // 
     private _onUpdateInfo() {
-        const playerId = PlayerSystem.Instance.CurPlayId;
-
-        const cfg = ConfigManager.tables.TbBoyFriend.get(playerId);
+        const cfg = this.curBoyCfg;
         if(cfg == undefined) {
             return;
         }
@@ -213,13 +230,51 @@ export class UIBoyFriend extends CCComp {
         this.labLevel.string = `Lv${PlayerSystem.Instance.CurLv}`;
     }
 
-    private _boyFriendPlayVideo(id: number) {
-        PlayerSystem.Instance.PlayVideo(id, this._playIdleVideo.bind(this));
-    }
-
     private _playIdleVideo() {
         this._playingActionVideoId = 0;
-        UIMainVideoComp.getInstance().playUrl(PlayerSystem.Instance.HomeVideoId, true);
+        this._boyChangedReplayVideo();
+    }
+
+    // 
+    private _receiveGiftCheckVideo(itemId: number) {
+        const cfg = this.curBoyCfg;
+        if(cfg == undefined) {
+            return;
+        }
+        const isHasFavor = cfg.FavoriteItem.findIndex((v) => v === itemId) != -1;
+        if(isHasFavor) {
+            this._playingActionVideoId = cfg.FavoriteItemVideo;
+            this._boyChangedReplayVideo(this._playingActionVideoId);
+            return;
+        }
+        const isHasHit = cfg.ConfuseItem.findIndex((v) => v === itemId) != -1;
+        if(isHasHit) {
+            this._playingActionVideoId = cfg.ConfuseItemVideo;
+            this._boyChangedReplayVideo(this._playingActionVideoId);
+        }
+    }
+
+    private get curBoyCfg() {
+        const bfList = ConfigManager.tables.TbBoyFriend.getDataList();
+        if(this._selectBFHeadIdx < 0 || this._selectBFHeadIdx >= bfList.length) {
+            return;
+        }
+        const cfg = bfList[this._selectBFHeadIdx];        
+        return cfg;
+    }
+
+    private _boyChangedReplayVideo(videoId: number = -1) {
+        let id = videoId;
+        if(id < 0) {
+            const cfg = this.curBoyCfg;
+            if(cfg == undefined) {
+                return;
+            }
+            id = cfg.VideoId;
+        }
+        this._isChangingBoy = true;
+        this._changBoyCd = 0.2;
+        UIMainVideoComp.getInstance().playUrl(id, true);
     }
 
     // 
@@ -281,13 +336,14 @@ export class UIBoyFriend extends CCComp {
     }
 
     private _onBoyFriendItemClickBack(index: number) {
-        if(this._selectBFHeadIdx == index) {
+        if(this._selectBFHeadIdx == index || this._isChangingBoy) {
             return;
         }
 
         this._selectBFHeadIdx = index;
 
-        this._onUpdateBottomHeadList();
+        this._onRefresh();
+        this._boyChangedReplayVideo();
     }
 
     // 
@@ -392,21 +448,23 @@ export class UIBoyFriend extends CCComp {
 
     // 
     private onClickLastBoy() {
-        if(this._selectBFHeadIdx <= 0) {
+        if(this._isChangingBoy || this._selectBFHeadIdx <= 0) {
             return;
         }
         this._selectBFHeadIdx--;
-        this._onUpdateBottomHeadList();
+        this._onRefresh();
+        this._boyChangedReplayVideo();
     }
 
     // 
     private onClickNextBoy() {
         const list = ConfigManager.tables.TbBoyFriend.getDataList();
-        if(this._selectBFHeadIdx >= list.length) {
+        if(this._isChangingBoy || this._selectBFHeadIdx >= list.length) {
             return;
         }
         this._selectBFHeadIdx++;
-        this._onUpdateBottomHeadList();
+        this._onRefresh();
+        this._boyChangedReplayVideo();
     }
 
     // 

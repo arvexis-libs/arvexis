@@ -94,6 +94,9 @@ export class UIMainVideoComp extends CCComp {
 
         this.on(GameEvent.ChoiceOver, this.Close, this);
     }
+    public get IsMainVideoPlaying() {
+        return this.mVideoCom.mIsPlaying;
+    }
 
     onDestroy() {
         this.off(GameEvent.ChoiceOver);

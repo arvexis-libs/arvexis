@@ -120,6 +120,7 @@ export enum GameEvent {
 
     BoyFriendLevelUp = "BoyFriendLevelUp",
     BoyFriendExpChange = "BoyFriendExpChange", // 
-    BoyFriendAddExp = "BoyFriendAddExp", // 
+    BoyFriendAddExp = "BoyFriendAddExp", // -
+    BoyFriendSendGift = "BoyFriendSendGift", // -itemID
 
 }

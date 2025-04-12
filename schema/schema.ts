@@ -627,12 +627,13 @@ export class TrBoyFriend {
         this.Pic = _buf_.ReadString()
         this.HalfPic = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.Unlock.set(_k0, _v0);  } }
+        this.VideoId = _buf_.ReadInt()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.FavoriteItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.FavoriteItem.push(_e0);}}
         this.FavoriteItemNum = _buf_.ReadInt()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ConfuseItem = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ConfuseItem.push(_e0);}}
         this.ConfuseItemNum = _buf_.ReadInt()
-        this.FavoriteItemVideo = _buf_.ReadString()
-        this.ConfuseItemVideo = _buf_.ReadString()
+        this.FavoriteItemVideo = _buf_.ReadInt()
+        this.ConfuseItemVideo = _buf_.ReadInt()
         this.NormalItemVideo = _buf_.ReadString()
         this.Age = _buf_.ReadInt()
         this.Height = _buf_.ReadInt()
@@ -678,6 +679,10 @@ export class TrBoyFriend {
     /**
      * id
      */
+    readonly VideoId: number
+    /**
+     * id
+     */
     readonly FavoriteItem: number[]
     /**
      * 
@@ -694,11 +699,11 @@ export class TrBoyFriend {
     /**
      * 
      */
-    readonly FavoriteItemVideo: string
+    readonly FavoriteItemVideo: number
     /**
      * 
      */
-    readonly ConfuseItemVideo: string
+    readonly ConfuseItemVideo: number
     /**
      * 
      */
@@ -733,6 +738,7 @@ export class TrBoyFriend {
     readonly IntroUnlock: Map<number, number>
 
     resolve(tables:Tables) {
+        
         
         
         

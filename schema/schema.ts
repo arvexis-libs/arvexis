@@ -359,6 +359,7 @@ export class TrAVGMap {
         this.Isdrag = _buf_.ReadBool()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
         this.Text = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ScenegroupId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ScenegroupId.push(_e0);}}
     }
 
     /**
@@ -393,8 +394,13 @@ export class TrAVGMap {
      * 
      */
     readonly Text: string
+    /**
+     * id
+     */
+    readonly ScenegroupId: number[]
 
     resolve(tables:Tables) {
+        
         
         
         
@@ -528,7 +534,6 @@ export class TrAVGSceneGroup {
         this.Id = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
-        this.Mapkey = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Scenegroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Scenegroup.push(_e0);}}
         this.Initialscene = _buf_.ReadInt()
         this.Event = _buf_.ReadInt()
@@ -547,10 +552,6 @@ export class TrAVGSceneGroup {
      */
     readonly Bgunlock: number[]
     /**
-     * 
-     */
-    readonly Mapkey: string
-    /**
      * id
      */
     readonly Scenegroup: number[]
@@ -564,7 +565,6 @@ export class TrAVGSceneGroup {
     readonly Event: number
 
     resolve(tables:Tables) {
-        
         
         
         

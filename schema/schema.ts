@@ -578,38 +578,6 @@ export class TrAVGSceneGroup {
 
 
 
-export class TrBigMapPopInfo {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.Tip = _buf_.ReadString()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly Tip: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-    }
-}
-
-
-
-
-
 export class TrBook {
 
     constructor(_buf_: ByteBuf) {
@@ -1010,62 +978,6 @@ export class TrChoice {
 
 
 
-export class TrCityMapBuild {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.EventType = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EventId.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.FirstEventId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.FirstEventId.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.UnlockConditions = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.UnlockConditions.push(_e0);}}
-        this.UnConditionType = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly EventType: number
-    /**
-     * ID
-     */
-    readonly EventId: number[]
-    /**
-     * 
-     */
-    readonly FirstEventId: number[]
-    /**
-     * id
-     */
-    readonly UnlockConditions: number[]
-    /**
-     * 
-     */
-    readonly UnConditionType: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
 export class TrCondition {
 
     constructor(_buf_: ByteBuf) {
@@ -1227,144 +1139,6 @@ export class TrEffect {
     readonly Path: string
 
     resolve(tables:Tables) {
-        
-        
-    }
-}
-
-
-
-
-
-export class TrEvent {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.EventType = _buf_.ReadInt()
-        this.Param1 = _buf_.ReadString()
-        this.Param2 = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Param3 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Param3.push(_e0);}}
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly EventType: number
-    /**
-     * 1
-     */
-    readonly Param1: string
-    /**
-     * 2
-     */
-    readonly Param2: string
-    /**
-     * 3
-     */
-    readonly Param3: number[]
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrEventTrigger {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.ConditionType = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Conditions = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Conditions.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Events = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Events.push(_e0);}}
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly ConditionType: number
-    /**
-     * id
-     */
-    readonly Conditions: number[]
-    /**
-     * 
-     */
-    readonly Events: number[]
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrExp {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Des = _buf_.ReadString()
-        this.Level = _buf_.ReadInt()
-        this.TapExp = _buf_.ReadDouble()
-        this.TapMoney = _buf_.ReadLongAsNumber()
-        this.NeedMoney = _buf_.ReadLongAsNumber()
-        this.Icon = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Des: string
-    /**
-     * 
-     */
-    readonly Level: number
-    /**
-     * 
-     */
-    readonly TapExp: number
-    /**
-     * 
-     */
-    readonly TapMoney: number
-    /**
-     * 
-     */
-    readonly NeedMoney: number
-    /**
-     * 
-     */
-    readonly Icon: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
         
         
     }
@@ -1702,32 +1476,6 @@ export class TrInteraction {
 
 
 
-export class TrKeyNode {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.ImagePath = _buf_.ReadString()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly ImagePath: string
-
-    resolve(tables:Tables) {
-        
-        
-    }
-}
-
-
-
-
-
 export class TrLevel {
 
     constructor(_buf_: ByteBuf) {
@@ -1765,86 +1513,6 @@ export class TrLevel {
     readonly MagicBoxReward: number
 
     resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrLoveHistory {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Step = _buf_.ReadInt()
-        this.Desc = _buf_.ReadString()
-        this.ShowType = _buf_.ReadInt()
-        this.TitleIcon = _buf_.ReadString()
-        this.LineNum = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.VideoIds = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.VideoIds.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.VideoIcons = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.VideoIcons.push(_e0);}}
-        this.ProValue = _buf_.ReadFloat()
-        this.ProLevel = _buf_.ReadInt()
-        this.IsShowLevel = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Step: number
-    /**
-     * 
-     */
-    readonly Desc: string
-    /**
-     * 
-     */
-    readonly ShowType: number
-    /**
-     * Titleicon
-     */
-    readonly TitleIcon: string
-    /**
-     * 
-     */
-    readonly LineNum: number
-    /**
-     * ID
-     */
-    readonly VideoIds: number[]
-    /**
-     * icon
-     */
-    readonly VideoIcons: string[]
-    /**
-     * 
-     */
-    readonly ProValue: number
-    /**
-     * 
-     */
-    readonly ProLevel: number
-    /**
-     * 
-     */
-    readonly IsShowLevel: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
         
         
         
@@ -1950,118 +1618,6 @@ export class TrMagicBoxRandom {
 
 
 
-export class Trmirror {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.NpcID = _buf_.ReadInt()
-        this.MirrorType = _buf_.ReadInt()
-        this.ChipType = _buf_.ReadInt()
-        this.ChipNum = _buf_.ReadInt()
-        this.IconId = _buf_.ReadString()
-        this.DimIconId = _buf_.ReadString()
-        this.BigIcon = _buf_.ReadString()
-        this.VideoId = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * NpcID
-     */
-    readonly NpcID: number
-    /**
-     * 
-     */
-    readonly MirrorType: number
-    /**
-     * 
-     */
-    readonly ChipType: number
-    /**
-     * 
-     */
-    readonly ChipNum: number
-    /**
-     * 
-     */
-    readonly IconId: string
-    /**
-     * 
-     */
-    readonly DimIconId: string
-    /**
-     * 
-     */
-    readonly BigIcon: string
-    /**
-     * 
-     */
-    readonly VideoId: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrOnline {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Type = _buf_.ReadInt()
-        this.Des1 = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.GiftGroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.GiftGroup.push(_e0);}}
-        this.Time = _buf_.ReadInt()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Type: number
-    /**
-     * 1
-     */
-    readonly Des1: string
-    /**
-     * id
-     */
-    readonly GiftGroup: number[]
-    /**
-     * :
-     */
-    readonly Time: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
 export class TrOpenFunction {
 
     constructor(_buf_: ByteBuf) {
@@ -2114,146 +1670,6 @@ export class TrOpenFunction {
     readonly RedType: number
 
     resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrPlayer {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.IconPath = _buf_.ReadString()
-        this.ImagePath = _buf_.ReadString()
-        this.MapIconPath = _buf_.ReadString()
-        this.FuncIconPath = _buf_.ReadString()
-        this.PhoneIcon = _buf_.ReadString()
-        this.VideoId = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.NickName = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Unlock.push(_e0);}}
-        this.LvMask = _buf_.ReadString()
-        this.settlepicture = _buf_.ReadString()
-        this.StoryLinePic = _buf_.ReadString()
-        this.ItemId = _buf_.ReadInt()
-        this.ExpId = _buf_.ReadInt()
-        this.Information1Text = _buf_.ReadString()
-        this.Information1Show = _buf_.ReadInt()
-        this.Information2Text = _buf_.ReadString()
-        this.Information2Show = _buf_.ReadInt()
-        this.Information3Text = _buf_.ReadString()
-        this.Information3Show = _buf_.ReadInt()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly IconPath: string
-    /**
-     * 
-     */
-    readonly ImagePath: string
-    /**
-     * 
-     */
-    readonly MapIconPath: string
-    /**
-     * 
-     */
-    readonly FuncIconPath: string
-    /**
-     * 
-     */
-    readonly PhoneIcon: string
-    /**
-     * 
-     */
-    readonly VideoId: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * ()
-     */
-    readonly NickName: string
-    /**
-     * 
-     */
-    readonly Unlock: number[]
-    /**
-     * 
-     */
-    readonly LvMask: string
-    /**
-     * 
-     */
-    readonly settlepicture: string
-    /**
-     * 
-     */
-    readonly StoryLinePic: string
-    /**
-     * 
-     */
-    readonly ItemId: number
-    /**
-     * 
-     */
-    readonly ExpId: number
-    /**
-     * 1
-     */
-    readonly Information1Text: string
-    /**
-     * 1
-     */
-    readonly Information1Show: number
-    /**
-     * 2
-     */
-    readonly Information2Text: string
-    /**
-     * 2
-     */
-    readonly Information2Show: number
-    /**
-     * 3
-     */
-    readonly Information3Text: string
-    /**
-     * 3
-     */
-    readonly Information3Show: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -2450,204 +1866,6 @@ export class Trreloading {
 
 
 
-export class TrRhythmGame {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.MusicRes = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.MusicalNoteRight = []; for(let i = 0 ; i < n ; i++) { let _e0; { let n = Math.min(_buf_.ReadSize(), _buf_.Size); _e0 = []; for(let i = 0 ; i < n ; i++) { let _e1; _e1 = _buf_.ReadInt(); _e0.push(_e1);}}; this.MusicalNoteRight.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.MusicalNoteLeft = []; for(let i = 0 ; i < n ; i++) { let _e0; { let n = Math.min(_buf_.ReadSize(), _buf_.Size); _e0 = []; for(let i = 0 ; i < n ; i++) { let _e1; _e1 = _buf_.ReadInt(); _e0.push(_e1);}}; this.MusicalNoteLeft.push(_e0);}}
-        this.Volume = _buf_.ReadFloat()
-        this.Time = _buf_.ReadFloat()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly MusicRes: string
-    /**
-     * ,,;()
-     */
-    readonly MusicalNoteRight: number[][]
-    /**
-     * ,,;    
-     */
-    readonly MusicalNoteLeft: number[][]
-    /**
-     * 0~1
-     */
-    readonly Volume: number
-    /**
-     * 
-     */
-    readonly Time: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrRhythmGameGK {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.RoleId = _buf_.ReadInt()
-        this.StartImage = _buf_.ReadString()
-        this.UnlockLevel = _buf_.ReadInt()
-        this.ShowDifficulty = _buf_.ReadInt()
-        this.ShowReward = _buf_.ReadFloat()
-        this.ScoreBonus = _buf_.ReadInt()
-        this.MusicId = _buf_.ReadInt()
-        this.MusicSpeed = _buf_.ReadFloat()
-        this.MusicalScore = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ComboBonus = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ComboBonus.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.TotalScore = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.TotalScore.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.RewardRatio = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.RewardRatio.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.MusicalReward = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.MusicalReward.set(_k0, _v0);  } }
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.BGChange = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.BGChange.push(_e0);}}
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * id
-     */
-    readonly RoleId: number
-    /**
-     * 
-     */
-    readonly StartImage: string
-    /**
-     * -
-     */
-    readonly UnlockLevel: number
-    /**
-     * %()
-     */
-    readonly ShowDifficulty: number
-    /**
-     * ()
-     */
-    readonly ShowReward: number
-    /**
-     * -%
-     */
-    readonly ScoreBonus: number
-    /**
-     * id
-     */
-    readonly MusicId: number
-    /**
-     * 
-     */
-    readonly MusicSpeed: number
-    /**
-     * 
-     */
-    readonly MusicalScore: number
-    /**
-     * %
-     */
-    readonly ComboBonus: number[]
-    /**
-     * 
-     */
-    readonly TotalScore: number[]
-    /**
-     * %
-     */
-    readonly RewardRatio: number[]
-    /**
-     * 
-     */
-    readonly MusicalReward: Map<number, number>
-    /**
-     * 
-     */
-    readonly BGChange: string[]
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrShare {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Type = _buf_.ReadInt()
-        this.Num = _buf_.ReadInt()
-        this.PicType = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.AdvId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.AdvId.push(_e0);}}
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Type: number
-    /**
-     * 
-     */
-    readonly Num: number
-    /**
-     * 
-     */
-    readonly PicType: number
-    /**
-     * id
-     */
-    readonly AdvId: string[]
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
 export class TrShopGift {
 
     constructor(_buf_: ByteBuf) {
@@ -2699,283 +1917,6 @@ export class TrSpecialEvent {
 
     resolve(tables:Tables) {
         
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrStarGalaxy {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.PosId = _buf_.ReadInt()
-        this.FirstAction = _buf_.ReadString()
-        this.DefaultlAction = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.NormalAction = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.NormalAction.push(_e0);}}
-        this.ClickAction = _buf_.ReadString()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * id
-     */
-    readonly PosId: number
-    /**
-     * 
-     */
-    readonly FirstAction: string
-    /**
-     * 
-     */
-    readonly DefaultlAction: string
-    /**
-     * 
-     */
-    readonly NormalAction: string[]
-    /**
-     * 
-     */
-    readonly ClickAction: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrStarSingle {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Level = _buf_.ReadInt()
-        this.RoleId = _buf_.ReadInt()
-        this.StageLevel = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.Type = _buf_.ReadInt()
-        this.LockImage = _buf_.ReadString()
-        this.UnlockImage = _buf_.ReadString()
-        this.CanUnlockImage = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.UnlockCondition = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.UnlockCondition.set(_k0, _v0);  } }
-        this.UnlockRoleLevel = _buf_.ReadInt()
-        this.UnlockRewardRate = _buf_.ReadFloat()
-        this.UnlockPlotId = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.UnlockExtraReward = new Map<number, number>(); for(let i = 0 ; i < n ; i++) { let _k0; _k0 = _buf_.ReadInt();  let _v0;  _v0 = _buf_.ReadInt(); this.UnlockExtraReward.set(_k0, _v0);  } }
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Level: number
-    /**
-     * id
-     */
-    readonly RoleId: number
-    /**
-     * 
-     */
-    readonly StageLevel: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly Type: number
-    /**
-     * 
-     */
-    readonly LockImage: string
-    /**
-     * 
-     */
-    readonly UnlockImage: string
-    /**
-     * 
-     */
-    readonly CanUnlockImage: string
-    /**
-     * 
-     */
-    readonly UnlockCondition: Map<number, number>
-    /**
-     * 
-     */
-    readonly UnlockRoleLevel: number
-    /**
-     * 
-     */
-    readonly UnlockRewardRate: number
-    /**
-     * id
-     */
-    readonly UnlockPlotId: number
-    /**
-     * 12xxx
-     */
-    readonly UnlockExtraReward: Map<number, number>
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrStarStage {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.RoleId = _buf_.ReadInt()
-        this.Level = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.StarIds = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.StarIds.push(_e0);}}
-        this.Prefab = _buf_.ReadString()
-        this.BaseMap = _buf_.ReadString()
-    }
-
-    /**
-     * id
-     */
-    readonly Id: number
-    /**
-     * id
-     */
-    readonly RoleId: number
-    /**
-     * 
-     */
-    readonly Level: number
-    /**
-     * id
-     */
-    readonly StarIds: number[]
-    /**
-     * 
-     */
-    readonly Prefab: string
-    /**
-     * 
-     */
-    readonly BaseMap: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrStoryLine {
-
-    constructor(_buf_: ByteBuf) {
-        this.NpcID = _buf_.ReadInt()
-        this.Lv = _buf_.ReadInt()
-        this.Id = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.Icon = _buf_.ReadString()
-        this.StoryId = _buf_.ReadInt()
-    }
-
-    /**
-     * NpcID
-     */
-    readonly NpcID: number
-    /**
-     * 
-     */
-    readonly Lv: number
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly Icon: string
-    /**
-     * id
-     */
-    readonly StoryId: number
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrStrDictionary {
-
-    constructor(_buf_: ByteBuf) {
-        this.Key = _buf_.ReadString()
-        this.Zh = _buf_.ReadString()
-        this.English = _buf_.ReadString()
-    }
-
-    /**
-     * Key
-     */
-    readonly Key: string
-    /**
-     * 
-     */
-    readonly Zh: string
-    readonly English: string
-
-    resolve(tables:Tables) {
         
         
         
@@ -3167,130 +2108,6 @@ export class TrTask {
         
         
         
-        
-        
-    }
-}
-
-
-
-
-
-export class TrTaskAway {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        this.Name = _buf_.ReadString()
-        this.Time = _buf_.ReadInt()
-        this.Type = _buf_.ReadInt()
-        this.Piece = _buf_.ReadInt()
-        this.ConsumeType = _buf_.ReadInt()
-        this.ConsumeNum = _buf_.ReadInt()
-        this.ConsumeTime = _buf_.ReadInt()
-        this.ADTime = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.RewardType = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.RewardType.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.RewardNum = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.RewardNum.push(_e0);}}
-        this.ImageStart = _buf_.ReadString()
-        this.ImageEnd = _buf_.ReadString()
-        this.SpineCarry = _buf_.ReadString()
-    }
-
-    /**
-     * Id
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly Name: string
-    /**
-     * 
-     */
-    readonly Time: number
-    /**
-     * 
-     */
-    readonly Type: number
-    /**
-     * 
-     */
-    readonly Piece: number
-    /**
-     * 
-     */
-    readonly ConsumeType: number
-    /**
-     * 
-     */
-    readonly ConsumeNum: number
-    /**
-     * /
-     */
-    readonly ConsumeTime: number
-    /**
-     * /
-     */
-    readonly ADTime: number
-    /**
-     * id
-     */
-    readonly RewardType: number[]
-    /**
-     * 
-     */
-    readonly RewardNum: number[]
-    /**
-     * 
-     */
-    readonly ImageStart: string
-    /**
-     * 
-     */
-    readonly ImageEnd: string
-    /**
-     * spine
-     */
-    readonly SpineCarry: string
-
-    resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
-
-
-
-
-
-export class TrUIGuide {
-
-    constructor(_buf_: ByteBuf) {
-        this.Id = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.LevelExp = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.LevelExp.push(_e0);}}
-    }
-
-    /**
-     * ID
-     */
-    readonly Id: number
-    /**
-     * 
-     */
-    readonly LevelExp: number[]
-
-    resolve(tables:Tables) {
         
         
     }
@@ -3723,39 +2540,6 @@ export class TbItem {
 
 
 
-export class TbStrDictionary {
-    private _dataMap: Map<string, TrStrDictionary>
-    private _dataList: TrStrDictionary[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<string, TrStrDictionary>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrStrDictionary
-            _v = new TrStrDictionary(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Key, _v)
-        }
-    }
-
-    getDataMap(): Map<string, TrStrDictionary> { return this._dataMap; }
-    getDataList(): TrStrDictionary[] { return this._dataList; }
-
-    get(key: string): TrStrDictionary | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 export class TbTask {
     private _dataMap: Map<number, TrTask>
     private _dataList: TrTask[]
@@ -3774,72 +2558,6 @@ export class TbTask {
     getDataList(): TrTask[] { return this._dataList; }
 
     get(key: number): TrTask | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbPlayer {
-    private _dataMap: Map<number, TrPlayer>
-    private _dataList: TrPlayer[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrPlayer>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrPlayer
-            _v = new TrPlayer(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrPlayer> { return this._dataMap; }
-    getDataList(): TrPlayer[] { return this._dataList; }
-
-    get(key: number): TrPlayer | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbExp {
-    private _dataMap: Map<number, TrExp>
-    private _dataList: TrExp[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrExp>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrExp
-            _v = new TrExp(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrExp> { return this._dataMap; }
-    getDataList(): TrExp[] { return this._dataList; }
-
-    get(key: number): TrExp | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -3987,34 +2705,6 @@ export class TbVideo {
 
 
 
-export class TbLoveHistory {
-    private _dataList: TrLoveHistory[]
-    
-    constructor(_buf_: ByteBuf) {
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrLoveHistory
-            _v = new TrLoveHistory(_buf_)
-            this._dataList.push(_v)
-        }
-    }
-
-    getDataList(): TrLoveHistory[] { return this._dataList }
-
-    get(index: number): TrLoveHistory | undefined { return this._dataList[index] }
-    
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 export class Tbreloading {
     private _dataMap: Map<number, Trreloading>
     private _dataList: Trreloading[]
@@ -4033,199 +2723,6 @@ export class Tbreloading {
     getDataList(): Trreloading[] { return this._dataList; }
 
     get(key: number): Trreloading | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class Tbmirror {
-    private _dataList: Trmirror[]
-    
-    constructor(_buf_: ByteBuf) {
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: Trmirror
-            _v = new Trmirror(_buf_)
-            this._dataList.push(_v)
-        }
-    }
-
-    getDataList(): Trmirror[] { return this._dataList }
-
-    get(index: number): Trmirror | undefined { return this._dataList[index] }
-    
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbTaskAway {
-    private _dataMap: Map<number, TrTaskAway>
-    private _dataList: TrTaskAway[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrTaskAway>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrTaskAway
-            _v = new TrTaskAway(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrTaskAway> { return this._dataMap; }
-    getDataList(): TrTaskAway[] { return this._dataList; }
-
-    get(key: number): TrTaskAway | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbShare {
-    private _dataMap: Map<number, TrShare>
-    private _dataList: TrShare[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrShare>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrShare
-            _v = new TrShare(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrShare> { return this._dataMap; }
-    getDataList(): TrShare[] { return this._dataList; }
-
-    get(key: number): TrShare | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbUIGuide {
-    private _dataMap: Map<number, TrUIGuide>
-    private _dataList: TrUIGuide[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrUIGuide>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrUIGuide
-            _v = new TrUIGuide(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrUIGuide> { return this._dataMap; }
-    getDataList(): TrUIGuide[] { return this._dataList; }
-
-    get(key: number): TrUIGuide | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbOnline {
-    private _dataMap: Map<number, TrOnline>
-    private _dataList: TrOnline[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrOnline>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrOnline
-            _v = new TrOnline(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrOnline> { return this._dataMap; }
-    getDataList(): TrOnline[] { return this._dataList; }
-
-    get(key: number): TrOnline | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbCityMapBuild {
-    private _dataMap: Map<number, TrCityMapBuild>
-    private _dataList: TrCityMapBuild[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrCityMapBuild>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrCityMapBuild
-            _v = new TrCityMapBuild(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrCityMapBuild> { return this._dataMap; }
-    getDataList(): TrCityMapBuild[] { return this._dataList; }
-
-    get(key: number): TrCityMapBuild | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -4307,39 +2804,6 @@ export class TbAudio {
 
 
 
-export class TbKeyNode {
-    private _dataMap: Map<number, TrKeyNode>
-    private _dataList: TrKeyNode[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrKeyNode>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrKeyNode
-            _v = new TrKeyNode(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrKeyNode> { return this._dataMap; }
-    getDataList(): TrKeyNode[] { return this._dataList; }
-
-    get(key: number): TrKeyNode | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 export class TbInteraction {
     private _dataMap: Map<number, TrInteraction>
     private _dataList: TrInteraction[]
@@ -4391,105 +2855,6 @@ export class TbCondition {
     getDataList(): TrCondition[] { return this._dataList; }
 
     get(key: number): TrCondition | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbEvent {
-    private _dataMap: Map<number, TrEvent>
-    private _dataList: TrEvent[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrEvent>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrEvent
-            _v = new TrEvent(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrEvent> { return this._dataMap; }
-    getDataList(): TrEvent[] { return this._dataList; }
-
-    get(key: number): TrEvent | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbEventTrigger {
-    private _dataMap: Map<number, TrEventTrigger>
-    private _dataList: TrEventTrigger[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrEventTrigger>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrEventTrigger
-            _v = new TrEventTrigger(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrEventTrigger> { return this._dataMap; }
-    getDataList(): TrEventTrigger[] { return this._dataList; }
-
-    get(key: number): TrEventTrigger | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbBigMapPopInfo {
-    private _dataMap: Map<number, TrBigMapPopInfo>
-    private _dataList: TrBigMapPopInfo[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrBigMapPopInfo>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrBigMapPopInfo
-            _v = new TrBigMapPopInfo(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrBigMapPopInfo> { return this._dataMap; }
-    getDataList(): TrBigMapPopInfo[] { return this._dataList; }
-
-    get(key: number): TrBigMapPopInfo | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -4604,166 +2969,6 @@ export class TbChoice {
 
 
 
-export class TbRhythmGame {
-    private _dataMap: Map<number, TrRhythmGame>
-    private _dataList: TrRhythmGame[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrRhythmGame>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrRhythmGame
-            _v = new TrRhythmGame(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrRhythmGame> { return this._dataMap; }
-    getDataList(): TrRhythmGame[] { return this._dataList; }
-
-    get(key: number): TrRhythmGame | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbStoryLine {
-    private _dataList: TrStoryLine[]
-    
-    constructor(_buf_: ByteBuf) {
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrStoryLine
-            _v = new TrStoryLine(_buf_)
-            this._dataList.push(_v)
-        }
-    }
-
-    getDataList(): TrStoryLine[] { return this._dataList }
-
-    get(index: number): TrStoryLine | undefined { return this._dataList[index] }
-    
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbStarGalaxy {
-    private _dataMap: Map<number, TrStarGalaxy>
-    private _dataList: TrStarGalaxy[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrStarGalaxy>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrStarGalaxy
-            _v = new TrStarGalaxy(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrStarGalaxy> { return this._dataMap; }
-    getDataList(): TrStarGalaxy[] { return this._dataList; }
-
-    get(key: number): TrStarGalaxy | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbStarStage {
-    private _dataMap: Map<number, TrStarStage>
-    private _dataList: TrStarStage[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrStarStage>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrStarStage
-            _v = new TrStarStage(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrStarStage> { return this._dataMap; }
-    getDataList(): TrStarStage[] { return this._dataList; }
-
-    get(key: number): TrStarStage | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbStarSingle {
-    private _dataMap: Map<number, TrStarSingle>
-    private _dataList: TrStarSingle[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrStarSingle>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrStarSingle
-            _v = new TrStarSingle(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrStarSingle> { return this._dataMap; }
-    getDataList(): TrStarSingle[] { return this._dataList; }
-
-    get(key: number): TrStarSingle | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
 export class TbDate {
     private _dataMap: Map<number, TrDate>
     private _dataList: TrDate[]
@@ -4782,39 +2987,6 @@ export class TbDate {
     getDataList(): TrDate[] { return this._dataList; }
 
     get(key: number): TrDate | undefined {
-        return this._dataMap.get(key); 
-    }
-
-    resolve(tables:Tables) {
-        for(let  data of this._dataList)
-        {
-            data.resolve(tables)
-        }
-    }
-
-}
-
-
-
-
-export class TbRhythmGameGK {
-    private _dataMap: Map<number, TrRhythmGameGK>
-    private _dataList: TrRhythmGameGK[]
-    constructor(_buf_: ByteBuf) {
-        this._dataMap = new Map<number, TrRhythmGameGK>()
-        this._dataList = []
-        for(let n = _buf_.ReadInt(); n > 0; n--) {
-            let _v: TrRhythmGameGK
-            _v = new TrRhythmGameGK(_buf_)
-            this._dataList.push(_v)
-            this._dataMap.set(_v.Id, _v)
-        }
-    }
-
-    getDataMap(): Map<number, TrRhythmGameGK> { return this._dataMap; }
-    getDataList(): TrRhythmGameGK[] { return this._dataList; }
-
-    get(key: number): TrRhythmGameGK | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -5561,14 +3733,8 @@ type ByteBufLoader = (file: string) => ByteBuf
 export class Tables {
     private _TbItem: DataTable.TbItem
     get TbItem(): DataTable.TbItem  { return this._TbItem;}
-    private _TbStrDictionary: TbStrDictionary
-    get TbStrDictionary(): TbStrDictionary  { return this._TbStrDictionary;}
     private _TbTask: TbTask
     get TbTask(): TbTask  { return this._TbTask;}
-    private _TbPlayer: TbPlayer
-    get TbPlayer(): TbPlayer  { return this._TbPlayer;}
-    private _TbExp: TbExp
-    get TbExp(): TbExp  { return this._TbExp;}
     private _TbConst: TbConst
     get TbConst(): TbConst  { return this._TbConst;}
     private _TbChat: TbChat
@@ -5577,58 +3743,24 @@ export class Tables {
     get TbAtlas(): TbAtlas  { return this._TbAtlas;}
     private _TbVideo: TbVideo
     get TbVideo(): TbVideo  { return this._TbVideo;}
-    private _TbLoveHistory: TbLoveHistory
-    get TbLoveHistory(): TbLoveHistory  { return this._TbLoveHistory;}
     private _Tbreloading: Tbreloading
     get Tbreloading(): Tbreloading  { return this._Tbreloading;}
-    private _Tbmirror: Tbmirror
-    get Tbmirror(): Tbmirror  { return this._Tbmirror;}
-    private _TbTaskAway: TbTaskAway
-    get TbTaskAway(): TbTaskAway  { return this._TbTaskAway;}
-    private _TbShare: TbShare
-    get TbShare(): TbShare  { return this._TbShare;}
-    private _TbUIGuide: TbUIGuide
-    get TbUIGuide(): TbUIGuide  { return this._TbUIGuide;}
-    private _TbOnline: TbOnline
-    get TbOnline(): TbOnline  { return this._TbOnline;}
-    private _TbCityMapBuild: TbCityMapBuild
-    get TbCityMapBuild(): TbCityMapBuild  { return this._TbCityMapBuild;}
     private _TbTalk: TbTalk
     get TbTalk(): TbTalk  { return this._TbTalk;}
     private _TbAudio: TbAudio
     get TbAudio(): TbAudio  { return this._TbAudio;}
-    private _TbKeyNode: TbKeyNode
-    get TbKeyNode(): TbKeyNode  { return this._TbKeyNode;}
     private _TbInteraction: TbInteraction
     get TbInteraction(): TbInteraction  { return this._TbInteraction;}
     private _TbCondition: TbCondition
     get TbCondition(): TbCondition  { return this._TbCondition;}
-    private _TbEvent: TbEvent
-    get TbEvent(): TbEvent  { return this._TbEvent;}
-    private _TbEventTrigger: TbEventTrigger
-    get TbEventTrigger(): TbEventTrigger  { return this._TbEventTrigger;}
-    private _TbBigMapPopInfo: TbBigMapPopInfo
-    get TbBigMapPopInfo(): TbBigMapPopInfo  { return this._TbBigMapPopInfo;}
     private _TbEffect: TbEffect
     get TbEffect(): TbEffect  { return this._TbEffect;}
     private _TbPlot: TbPlot
     get TbPlot(): TbPlot  { return this._TbPlot;}
     private _TbChoice: TbChoice
     get TbChoice(): TbChoice  { return this._TbChoice;}
-    private _TbRhythmGame: TbRhythmGame
-    get TbRhythmGame(): TbRhythmGame  { return this._TbRhythmGame;}
-    private _TbStoryLine: TbStoryLine
-    get TbStoryLine(): TbStoryLine  { return this._TbStoryLine;}
-    private _TbStarGalaxy: TbStarGalaxy
-    get TbStarGalaxy(): TbStarGalaxy  { return this._TbStarGalaxy;}
-    private _TbStarStage: TbStarStage
-    get TbStarStage(): TbStarStage  { return this._TbStarStage;}
-    private _TbStarSingle: TbStarSingle
-    get TbStarSingle(): TbStarSingle  { return this._TbStarSingle;}
     private _TbDate: TbDate
     get TbDate(): TbDate  { return this._TbDate;}
-    private _TbRhythmGameGK: TbRhythmGameGK
-    get TbRhythmGameGK(): TbRhythmGameGK  { return this._TbRhythmGameGK;}
     private _TbGuide: TbGuide
     get TbGuide(): TbGuide  { return this._TbGuide;}
     private _TbSpecialEvent: TbSpecialEvent
@@ -5677,40 +3809,20 @@ export class Tables {
     static getTableNames(): string[] {
         let names: string[] = [];
         names.push('datatable_tbitem');
-        names.push('tbstrdictionary');
         names.push('tbtask');
-        names.push('tbplayer');
-        names.push('tbexp');
         names.push('tbconst');
         names.push('tbchat');
         names.push('tbatlas');
         names.push('tbvideo');
-        names.push('tblovehistory');
         names.push('tbreloading');
-        names.push('tbmirror');
-        names.push('tbtaskaway');
-        names.push('tbshare');
-        names.push('tbuiguide');
-        names.push('tbonline');
-        names.push('tbcitymapbuild');
         names.push('tbtalk');
         names.push('tbaudio');
-        names.push('tbkeynode');
         names.push('tbinteraction');
         names.push('tbcondition');
-        names.push('tbevent');
-        names.push('tbeventtrigger');
-        names.push('tbbigmappopinfo');
         names.push('tbeffect');
         names.push('tbplot');
         names.push('tbchoice');
-        names.push('tbrhythmgame');
-        names.push('tbstoryline');
-        names.push('tbstargalaxy');
-        names.push('tbstarstage');
-        names.push('tbstarsingle');
         names.push('tbdate');
-        names.push('tbrhythmgamegk');
         names.push('tbguide');
         names.push('tbspecialevent');
         names.push('tbopenfunction');
@@ -5738,40 +3850,20 @@ export class Tables {
 
     constructor(loader: ByteBufLoader) {
         this._TbItem = new DataTable.TbItem(loader('datatable_tbitem'))
-        this._TbStrDictionary = new TbStrDictionary(loader('tbstrdictionary'))
         this._TbTask = new TbTask(loader('tbtask'))
-        this._TbPlayer = new TbPlayer(loader('tbplayer'))
-        this._TbExp = new TbExp(loader('tbexp'))
         this._TbConst = new TbConst(loader('tbconst'))
         this._TbChat = new TbChat(loader('tbchat'))
         this._TbAtlas = new TbAtlas(loader('tbatlas'))
         this._TbVideo = new TbVideo(loader('tbvideo'))
-        this._TbLoveHistory = new TbLoveHistory(loader('tblovehistory'))
         this._Tbreloading = new Tbreloading(loader('tbreloading'))
-        this._Tbmirror = new Tbmirror(loader('tbmirror'))
-        this._TbTaskAway = new TbTaskAway(loader('tbtaskaway'))
-        this._TbShare = new TbShare(loader('tbshare'))
-        this._TbUIGuide = new TbUIGuide(loader('tbuiguide'))
-        this._TbOnline = new TbOnline(loader('tbonline'))
-        this._TbCityMapBuild = new TbCityMapBuild(loader('tbcitymapbuild'))
         this._TbTalk = new TbTalk(loader('tbtalk'))
         this._TbAudio = new TbAudio(loader('tbaudio'))
-        this._TbKeyNode = new TbKeyNode(loader('tbkeynode'))
         this._TbInteraction = new TbInteraction(loader('tbinteraction'))
         this._TbCondition = new TbCondition(loader('tbcondition'))
-        this._TbEvent = new TbEvent(loader('tbevent'))
-        this._TbEventTrigger = new TbEventTrigger(loader('tbeventtrigger'))
-        this._TbBigMapPopInfo = new TbBigMapPopInfo(loader('tbbigmappopinfo'))
         this._TbEffect = new TbEffect(loader('tbeffect'))
         this._TbPlot = new TbPlot(loader('tbplot'))
         this._TbChoice = new TbChoice(loader('tbchoice'))
-        this._TbRhythmGame = new TbRhythmGame(loader('tbrhythmgame'))
-        this._TbStoryLine = new TbStoryLine(loader('tbstoryline'))
-        this._TbStarGalaxy = new TbStarGalaxy(loader('tbstargalaxy'))
-        this._TbStarStage = new TbStarStage(loader('tbstarstage'))
-        this._TbStarSingle = new TbStarSingle(loader('tbstarsingle'))
         this._TbDate = new TbDate(loader('tbdate'))
-        this._TbRhythmGameGK = new TbRhythmGameGK(loader('tbrhythmgamegk'))
         this._TbGuide = new TbGuide(loader('tbguide'))
         this._TbSpecialEvent = new TbSpecialEvent(loader('tbspecialevent'))
         this._TbOpenFunction = new TbOpenFunction(loader('tbopenfunction'))
@@ -5796,40 +3888,20 @@ export class Tables {
         this._TbShopGift = new TbShopGift(loader('tbshopgift'))
 
         this._TbItem.resolve(this)
-        this._TbStrDictionary.resolve(this)
         this._TbTask.resolve(this)
-        this._TbPlayer.resolve(this)
-        this._TbExp.resolve(this)
         this._TbConst.resolve(this)
         this._TbChat.resolve(this)
         this._TbAtlas.resolve(this)
         this._TbVideo.resolve(this)
-        this._TbLoveHistory.resolve(this)
         this._Tbreloading.resolve(this)
-        this._Tbmirror.resolve(this)
-        this._TbTaskAway.resolve(this)
-        this._TbShare.resolve(this)
-        this._TbUIGuide.resolve(this)
-        this._TbOnline.resolve(this)
-        this._TbCityMapBuild.resolve(this)
         this._TbTalk.resolve(this)
         this._TbAudio.resolve(this)
-        this._TbKeyNode.resolve(this)
         this._TbInteraction.resolve(this)
         this._TbCondition.resolve(this)
-        this._TbEvent.resolve(this)
-        this._TbEventTrigger.resolve(this)
-        this._TbBigMapPopInfo.resolve(this)
         this._TbEffect.resolve(this)
         this._TbPlot.resolve(this)
         this._TbChoice.resolve(this)
-        this._TbRhythmGame.resolve(this)
-        this._TbStoryLine.resolve(this)
-        this._TbStarGalaxy.resolve(this)
-        this._TbStarStage.resolve(this)
-        this._TbStarSingle.resolve(this)
         this._TbDate.resolve(this)
-        this._TbRhythmGameGK.resolve(this)
         this._TbGuide.resolve(this)
         this._TbSpecialEvent.resolve(this)
         this._TbOpenFunction.resolve(this)

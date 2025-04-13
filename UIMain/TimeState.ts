@@ -1,8 +1,7 @@
-import { ScrollView,Animation } from 'cc';
+import { ScrollView } from 'cc';
 import { Label } from 'cc';
 import { _decorator, Component, Node, Vec2, Vec3, tween } from 'cc';
 import { GameData } from '../gameplay/GameDataModel/GameData';
-import { HeroineDataManager } from './HeroineDataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('TimeState')
@@ -13,8 +12,8 @@ export class TimeState extends Component {
     NextTxtGameTime:Label = null!;
     @property(Node)
     SVContent:Node = null!;
-    @property(Animation)
-    IconTime:Animation = null!;
+    @property(Node)
+    IconTime:Node = null!;
 
     private readonly initPosY:number = 17;
     private readonly nextPosY:number = 47;
@@ -37,7 +36,6 @@ export class TimeState extends Component {
         this.initTime(curTime);
         this.initPos();
         this.PlayAnim();
-        this.PlayIconAnim();
     }
 
     PlayAnim()
@@ -62,26 +60,6 @@ export class TimeState extends Component {
             }
         )
         .start();
-    }
-    PlayIconAnim()
-    {
-        let timePoint = HeroineDataManager.Instance.GetCurVirtualTimePoint()
-        if (timePoint == 7 || timePoint == 10 || timePoint == 18) {
-            let TimeArea = HeroineDataManager.Instance.GetCurVirtualTimeArea();
-            switch (TimeArea) {
-                case 1:
-                    this.IconTime.play("IconTimeAnim01");
-                    break;
-                case 2:
-                    this.IconTime.play("IconTimeAnim02");
-                    break;
-                case 3:
-                    this.IconTime.play("IconTimeAnim03");
-                    break;
-                default:
-                    break;
-            }
-        }
     }
     initPos()
     {

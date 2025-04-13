@@ -58,7 +58,7 @@ export class UITapUp extends CCComp {
     }
 
     private onClickTest() {
-        oops.gui.open(UIID.UIAVGMap, 1);
+        oops.gui.open(UIID.UIAVGMap, 101);
     }
 }
 

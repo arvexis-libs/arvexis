@@ -24,34 +24,19 @@ import ConfigManager from "../manager/Config/ConfigManager";
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGScene')
-@ecs.register('UIAVGScene', false)
-export class UIAVGScene extends CCComp {
-    @property(Node)
-    private Scene: Node = null!;
-    @property(Button)
-    private closeBtn: Button = null!;
+@ccclass('UIAVGMapSub')
+@ecs.register('UIAVGMapSub', false)
+export class UIAVGMapSub extends CCComp {
+    @property([Node])
+    private buttonList: Node[] = [];
 
-    private go: Node = null!;
     private Id: number = 0;
-    onAdded(id: any) {
-        this.Id = id;
-        return true;
-    }
 
     /**  */
     start() {
-        this.closeBtn.node.on('click', this.onClickClose, this);
-        oops.message.on(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
+        // this.closeBtn.node.on('click', this.onClickClose, this);
 
-        this.init();
     }
-
-    private UIAVGSceneInit(a: any, id: any) {
-        this.Id = id;
-        this.init();
-    }
-
     protected onEnable(): void {
     }
 
@@ -60,34 +45,49 @@ export class UIAVGScene extends CCComp {
     }
 
     onDestroy() {
-        oops.message.off(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
+
     }
 
     private onClickClose() {
-        oops.gui.remove(UIID.UIAVGScene);
+        oops.gui.remove(UIID.UIAVGMap);
     }
 
-    private async init() {
-        if (this.Id == 0) {
+
+    private onClickTest1() {
+        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10101)!;
+        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+    }
+
+    private onClickTest2() {
+        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10102)!;
+        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+    }
+
+
+    public Init(id: number) {
+        this.Id = id;
+        const cfg = ConfigManager.tables.TbAVGMap.get(this.Id)!;
+        for (let i = 0; i < cfg.ScenegroupId.length; i++) {
+            this.initBtn(i, cfg.ScenegroupId[i]);
+        }
+    }
+
+    private initBtn(i: number, id: number) {
+        let btn = this.buttonList[i];
+        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(id)!;
+        let isUnlock = true;
+        if (!isUnlock) {
+            btn.active = false;
             return;
         }
-        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
-        
-        let prb = await this.loadPrefab(cfg.Path);
-        if (prb) {
-            if (this.go != null) {
-                this.go.destroy();
-            }
 
-            this.go = instantiate(prb);
-            this.Scene.addChild(this.go);
-        }
-    }    
 
-    private async loadPrefab(urlPath: string):Promise<Prefab>
-    {
-        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Scene/" + urlPath);
-        return go;
+        btn.on(Button.EventType.CLICK, () => { oops.gui.open(UIID.UIAVGScene, cfg.Initialscene); }, this);
+
+        btn.active = true;
+    }
+
+    private refresh() {
     }
 
 }

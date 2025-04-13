@@ -20,6 +20,7 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
+import { UIAVGMapSub } from "./UIAVGMapSub";
 
 const { ccclass, property } = _decorator;
 
@@ -27,13 +28,12 @@ const { ccclass, property } = _decorator;
 @ccclass('UIAVGMap')
 @ecs.register('UIAVGMap', false)
 export class UIAVGMap extends CCComp {
+    @property(Node)
+    private Root: Node = null!;
     @property(Button)
     private closeBtn: Button = null!;
-    @property(Button)
-    private testBtn1: Button = null!;
-    @property(Button)
-    private testBtn2: Button = null!;
 
+    private go: Node = null!;
     private Id: number = 0;
     onAdded(id: any) {
         this.Id = id;
@@ -43,8 +43,7 @@ export class UIAVGMap extends CCComp {
     /**  */
     start() {
         this.closeBtn.node.on('click', this.onClickClose, this);
-        this.testBtn1.node.on('click', this.onClickTest1, this);
-        this.testBtn2.node.on('click', this.onClickTest2, this);
+        this.init();
     }
     protected onEnable(): void {
     }
@@ -61,14 +60,28 @@ export class UIAVGMap extends CCComp {
         oops.gui.remove(UIID.UIAVGMap);
     }
 
-    private onClickTest1() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10101)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+
+    private async init() {
+        if (this.Id == 0) {
+            return;
+        }
+        const cfg = ConfigManager.tables.TbAVGMap.get(this.Id)!;
+
+        let prb = await this.loadPrefab(cfg.Path);
+        if (prb) {
+            if (this.go != null) {
+                this.go.destroy();
+            }
+
+            this.go = instantiate(prb);
+            this.go.getComponent(UIAVGMapSub)!.Init(this.Id);
+            this.Root.addChild(this.go);
+        }
     }
 
-    private onClickTest2() {
-        const cfg = ConfigManager.tables.TbAVGSceneGroup.get(10102)!;
-        oops.gui.open(UIID.UIAVGScene, cfg.Initialscene);
+    private async loadPrefab(urlPath: string): Promise<Prefab> {
+        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Map/" + urlPath);
+        return go;
     }
 }
 

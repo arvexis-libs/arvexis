@@ -1,6 +1,6 @@
 import {
     Node, EventTouch, _decorator, Component, Label, Button, SpriteFrame, Vec3, Vec2, tween, Tween, UIOpacity,
-    CCInteger, CCString, CCBoolean, CCFloat, log, error, input, NodePool, instantiate, Prefab, UITransform, director, EventHandle
+    CCInteger, CCString, CCBoolean, CCFloat, log, error, input, NodePool, instantiate, Prefab, UITransform, director, Animation, EventHandle
 } from "cc";
 import { CCComp } from "db://oops-framework/module/common/CCComp";
 import { oops } from "db://oops-framework/core/Oops";
@@ -16,7 +16,7 @@ import ConfigManager from "../manager/Config/ConfigManager";
 import { TimeUtility } from "../gameplay/Utility/TimeUtility";
 import { TaskType } from "../gameplay/GameDataModel/TaskType";
 import { GameHelper } from "../gameplay/GameTool/GameHelper";
-import { TbInteraction, TbVideo, TrInteraction, TrUIGuide } from "../schema/schema";
+import { TbInteraction, TbVideo, TrInteraction } from "../schema/schema";
 import { UIMainVideoComp } from "../UIMainVideo/UIMainVideoComp";
 import { FunctionOpenType } from "../gameplay/GameDataModel/FunctionOpenType";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
@@ -42,6 +42,7 @@ import { BlockInputEvents } from "cc";
 import { PropType } from "./HeroineDataManager";
 import { Skeleton } from "cc";
 import { TimeState } from "./TimeState";
+import { animation } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass('UIMain')
@@ -129,8 +130,6 @@ export class UIMain extends CCComp {
     RefreshTimeState()    ////UI
     {
         let timePoint = HeroineDataManager.Instance.GetCurVirtualTimePoint();
-        //this.TxtGameTime.string = `${timePoint}`
-        //todo/
         this.TimeState.changeTimeAnim(timePoint)
         this.TimeState.SetLastTime(timePoint);
     }
@@ -209,7 +208,8 @@ export class UIMain extends CCComp {
 
     }
     BtnShop_Click() {
-      
+        let d =HeroineDataManager.Instance.GetAllIdentityProp();
+        console.log("", d);
     }
     BtnBoyFriend_Click() {
         // 

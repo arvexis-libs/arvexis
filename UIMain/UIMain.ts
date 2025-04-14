@@ -164,7 +164,9 @@ export class UIMain extends CCComp {
         let curVirtualTime = HeroineDataManager.Instance.GetCurVirtualTimeArea();
         for (let i = 0; i < this.ArrBg.length; i++) {
             const element = this.ArrBg[i];
-            element.active = i == (curVirtualTime- 1);
+            const active = i == (curVirtualTime- 1);
+            console.log(`[UIMain] RefreshBg, i: ${i}, curVirtualTime: ${curVirtualTime}, active: ${active}`);
+            element.active = active;
         }
     }
 

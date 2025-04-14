@@ -65,8 +65,8 @@ export class UIMainVideoComp extends CCComp {
         }
         UIMainVideoComp.instance = this;
 
-        console.log("loading");
         let videoNode = VideoFactory.getInstance().createVideo();
+        console.log(`[video] , videoNode: ${videoNode?.name}`);
         this.mVideoParentNode.addChild(videoNode);
         this.mVideoCom = videoNode.getComponent(VideoCom)!;
 
@@ -115,29 +115,33 @@ export class UIMainVideoComp extends CCComp {
         this.isPlaying = true;
         const platform = SdkManager.inst.getPlatform();
         const config = ConfigManager.tables.TbVideo.get(cfgId);
-        let newurl = GameData.VIDEO_WEBGL_URL + config?.ResPathPhone + ".m3u8";
-        if (sys.isBrowser) {
-            newurl = GameData.VIDEO_URL + config?.ResPath;
-        }
-        else {
-            if (platform == "windows" || platform == "mac") {
-                newurl = GameData.VIDEO_URL + config?.ResPath;
-            }
-            //newurl = GameData.VIDEO_URL + config?.ResPath;
-        }
+        // let newurl = GameData.VIDEO_WEBGL_URL + config?.ResPathPhone + ".m3u8";
+        // if (sys.isBrowser) {
+        //     newurl = GameData.VIDEO_URL + config?.ResPath;
+        // }
+        // else {
+        //     if (platform == "windows" || platform == "mac") {
+        //         newurl = GameData.VIDEO_URL + config?.ResPath;
+        //     }
+        //     //newurl = GameData.VIDEO_URL + config?.ResPath;
+        // }
 
-        //
-        if(config?.ResLocation == 1 && ((NATIVE && ANDROID))){
-            this.defaultParam.resourceType = EVideoType.Local;
-            newurl = config?.ResPath.slice(0, -4);
-        }
-        else{
-            this.defaultParam.resourceType = EVideoType.Remote;
-        }
+        // //
+        // if(config?.ResLocation == 1 && ((NATIVE && ANDROID))){
+        //     this.defaultParam.resourceType = EVideoType.Local;
+        //     newurl = config?.ResPath.slice(0, -4);
+        // }
+        // else{
+        //     this.defaultParam.resourceType = EVideoType.Remote;
+        // }
+
+
+        let newurl = GameData.VIDEO_URL + config?.ResPath;
+        this.defaultParam.resourceType = EVideoType.Remote;
 
         this.mNeedTranformAni = true;
 
-        console.log("url = " + (newurl));
+        console.log(`[video] , url: ${newurl}, resourceType: ${this.defaultParam.resourceType}`);
         this.defaultParam.videoid = cfgId;
         this.defaultParam.src = newurl;
         this.defaultParam.loop = loop;

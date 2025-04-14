@@ -150,7 +150,7 @@ export class LoadingViewComp extends CCComp {
             PlayerSystem.Instance.init();
             await UITimerManager.Instance.Init();
             await UINotificationManager.Instance.Init();
-            await SdkManager.inst.init();
+            // await SdkManager.inst.init();
             await UIMusicManager.inst.init();
             Notification.RefreshAllRedPoint();
             StorySystem.Instance.Init();

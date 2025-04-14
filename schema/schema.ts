@@ -1692,6 +1692,146 @@ export class TrOpenFunction {
 
 
 
+export class TrPlayer {
+
+    constructor(_buf_: ByteBuf) {
+        this.Id = _buf_.ReadInt()
+        this.IconPath = _buf_.ReadString()
+        this.ImagePath = _buf_.ReadString()
+        this.MapIconPath = _buf_.ReadString()
+        this.FuncIconPath = _buf_.ReadString()
+        this.PhoneIcon = _buf_.ReadString()
+        this.VideoId = _buf_.ReadInt()
+        this.Name = _buf_.ReadString()
+        this.NickName = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Unlock.push(_e0);}}
+        this.LvMask = _buf_.ReadString()
+        this.settlepicture = _buf_.ReadString()
+        this.StoryLinePic = _buf_.ReadString()
+        this.ItemId = _buf_.ReadInt()
+        this.ExpId = _buf_.ReadInt()
+        this.Information1Text = _buf_.ReadString()
+        this.Information1Show = _buf_.ReadInt()
+        this.Information2Text = _buf_.ReadString()
+        this.Information2Show = _buf_.ReadInt()
+        this.Information3Text = _buf_.ReadString()
+        this.Information3Show = _buf_.ReadInt()
+    }
+
+    /**
+     * id
+     */
+    readonly Id: number
+    /**
+     * 
+     */
+    readonly IconPath: string
+    /**
+     * 
+     */
+    readonly ImagePath: string
+    /**
+     * 
+     */
+    readonly MapIconPath: string
+    /**
+     * 
+     */
+    readonly FuncIconPath: string
+    /**
+     * 
+     */
+    readonly PhoneIcon: string
+    /**
+     * 
+     */
+    readonly VideoId: number
+    /**
+     * 
+     */
+    readonly Name: string
+    /**
+     * ()
+     */
+    readonly NickName: string
+    /**
+     * 
+     */
+    readonly Unlock: number[]
+    /**
+     * 
+     */
+    readonly LvMask: string
+    /**
+     * 
+     */
+    readonly settlepicture: string
+    /**
+     * 
+     */
+    readonly StoryLinePic: string
+    /**
+     * 
+     */
+    readonly ItemId: number
+    /**
+     * 
+     */
+    readonly ExpId: number
+    /**
+     * 1
+     */
+    readonly Information1Text: string
+    /**
+     * 1
+     */
+    readonly Information1Show: number
+    /**
+     * 2
+     */
+    readonly Information2Text: string
+    /**
+     * 2
+     */
+    readonly Information2Show: number
+    /**
+     * 3
+     */
+    readonly Information3Text: string
+    /**
+     * 3
+     */
+    readonly Information3Show: number
+
+    resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrPlot {
 
     constructor(_buf_: ByteBuf) {
@@ -2564,6 +2704,39 @@ export class TbTask {
     getDataList(): TrTask[] { return this._dataList; }
 
     get(key: number): TrTask | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
+
+
+
+export class TbPlayer {
+    private _dataMap: Map<number, TrPlayer>
+    private _dataList: TrPlayer[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<number, TrPlayer>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrPlayer
+            _v = new TrPlayer(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Id, _v)
+        }
+    }
+
+    getDataMap(): Map<number, TrPlayer> { return this._dataMap; }
+    getDataList(): TrPlayer[] { return this._dataList; }
+
+    get(key: number): TrPlayer | undefined {
         return this._dataMap.get(key); 
     }
 
@@ -3741,6 +3914,8 @@ export class Tables {
     get TbItem(): DataTable.TbItem  { return this._TbItem;}
     private _TbTask: TbTask
     get TbTask(): TbTask  { return this._TbTask;}
+    private _TbPlayer: TbPlayer
+    get TbPlayer(): TbPlayer  { return this._TbPlayer;}
     private _TbConst: TbConst
     get TbConst(): TbConst  { return this._TbConst;}
     private _TbChat: TbChat
@@ -3816,6 +3991,7 @@ export class Tables {
         let names: string[] = [];
         names.push('datatable_tbitem');
         names.push('tbtask');
+        names.push('tbplayer');
         names.push('tbconst');
         names.push('tbchat');
         names.push('tbatlas');
@@ -3857,6 +4033,7 @@ export class Tables {
     constructor(loader: ByteBufLoader) {
         this._TbItem = new DataTable.TbItem(loader('datatable_tbitem'))
         this._TbTask = new TbTask(loader('tbtask'))
+        this._TbPlayer = new TbPlayer(loader('tbplayer'))
         this._TbConst = new TbConst(loader('tbconst'))
         this._TbChat = new TbChat(loader('tbchat'))
         this._TbAtlas = new TbAtlas(loader('tbatlas'))
@@ -3895,6 +4072,7 @@ export class Tables {
 
         this._TbItem.resolve(this)
         this._TbTask.resolve(this)
+        this._TbPlayer.resolve(this)
         this._TbConst.resolve(this)
         this._TbChat.resolve(this)
         this._TbAtlas.resolve(this)

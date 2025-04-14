@@ -20,32 +20,35 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
-import { UIAVGMapSub } from "./UIAVGMapSub";
+import { find } from "cc";
+import { StorySystem } from "../gameplay/Manager/StorySystem";
 
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGMap')
-@ecs.register('UIAVGMap', false)
-export class UIAVGMap extends CCComp {
-    @property(Node)
-    private Root: Node = null!;
-    @property(Button)
-    private closeBtn: Button = null!;
+@ccclass('UIAVGNPC')
+@ecs.register('UIAVGNPC', false)
+export class UIAVGNPC extends CCComp {
+    @property(Number)
+    public Id: number = 0;
 
-    private go: Node = null!;
-    private Id: number = 0;
-    onAdded(id: any) {
-        this.Id = id;
-        return true;
-    }
+    @property(Node)
+    private role: Node = null!;
+    @property(Node)
+    private choice: Node = null!;
+    @property(Node)
+    private btnBase: Node = null!;
+
 
     /**  */
     start() {
-        this.closeBtn.node.on('click', this.onClickClose, this);
-        this.init();
+        this.role.on('click', this.onClickRole, this);
+
+        this.choice.active = false;
     }
     protected onEnable(): void {
+
+        this.refresh();
     }
 
     /**  ecs.Entity.remove(UIMakeMoneyRootViewComp)  */
@@ -56,32 +59,47 @@ export class UIAVGMap extends CCComp {
 
     }
 
-    private onClickClose() {
-        oops.gui.remove(UIID.UIAVGMap);
-    }
-
-
-    private async init() {
+    private refresh() {
         if (this.Id == 0) {
             return;
         }
-        const cfg = ConfigManager.tables.TbAVGMap.get(this.Id)!;
 
-        let prb = await this.loadPrefab(cfg.Path);
-        if (prb) {
-            if (this.go != null) {
-                this.go.destroy();
-            }
-
-            this.go = instantiate(prb);
-            this.go.getComponent(UIAVGMapSub)!.Init(this.Id);
-            this.Root.addChild(this.go);
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+        for (let i = 0; i < cfg.ChoiceStory.length; i++) {
+            this.refreshBtn(i);
         }
     }
 
-    private async loadPrefab(urlPath: string): Promise<Prefab> {
-        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Map/" + urlPath);
-        return go;
+    private refreshBtn(id: number) {
+        let btn = instantiate(this.btnBase);
+        btn.parent = this.btnBase.parent;
+        btn.active = true;
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+
+        btn.on(Button.EventType.CLICK, () => { this.OnChoice(cfg.ChoiceStory[id]); }, this);
+
+        const itemName = find("name", btn)?.getComponent(Label)!;
+        itemName.string = cfg.ChoiceText[id];
+
     }
+
+
+
+    private onClickRole() {
+        const cfg = ConfigManager.tables.TbAVGNPC.get(this.Id)!;
+        if (cfg.ChoiceStory.length == 0) {
+            return;
+        }
+
+        this.choice.active = !this.choice.active;
+    }
+
+
+    private OnChoice(id: number): void {
+        StorySystem.Instance.Play(id);
+
+    }
+
+
 }
 

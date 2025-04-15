@@ -7,7 +7,7 @@ import ConfigManager from '../manager/Config/ConfigManager';
 import { TimeExUtil } from '../common/TimeExUtils';
 import { Button } from 'cc';
 import { UITransform } from 'cc';
-import { changeLabelText, changeSpriteImage, getImagePath, getLabelText } from '../common/UIExTool';
+import { changeLabelText, changeSpriteImage, getImagePath } from '../common/UIExTool';
 import { v3 } from 'cc';
 import { UIMainVideoComp } from '../UIMainVideo/UIMainVideoComp';
 import { PlayerSystem } from '../gameplay/Manager/PlayerSystem';

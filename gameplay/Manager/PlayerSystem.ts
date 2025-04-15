@@ -77,7 +77,19 @@ export class PlayerSystem {
     }
     //#region 
     public GetCurBoyFriendId() {
+        if(this.PlayerData.CurBoyFriendId === 0) {
+            for (const [id, bF] of this.PlayerData.BoyFriends) {
+                if(bF.IsUnlock()) {
+                    this.PlayerData.CurBoyFriendId = id;
+                    break;
+                }
+            }
+        }
         return this.PlayerData.CurBoyFriendId;
+    }
+
+    public ChangeCurBoyFrined(id: number){
+        this.PlayerData.CurBoyFriendId = id; 
     }
 
     /**
@@ -95,7 +107,7 @@ export class PlayerSystem {
         if (!players.has(playerId)) {
             let p = new Player();
             p.cfgId = playerId;
-            p.CurBoyFriendId = id;
+            // p.CurBoyFriendId = id;
             players.set(playerId, p);
             player = p;
         }

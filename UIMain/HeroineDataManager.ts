@@ -17,7 +17,7 @@ import ConfigManager from "../manager/Config/ConfigManager";
 import { TimeUtility } from "../gameplay/Utility/TimeUtility";
 import { TaskType } from "../gameplay/GameDataModel/TaskType";
 import { GameHelper } from "../gameplay/GameTool/GameHelper";
-import { TbInteraction, TbVideo, TrInteraction, TrLevel, TrUIGuide } from "../schema/schema";
+import { TbInteraction, TbVideo, TrInteraction, TrLevel } from "../schema/schema";
 import { UIMainVideoComp } from "../UIMainVideo/UIMainVideoComp";
 import { FunctionOpenType } from "../gameplay/GameDataModel/FunctionOpenType";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";

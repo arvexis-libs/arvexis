@@ -25,6 +25,7 @@ import { TrBoyFriend, TrInteraction } from "../schema/schema";
 import { Utility } from "../gameplay/Utility/Utility";
 import { GameEvent } from "../common/config/GameEvent";
 import { devNull } from "os";
+import { tips } from "../common/prompt/TipsManager";
 const { ccclass, property } = _decorator;
 
 
@@ -95,7 +96,6 @@ export class UIBoyFriend extends CCComp {
     private _rightBtnBottomGroupInitPosY: number = 0;
     private readonly _handTapMoveHeight: number = 230;
     private _isInitBottom: boolean = false;
-    private _currentPlayVideoId: number = -1;
     //
     private _playingActionVideoId: number = 0;
     // 
@@ -152,7 +152,6 @@ export class UIBoyFriend extends CCComp {
         this._bfListCache.length = 0;
         this._selectBFHeadIdx = -1;
         this._curHeadBottomIsOpen = false;
-        this._currentPlayVideoId = -1;
         this._playingActionVideoId = 0;
         this._isChangingBoy = false;
     }
@@ -271,7 +270,9 @@ export class UIBoyFriend extends CCComp {
                 return;
             }
             id = cfg.VideoId;
+            // PlayerSystem.Instance.ChangeCurBoyFrined(cfg.Id);
         }
+        
         this._isChangingBoy = true;
         this._changBoyCd = 0.2;
         UIMainVideoComp.getInstance().playUrl(id, true);
@@ -313,7 +314,7 @@ export class UIBoyFriend extends CCComp {
                     this._bfListCache.push(item);
                 }
                 item.node.setPosition(v3(totolX, 0));
-                totolX += item.node.size.width + 40;
+                totolX += item.node.size.width + 20;
                 
                 this._onUpdateBoyFriendItemCell(item, i, trBoyFriend.Id);
             }
@@ -328,7 +329,7 @@ export class UIBoyFriend extends CCComp {
             return;
         }
 
-        if(this._selectBFHeadIdx == -1) {
+        if(this._selectBFHeadIdx < 0) {
             this._selectBFHeadIdx = index;
         }
         // item.node.active = true;
@@ -483,7 +484,9 @@ export class UIBoyFriend extends CCComp {
 
     // 
     private onClickBtnFashion() {
-
+        tips.confirm("", () => {
+        }, "", () => {
+        }, "", false);
     }
 
     // 

@@ -5,7 +5,7 @@ import ConfigManager from '../manager/Config/ConfigManager';
 import { oops } from '../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { UIID } from '../common/config/GameUIConfig';
 import { GameEvent } from '../common/config/GameEvent';
-import { changeSpine, changeSpriteImage, getImagePath, getLabelText } from '../common/UIExTool';
+import { changeSpine, changeSpriteImage, getImagePath } from '../common/UIExTool';
 import { Sprite } from 'cc';
 import { sp } from 'cc';
 import { Button } from 'cc';
@@ -282,13 +282,13 @@ export class UITalkView extends CCComp {
                 console.error("id%s, SpinePath  SpineAnimGroup ",element.Id);
             }
             if(element.MeSpinePath != "") {
-                const skeletonData = await oops.res.loadAsync<sp.SkeletonData>("UITalkView", element.MeSpinePath, sp.SkeletonData);
+                const skeletonData = await oops.res.loadAsync<sp.SkeletonData>("Spine", element.MeSpinePath, sp.SkeletonData);
                 if(skeletonData == null || skeletonData == undefined) {
                     console.error("id%s, MeSpinePath ",element.Id);
                 }
             }
             if(element.SpinePath != "") {
-                const skeletonData = await oops.res.loadAsync<sp.SkeletonData>("UITalkView", element.SpinePath, sp.SkeletonData);
+                const skeletonData = await oops.res.loadAsync<sp.SkeletonData>("Spine", element.SpinePath, sp.SkeletonData);
                 if(skeletonData == null || skeletonData == undefined) {
                     console.error("id%s,SpinePath ",element.Id);
                 }
@@ -509,7 +509,7 @@ export class UITalkView extends CCComp {
         }
 
         this._spineCacheDic.forEach((value, key) => {
-            oops.res.release(key, "UITalkView");
+            oops.res.release(key, "Spine");
         });
         this._spineCacheDic.clear();
     }
@@ -693,7 +693,7 @@ export class UITalkView extends CCComp {
         this._isChangingSpine = true;
         Tween.stopAllByTarget(skSpine.node);
         skSpine.node.active = false;
-        await changeSpine(skSpine, spinePath, "UITalkView");
+        await changeSpine(skSpine, spinePath, "Spine");
         if(skSpine != null && !this._isDestroy) {
             skSpine.node.active = true;
         }

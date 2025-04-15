@@ -135,13 +135,15 @@ export class UIMainVideoComp extends CCComp {
         //     this.defaultParam.resourceType = EVideoType.Remote;
         // }
 
-
-        let newurl = GameData.VIDEO_URL + config?.ResPath;
+        // let newurl = GameData.VIDEO_WEBGL_URL + config?.ResPathPhone + ".m3u8";
+        // let newurl = GameData.VIDEO_URL + config?.ResPath;
+        let newurl = GameData.VIDEO_URL + "P_Interaction_101.mp4";
+        
         this.defaultParam.resourceType = EVideoType.Remote;
 
         this.mNeedTranformAni = true;
 
-        console.log(`[video] , url: ${newurl}, resourceType: ${this.defaultParam.resourceType}`);
+        console.log(`[video] , url: ${newurl}, resourceType: ${this.defaultParam.resourceType}, resPath: ${config?.ResPath}`);
         this.defaultParam.videoid = cfgId;
         this.defaultParam.src = newurl;
         this.defaultParam.loop = loop;

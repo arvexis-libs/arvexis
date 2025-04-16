@@ -22,6 +22,8 @@ import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
 import { find } from "cc";
 import { StorySystem } from "../gameplay/Manager/StorySystem";
+import { Skeleton } from "cc";
+import { sp } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -38,7 +40,8 @@ export class UIAVGNPC extends CCComp {
     private choice: Node = null!;
     @property(Node)
     private btnBase: Node = null!;
-
+    @property(Node)
+    private Spine: Node = null!;
 
     /**  */
     start() {
@@ -68,6 +71,12 @@ export class UIAVGNPC extends CCComp {
         for (let i = 0; i < cfg.ChoiceStory.length; i++) {
             this.refreshBtn(i);
         }
+
+        this.Spine.children.forEach(element => {
+            let skeleton = element.getComponent(sp.Skeleton)!;
+            skeleton.setAnimation(0, "idle", true);
+            // element.active = false;
+        });
     }
 
     private refreshBtn(id: number) {

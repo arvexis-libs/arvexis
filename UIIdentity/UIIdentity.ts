@@ -10,7 +10,7 @@ import { Utility } from '../gameplay/Utility/Utility';
 import { IdentityCard } from '../UIIdentity/IdentityCard';
 import { UIID } from '../common/config/GameUIConfig';
 import { GameData } from '../gameplay/GameDataModel/GameData';
-import { ItemEnum } from '../gameplay/GameDataModel/GameEnum';
+import { ItemEnum, SublimingType } from '../gameplay/GameDataModel/GameEnum';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIIdentity')
@@ -34,6 +34,7 @@ export class UIIdentity extends CCComp {
     private _curTrIdentityLevel: TrIdentityLevel = null!;
     private _curIdentityCard: IdentityCard = null!;
     private _dicIdentityCard: Map<number, IdentityCard> = new Map();//
+    private _listLastProp: number[] = [0, 0, 0, 0, 0];//
     protected onLoad(): void {
         this._arrTrIndentity = ConfigManager.tables.TbIdentity.getDataList();
     }
@@ -67,6 +68,9 @@ export class UIIdentity extends CCComp {
             this._curIdentityCard = this._dicIdentityCard.get(firstKey)!;
             this._curTrIdentity = ConfigManager.tables.TbIdentity.get(firstKey)!;;
         }
+        else{
+            
+        }
         this._curIdentityCard.node.setSiblingIndex(this.CardContainer.children.length - 1); // 
         let curCardLevel = HeroineDataManager.Instance.GetIdentityLevelById(this._curTrIdentity.Id);
         this._curTrIdentityLevel = HeroineDataManager.Instance.GetTrIdentityLevelByIdAndlevel(this._curTrIdentity.Id, curCardLevel)!
@@ -81,6 +85,7 @@ export class UIIdentity extends CCComp {
         this.setSubliming();
         this.setTxtSublimingEnableLv();
         this.setLevelUpNeed();
+        this.setRedPoint();
         this._curIdentityCard.Refresh();
     }
 
@@ -106,7 +111,7 @@ export class UIIdentity extends CCComp {
     setProp()
     {
         let curCardLevel = HeroineDataManager.Instance.GetIdentityLevelById(this._curTrIdentity.Id);
-        let arr = this.GetArrProp(this._curTrIdentity.Id ,curCardLevel)!;
+        let arr = HeroineDataManager.Instance.GetArrProp(this._curTrIdentity.Id ,curCardLevel)!;
         for (let i = 0; i < this.ArrPropAdd.length; i++) {
             const element = this.ArrPropAdd[i];
             let iconSprite:Sprite = element.getChildByName("Icon")?.getComponent(Sprite)!;
@@ -115,16 +120,57 @@ export class UIIdentity extends CCComp {
                 iconSprite.spriteFrame = sp;
             });
             let value = element.getChildByName("Value")?.getComponent(Label)!
+            this._listLastProp[i] = arr[i] - Number(value.string);
             value.string = arr[i].toString();
         }
+
+        this.showPropAdd();
+    }
+
+    showPropAdd()
+    {
+        for (let i = 0; i < this.ArrPropAdd.length; i++) {
+            const element = this.ArrPropAdd[i];
+            let valueAdd:Label = element.getChildByName("ValueAdd")?.getComponent(Label)!;
+            valueAdd.node.active = true;
+            valueAdd.string = `+${this._listLastProp[i]}`;
+        }
+
+        oops.timer.scheduleOnce(() => {
+            if (this.ArrPropAdd) {
+                for (let i = 0; i < this.ArrPropAdd.length; i++) {
+                    const element = this.ArrPropAdd[i];
+                    let valueAdd:Label = element.getChildByName("ValueAdd")?.getComponent(Label)!;
+                    valueAdd.node.active = false;
+                }
+            }
+        }, 1);
     }
     setSubliming()
     {
-        this.TxtSubliming.string = this._curTrIdentity.TxtSubliming;
+        let arr = this._curTrIdentity.TxtSubliming
+        let sublimingType = Number(arr[0]);
+        let desc = arr[1];
+        let value = arr[2];
+        switch(sublimingType)
+        {
+            case SublimingType.AllProp:
+                this.TxtSubliming.string = `${desc}${value} `;
+                break;
+            case SublimingType.MagicReward:
+                this.TxtSubliming.string = `${desc}${value} `;
+                break;
+            case SublimingType.SingleProp:
+                let tr = ConfigManager.tables.TbHeroinePropType.get(this._curTrIdentity.SublimingPropID)!
+                this.TxtSubliming.string = `${desc.replace("{0}", tr?.Name)}${value} `;
+                break;
+        }
+
     }
     setTxtSublimingEnableLv()
     {
-        this.TxtSublimingEnableLv.string = this._curTrIdentity.SublimingLevel.toString();
+        this.TxtSublimingEnableLv.string = `${this._curTrIdentity.SublimingLevel}`;
+        
     }
     setLevelUpNeed()
     {
@@ -137,9 +183,9 @@ export class UIIdentity extends CCComp {
         let curHas = GameData.getCurrency(currencyType);
         this.TxtLevelUpNeed.string = `${curHas}/${this._curTrIdentityLevel.NeedCurrency[1]}` ;
     }
-    setRedPoint(isShow: boolean)
+    setRedPoint()
     {
-        this.RedPoint.active = isShow;
+        this.RedPoint.active = this.checkCanLevelUp();
     }
 
     OnClose_Click() {
@@ -147,6 +193,7 @@ export class UIIdentity extends CCComp {
     }
 
     OnBtnLevelUp_Click()
+
     {
         if (this.checkCanLevelUp()) {
             HeroineDataManager.Instance.IdentityLevelup(this._curTrIdentityLevel.IdentityId);
@@ -165,6 +212,11 @@ export class UIIdentity extends CCComp {
         
     }
 
+    OnBtnChange_Click()
+    {
+        this.changeIdentityCard();
+    }
+
     checkCanLevelUp()
     {
         let currencyType = this._curTrIdentityLevel.NeedCurrency[0]
@@ -178,18 +230,6 @@ export class UIIdentity extends CCComp {
 
     reset() {
 
-    }
-
-    GetArrProp(identityId: number, level:number)
-    {
-        let result:number[] = [];
-        let TrIdentityLevel = HeroineDataManager.Instance.GetTrIdentityLevelByIdAndlevel(identityId,level);
-        result.push(TrIdentityLevel?.Prop1!);
-        result.push(TrIdentityLevel?.Prop2!);
-        result.push(TrIdentityLevel?.Prop3!);
-        result.push(TrIdentityLevel?.Prop4!);
-        result.push(TrIdentityLevel?.Prop5!);
-        return result;
     }
 }
 

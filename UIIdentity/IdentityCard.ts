@@ -33,7 +33,6 @@ export class IdentityCard extends Component
         this.setSpecPropIcon();
         this.setFeature();
         this.setIconIndent();
-        console.error(this.node.name)
     }
     
     setName(name: string)

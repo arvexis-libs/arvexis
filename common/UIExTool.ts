@@ -115,44 +115,44 @@ export function getImageParam(key: string) : {path:string, bundle: string} {
  * @param key 
  * @returns 
  */
-// export function changeLabelText(label: Label, key: string) {
-//     if(label == null) {
-//         console.error("changeLabel error Label is null!!!");
-//         return
-//     }
-//     try {
+export function changeLabelText(label: Label, key: string) {
+    if(label == null) {
+        console.error("changeLabel error Label is null!!!");
+        return
+    }
+    try {
         
-//         var cfg = ConfigManager.tables.TbStrDictionary.get(key);
+        var cfg = ConfigManager.tables.TbStrDictionary.get(key);
 
-//         if(cfg == null){
-//             console.error("no find key:",key);
-//             return;
-//         }
-//         label.string = cfg?.Zh;
+        if(cfg == null){
+            console.error("no find key:",key);
+            return;
+        }
+        label.string = cfg?.Zh;
 
-//         console.log('Label changed successfully!');
-//     } catch (error) {
-//         console.error('Failed to load Label:', error);
-//     }
-// }
+        console.log('Label changed successfully!');
+    } catch (error) {
+        console.error('Failed to load Label:', error);
+    }
+}
 
 /**
  * 
  * @param key 
  * @returns 
  */
-// export function getLabelText(key: string) : string {
-//     if(key == "") {
-//         return "";
-//     }
-//     var cfg = ConfigManager.tables.TbStrDictionary.get(key);
+export function getLabelText(key: string) : string {
+    if(key == "") {
+        return "";
+    }
+    var cfg = ConfigManager.tables.TbStrDictionary.get(key);
 
-//     if(cfg == null){
-//         console.error("no find key:",key);
-//         return "";
-//     }
-//     return cfg.Zh;
-// }
+    if(cfg == null){
+        console.error("no find key:",key);
+        return "";
+    }
+    return cfg.Zh;
+}
 
 
 export function getPhoneHeadIconPath(roleId: number) : string {

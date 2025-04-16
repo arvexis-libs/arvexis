@@ -2073,6 +2073,35 @@ export class TrSpecialEvent {
 
 
 
+export class TrStrDictionary {
+
+    constructor(_buf_: ByteBuf) {
+        this.Key = _buf_.ReadString()
+        this.Zh = _buf_.ReadString()
+        this.English = _buf_.ReadString()
+    }
+
+    /**
+     * Key
+     */
+    readonly Key: string
+    /**
+     * 
+     */
+    readonly Zh: string
+    readonly English: string
+
+    resolve(tables:Tables) {
+        
+        
+        
+    }
+}
+
+
+
+
+
 export class TrTalk {
 
     constructor(_buf_: ByteBuf) {
@@ -2683,6 +2712,39 @@ export class TbItem {
 
 }
 }
+
+
+
+export class TbStrDictionary {
+    private _dataMap: Map<string, TrStrDictionary>
+    private _dataList: TrStrDictionary[]
+    constructor(_buf_: ByteBuf) {
+        this._dataMap = new Map<string, TrStrDictionary>()
+        this._dataList = []
+        for(let n = _buf_.ReadInt(); n > 0; n--) {
+            let _v: TrStrDictionary
+            _v = new TrStrDictionary(_buf_)
+            this._dataList.push(_v)
+            this._dataMap.set(_v.Key, _v)
+        }
+    }
+
+    getDataMap(): Map<string, TrStrDictionary> { return this._dataMap; }
+    getDataList(): TrStrDictionary[] { return this._dataList; }
+
+    get(key: string): TrStrDictionary | undefined {
+        return this._dataMap.get(key); 
+    }
+
+    resolve(tables:Tables) {
+        for(let  data of this._dataList)
+        {
+            data.resolve(tables)
+        }
+    }
+
+}
+
 
 
 
@@ -3912,6 +3974,8 @@ type ByteBufLoader = (file: string) => ByteBuf
 export class Tables {
     private _TbItem: DataTable.TbItem
     get TbItem(): DataTable.TbItem  { return this._TbItem;}
+    private _TbStrDictionary: TbStrDictionary
+    get TbStrDictionary(): TbStrDictionary  { return this._TbStrDictionary;}
     private _TbTask: TbTask
     get TbTask(): TbTask  { return this._TbTask;}
     private _TbPlayer: TbPlayer
@@ -3990,6 +4054,7 @@ export class Tables {
     static getTableNames(): string[] {
         let names: string[] = [];
         names.push('datatable_tbitem');
+        names.push('tbstrdictionary');
         names.push('tbtask');
         names.push('tbplayer');
         names.push('tbconst');
@@ -4032,6 +4097,7 @@ export class Tables {
 
     constructor(loader: ByteBufLoader) {
         this._TbItem = new DataTable.TbItem(loader('datatable_tbitem'))
+        this._TbStrDictionary = new TbStrDictionary(loader('tbstrdictionary'))
         this._TbTask = new TbTask(loader('tbtask'))
         this._TbPlayer = new TbPlayer(loader('tbplayer'))
         this._TbConst = new TbConst(loader('tbconst'))
@@ -4071,6 +4137,7 @@ export class Tables {
         this._TbShopGift = new TbShopGift(loader('tbshopgift'))
 
         this._TbItem.resolve(this)
+        this._TbStrDictionary.resolve(this)
         this._TbTask.resolve(this)
         this._TbPlayer.resolve(this)
         this._TbConst.resolve(this)

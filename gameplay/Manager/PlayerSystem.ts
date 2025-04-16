@@ -185,6 +185,7 @@ export class PlayerSystem {
         if (this.callback != null) {
             this.callback();
         }
+        console.log("[PlayerSystem] onHandler, GameEvent.MAIN_VIDEO_END, HideAllUILayer");
         oops.gui.HideAllUILayer(true);
         oops.audio.volumeMusic = 1;
         oops.audio.volumeEffect = 1;

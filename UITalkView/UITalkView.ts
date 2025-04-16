@@ -388,7 +388,7 @@ export class UITalkView extends CCComp {
         this._stopAmbMusic();
         this.off(GameEvent.ChoiceOver);
         if(this._bgPath != "") {
-            oops.res.release(this._bgPath, "UITalkView");
+            oops.res.release(this._bgPath, "Picture");
             this._bgPath = "";
         }
         this._stopContentTween();
@@ -939,7 +939,7 @@ export class UITalkView extends CCComp {
             await this._performTransitionBgFadeOut(currentBg, nextBg);
             if(this._isDestroy) return;
             if(this._bgPath != "" && this._bgPath != path) {
-                oops.res.release(this._bgPath, "UITalkView");
+                oops.res.release(this._bgPath, "Picture");
             }
             this.spriteSplash.node.active = false;
             this._bgPath = path;
@@ -1004,7 +1004,7 @@ export class UITalkView extends CCComp {
             return;
         }
         targetSprite.node.active = false;
-        await changeSpriteImage(targetSprite, path, "UITalkView");
+        await changeSpriteImage(targetSprite, path, "Picture");
         if(targetSprite && !this._isDestroy) {
             targetSprite.node.active = true;
         }

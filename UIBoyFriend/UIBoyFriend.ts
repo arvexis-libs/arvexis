@@ -177,7 +177,7 @@ export class UIBoyFriend extends CCComp {
         }
 
              
-        if(this._isChangingBoy && UIMainVideoComp.getInstance().IsMainVideoPlaying) {
+        if(this._isChangingBoy ){//&& UIMainVideoComp.getInstance().IsMainVideoPlaying) {
             this._changBoyCd -= dt;   
             if(this._changBoyCd < 0) {
                 this._isChangingBoy = false;
@@ -224,9 +224,11 @@ export class UIBoyFriend extends CCComp {
             return;
         }
 
+        const bfData = PlayerSystem.Instance.GetBoyFriendById(cfg.Id);
+
         this.labName.string = cfg.Name;
         this.labIntro.string = cfg.BriefIntro;
-        this.labLevel.string = `Lv${PlayerSystem.Instance.CurLv}`;
+        this.labLevel.string = `LV.${bfData.Level}`;
     }
 
     private _playIdleVideo() {
@@ -274,7 +276,7 @@ export class UIBoyFriend extends CCComp {
         }
         
         this._isChangingBoy = true;
-        this._changBoyCd = 0.2;
+        this._changBoyCd = 0.5;
         UIMainVideoComp.getInstance().playUrl(id, true);
     }
 

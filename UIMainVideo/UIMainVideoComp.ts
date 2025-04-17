@@ -103,11 +103,14 @@ export class UIMainVideoComp extends CCComp {
         this.isPlaying = false;
     }
     playUrl(cfgId: number, loop: boolean = false, posterImage: string = "", randomVideo: boolean = false, isHomeVideoRandomVideo = false): void {
+        
+        console.log(`[video]  BUG`);
+        return;
         // if (this.isPlaying) {
         //     return;
         // }
         if(this.mLastPlayVideoId == cfgId && this.mLastPlayVideoId != 0){
-            console.log(" ");
+            console.log(` , cfgId: ${cfgId}, mLastPlayVideoId: ${this.mLastPlayVideoId}`);
             this.seek(0);
             return;
         }
@@ -197,13 +200,14 @@ export class UIMainVideoComp extends CCComp {
     resetFadeoutScheder(){
         this.unschedule(this.fadeoutVideo);
         if(this.defaultParam.loop){
+            console.log(`[video]resetFadeoutScheder, , `);
             return;
         }
         let duration = this.mVideoCom.getDuration() * 1000;
         let currentTime = this.mVideoCom.getCurrentTime() * 1000;
-        console.log("duration = " + duration + " currentTime = " + currentTime);
         let time = duration - currentTime - 250;
         time = time > 250? time: 0;
+        console.log(`[video]resetFadeoutScheder, time:${time}, duration:${duration}, currentTime:${currentTime}`);
         this.scheduleOnce(this.fadeoutVideo, time / 1000);
     }
 
@@ -213,11 +217,13 @@ export class UIMainVideoComp extends CCComp {
     }
 
     fadeoutVideo(){
+        console.log(`[video] fadeoutVideo`);
         Tween.stopAllByTarget(this.mFadeOpacity);
         tween(this.mFadeOpacity).to(0.25, {opacity: 255}).start();
     }
 
     fadeinVideo(){
+        console.log(`[video] fadeinVideo`);
         Tween.stopAllByTarget(this.mFadeOpacity);
         tween(this.mFadeOpacity).to(0.25, {opacity: 0}).start();
     }
@@ -228,7 +234,7 @@ export class UIMainVideoComp extends CCComp {
     }
 
     onVideoPlayComplete(param: IVideoParam) {
-        console.log("");
+        console.log(`, opacity: ${this.mFadeOpacity.opacity}`);
         this.Close();
     }
 
@@ -237,7 +243,7 @@ export class UIMainVideoComp extends CCComp {
     }
 
     onReadyToPlay(param: IVideoParam) {
-        console.log("onReadyToPlay");
+        console.log("[video] onReadyToPlay");
         this.resetFadeoutScheder();
         this.fadeinVideo();
     }
@@ -265,13 +271,13 @@ export class UIMainVideoComp extends CCComp {
     }
 
     Close(event: string = "", type: any = 0) {
+        console.log(`[video] Close, event: ${event}, type: ${type}`);
         let id = this.defaultParam.videoid;
         GameDot.Instance.VideoStatusDot(id, 1);
         if (!StorySystem.Instance.NextIsChoice()) {
             oops.message.dispatchEvent(GameEvent.MAIN_VIDEO_END);
         }
         oops.message.dispatchEvent(GameEvent.StoryPlayOver, { type: 2, id: id });
-
     }
 }
 

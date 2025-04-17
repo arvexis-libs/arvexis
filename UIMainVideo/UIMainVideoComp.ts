@@ -136,9 +136,8 @@ export class UIMainVideoComp extends CCComp {
         // }
 
         // let newurl = GameData.VIDEO_WEBGL_URL + config?.ResPathPhone + ".m3u8";
-        // let newurl = GameData.VIDEO_URL + config?.ResPath;
-        let newurl = GameData.VIDEO_URL + "P_Interaction_101.mp4";
-        
+        let newurl = GameData.VIDEO_URL + config?.ResPath;
+ 
         this.defaultParam.resourceType = EVideoType.Remote;
 
         this.mNeedTranformAni = true;

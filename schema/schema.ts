@@ -1697,25 +1697,12 @@ export class TrPlayer {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.IconPath = _buf_.ReadString()
-        this.ImagePath = _buf_.ReadString()
-        this.MapIconPath = _buf_.ReadString()
-        this.FuncIconPath = _buf_.ReadString()
-        this.PhoneIcon = _buf_.ReadString()
-        this.VideoId = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
-        this.NickName = _buf_.ReadString()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Unlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Unlock.push(_e0);}}
-        this.LvMask = _buf_.ReadString()
-        this.settlepicture = _buf_.ReadString()
-        this.StoryLinePic = _buf_.ReadString()
-        this.ItemId = _buf_.ReadInt()
-        this.ExpId = _buf_.ReadInt()
-        this.Information1Text = _buf_.ReadString()
-        this.Information1Show = _buf_.ReadInt()
-        this.Information2Text = _buf_.ReadString()
-        this.Information2Show = _buf_.ReadInt()
-        this.Information3Text = _buf_.ReadString()
-        this.Information3Show = _buf_.ReadInt()
+        this.Prop1 = _buf_.ReadInt()
+        this.Prop2 = _buf_.ReadInt()
+        this.Prop3 = _buf_.ReadInt()
+        this.Prop4 = _buf_.ReadInt()
+        this.Prop5 = _buf_.ReadInt()
     }
 
     /**
@@ -1729,94 +1716,29 @@ export class TrPlayer {
     /**
      * 
      */
-    readonly ImagePath: string
-    /**
-     * 
-     */
-    readonly MapIconPath: string
-    /**
-     * 
-     */
-    readonly FuncIconPath: string
-    /**
-     * 
-     */
-    readonly PhoneIcon: string
-    /**
-     * 
-     */
-    readonly VideoId: number
-    /**
-     * 
-     */
     readonly Name: string
     /**
-     * ()
+     * id1
      */
-    readonly NickName: string
+    readonly Prop1: number
     /**
-     * 
+     * id2
      */
-    readonly Unlock: number[]
+    readonly Prop2: number
     /**
-     * 
+     * id3
      */
-    readonly LvMask: string
+    readonly Prop3: number
     /**
-     * 
+     * id4
      */
-    readonly settlepicture: string
+    readonly Prop4: number
     /**
-     * 
+     * id5
      */
-    readonly StoryLinePic: string
-    /**
-     * 
-     */
-    readonly ItemId: number
-    /**
-     * 
-     */
-    readonly ExpId: number
-    /**
-     * 1
-     */
-    readonly Information1Text: string
-    /**
-     * 1
-     */
-    readonly Information1Show: number
-    /**
-     * 2
-     */
-    readonly Information2Text: string
-    /**
-     * 2
-     */
-    readonly Information2Show: number
-    /**
-     * 3
-     */
-    readonly Information3Text: string
-    /**
-     * 3
-     */
-    readonly Information3Show: number
+    readonly Prop5: number
 
     resolve(tables:Tables) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         

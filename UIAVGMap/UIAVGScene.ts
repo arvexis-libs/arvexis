@@ -67,7 +67,7 @@ export class UIAVGScene extends CCComp {
     }
 
     private onClickClose() {
-        oops.gui.remove(UIID.UIAVGScene);
+        oops.gui.open(UIID.UIAVGCloseWindow);
     }
 
     private onClickBack() {

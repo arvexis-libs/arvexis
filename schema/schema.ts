@@ -2271,6 +2271,9 @@ export class TrVirtualTime {
         this.Icon = _buf_.ReadString()
         this.Name = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Time = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Time.push(_e0);}}
+        this.SpainPath = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.AnimationIdle = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.AnimationIdle.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.AnimationRelax = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.AnimationRelax.push(_e0);}}
     }
 
     /**
@@ -2289,8 +2292,23 @@ export class TrVirtualTime {
      * 
      */
     readonly Time: number[]
+    /**
+     * spine
+     */
+    readonly SpainPath: string
+    /**
+     * 
+     */
+    readonly AnimationIdle: string[]
+    /**
+     * 
+     */
+    readonly AnimationRelax: string[]
 
     resolve(tables:Tables) {
+        
+        
+        
         
         
         

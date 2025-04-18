@@ -1253,7 +1253,6 @@ export class TrIdentity {
         this.TendProp = _buf_.ReadInt()
         this.Desc = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.TxtSubliming = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.TxtSubliming.push(_e0);}}
-        this.SublimingPropID = _buf_.ReadInt()
         this.SublimingLevel = _buf_.ReadInt()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature1 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature1.push(_e0);}}
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Feature2 = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.Feature2.push(_e0);}}
@@ -1295,10 +1294,6 @@ export class TrIdentity {
      */
     readonly TxtSubliming: string[]
     /**
-     * id
-     */
-    readonly SublimingPropID: number
-    /**
      * 
      */
     readonly SublimingLevel: number
@@ -1324,7 +1319,6 @@ export class TrIdentity {
     readonly Feature5: string[]
 
     resolve(tables:Tables) {
-        
         
         
         

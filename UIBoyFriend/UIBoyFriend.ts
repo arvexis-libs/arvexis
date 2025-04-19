@@ -428,10 +428,10 @@ export class UIBoyFriend extends CCComp {
     //#region 
 
 
-    private onClickBack() {
+    private async onClickBack() {
+        await oops.gui.openAsync(UIID.UIMain); // todo:  ? 
         oops.gui.remove(UIID.UIBoyFriend);
         UIMainVideoComp.getInstance().stop(); // todo:  ?
-        oops.gui.open(UIID.UIMain); // todo:  ? 
     }
     // 
     private onClickHeadBottomOpen(){

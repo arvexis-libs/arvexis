@@ -103,9 +103,6 @@ export class UIMainVideoComp extends CCComp {
         this.isPlaying = false;
     }
     playUrl(cfgId: number, loop: boolean = false, posterImage: string = "", randomVideo: boolean = false, isHomeVideoRandomVideo = false): void {
-        
-        console.log(`[video]  BUG`);
-        return;
         // if (this.isPlaying) {
         //     return;
         // }
@@ -172,7 +169,7 @@ export class UIMainVideoComp extends CCComp {
     }
 
     play(param: IVideoParam) {
-        this.mVideoCom.play(param);
+        this.mVideoCom?.play(param);
     }
 
     skip() {
@@ -188,7 +185,7 @@ export class UIMainVideoComp extends CCComp {
     }
 
     stop() {
-        this.mVideoCom.stop();
+        this.mVideoCom?.stop();
         this.Close();
     }
 

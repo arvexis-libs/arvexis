@@ -29,6 +29,8 @@ export class UIAVGCloseWindow extends CCComp {
         oops.gui.remove(UIID.UIAVGScene);
         oops.gui.remove(UIID.UIAVGMap);
         //  
+
+        oops.gui.open(UIID.UIAVGMap, 101);
     }
 
     private onClick2() {

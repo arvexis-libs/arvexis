@@ -2150,52 +2150,52 @@ export class TrTask {
 
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.EventId.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventDes = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.EventDes.push(_e0);}}
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventParam = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.EventParam.push(_e0);}}
-        this.NeedExp = _buf_.ReadDouble()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.AwardId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.AwardId.push(_e0);}}
-        this.MessageId = _buf_.ReadInt()
-        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.GiftGroup = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.GiftGroup.push(_e0);}}
-        this.KeyNode = _buf_.ReadInt()
+        this.TaskOrder = _buf_.ReadInt()
+        this.TaskType = _buf_.ReadInt()
+        this.Text = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.TaskCondition = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.TaskCondition.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EndCondition = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EndCondition.push(_e0);}}
+        this.AwardGroup = _buf_.ReadInt()
+        this.AwardNum = _buf_.ReadInt()
+        this.Jump = _buf_.ReadString()
     }
 
     /**
-     * 
+     * id
      */
     readonly Id: number
     /**
      * 
      */
-    readonly EventId: string[]
+    readonly TaskOrder: number
     /**
      * 
      */
-    readonly EventDes: string[]
+    readonly TaskType: number
     /**
      * 
      */
-    readonly EventParam: string[]
+    readonly Text: string
     /**
      * 
      */
-    readonly NeedExp: number
-    /**
-     * <br/>
-     */
-    readonly AwardId: number[]
-    /**
-     * id
-     */
-    readonly MessageId: number
-    /**
-     * id
-     */
-    readonly GiftGroup: number[]
+    readonly TaskCondition: number[]
     /**
      * 
      */
-    readonly KeyNode: number
+    readonly EndCondition: number[]
+    /**
+     * 
+     */
+    readonly AwardGroup: number
+    /**
+     * 
+     */
+    readonly AwardNum: number
+    /**
+     * 
+     */
+    readonly Jump: string
 
     resolve(tables:Tables) {
         

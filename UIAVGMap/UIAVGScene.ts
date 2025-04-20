@@ -20,18 +20,20 @@ import { color } from "cc";
 import { Color } from "cc";
 import { TipsNoticeUtil } from "../gameplay/Utility/TipsNoticeUtil";
 import ConfigManager from "../manager/Config/ConfigManager";
-import { UIAVGMapSub } from "./UIAVGMapSub";
+import { StorySystem } from "../gameplay/Manager/StorySystem";
 
 const { ccclass, property } = _decorator;
 
 /**  */
-@ccclass('UIAVGMap')
-@ecs.register('UIAVGMap', false)
-export class UIAVGMap extends CCComp {
+@ccclass('UIAVGScene')
+@ecs.register('UIAVGScene', false)
+export class UIAVGScene extends CCComp {
     @property(Node)
-    private Root: Node = null!;
+    private Scene: Node = null!;
     @property(Button)
     private closeBtn: Button = null!;
+    @property(Button)
+    private backBtn: Button = null!;
 
     private go: Node = null!;
     private Id: number = 0;
@@ -43,8 +45,17 @@ export class UIAVGMap extends CCComp {
     /**  */
     start() {
         this.closeBtn.node.on('click', this.onClickClose, this);
+        this.backBtn.node.on('click', this.onClickBack, this);
+        oops.message.on(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
+
         this.init();
     }
+
+    private UIAVGSceneInit(a: any, id: any) {
+        this.Id = id;
+        this.init();
+    }
+
     protected onEnable(): void {
     }
 
@@ -53,44 +64,83 @@ export class UIAVGMap extends CCComp {
     }
 
     onDestroy() {
-
+        oops.message.off(GameEvent.UIAVGSceneInit, this.UIAVGSceneInit, this);
     }
 
     private onClickClose() {
-        oops.gui.remove(UIID.UIAVGMap);
+        oops.gui.open(UIID.UIAVGCloseWindow);
     }
 
+    private onClickBack() {
+        oops.gui.remove(UIID.UIAVGScene);
+    }
 
     private async init() {
         if (this.Id == 0) {
-            console.log('[AVGMap] id0, ');
             return;
         }
-        const cfg = ConfigManager.tables.TbAVGMap.get(this.Id)!;
-        if (!cfg) {
-            console.log(`[AVGMap]  , .id:${this.Id}`);
-            return;
-        }
+        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
+        
         let prb = await this.loadPrefab(cfg.Path);
-        if (!prb) {
-            console.log(`[AVGMap]  , .id:${this.Id}`);
-            return;
-        }
         if (prb) {
-            console.log(`[AVGMap] .id:${this.Id}`);
             if (this.go != null) {
                 this.go.destroy();
             }
 
             this.go = instantiate(prb);
-            this.go.getComponent(UIAVGMapSub)!.Init(this.Id);
-            this.Root.addChild(this.go);
+            this.Scene.addChild(this.go);
         }
+
+        // (/)
+        if (!this.EventStory()) {
+            if (!this.EventGame()) {
+                
+            }
+        }
+    }    
+
+    private async loadPrefab(urlPath: string):Promise<Prefab>
+    {
+        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Scene/" + urlPath);
+        return go;
     }
 
-    private async loadPrefab(urlPath: string): Promise<Prefab> {
-        let go = await oops.res.loadAsync<Prefab>("UIAVGMap", "Prefab/Map/" + urlPath);
-        return go;
+
+    private EventStory(): boolean {
+        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
+        if (cfg.EventStoryId.length <= 0) {
+            return false;
+        }
+        // 
+        let storyId = -1;
+
+        storyId = 0;
+        if (storyId < 0) {
+            return false;
+        }
+
+        // ()
+        console.error("TODO: () ", cfg.EventStoryId[storyId]);
+        StorySystem.Instance.Play(cfg.EventStoryId[storyId]);
+        return true;
+    }
+
+    private EventGame(): boolean {
+        const cfg = ConfigManager.tables.TbAVGScene.get(this.Id)!;
+        if (cfg.EventGameId.length <= 0) {
+            return false;
+        }
+        // 
+        let gameId = -1;
+
+        gameId = 0;
+        if (gameId < 0) {
+            return false;
+        }
+
+        // ()
+        console.error("TODO: () ", cfg.EventGameId[gameId]);
+        return true;
     }
 }
 

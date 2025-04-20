@@ -421,7 +421,6 @@ export class TrAVGNPC {
     constructor(_buf_: ByteBuf) {
         this.Id = _buf_.ReadInt()
         this.Name = _buf_.ReadString()
-        this.SpinePath = _buf_.ReadString()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.SpineUnlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.SpineUnlock.push(_e0);}}
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceStory = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.ChoiceStory.push(_e0);}}
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.ChoiceText = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadString(); this.ChoiceText.push(_e0);}}
@@ -436,10 +435,6 @@ export class TrAVGNPC {
      */
     readonly Name: string
     /**
-     * Spine
-     */
-    readonly SpinePath: string
-    /**
      * 
      */
     readonly SpineUnlock: number[]
@@ -453,7 +448,6 @@ export class TrAVGNPC {
     readonly ChoiceText: string[]
 
     resolve(tables:Tables) {
-        
         
         
         
@@ -477,6 +471,12 @@ export class TrAVGScene {
         this.Isdrag = _buf_.ReadBool()
         { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.Bgunlock = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.Bgunlock.push(_e0);}}
         this.Text = _buf_.ReadString()
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventStoryId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EventStoryId.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventStoryCondition = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EventStoryCondition.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.storyisrepeat = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadBool(); this.storyisrepeat.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventGameId = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EventGameId.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.EventGameCondition = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadInt(); this.EventGameCondition.push(_e0);}}
+        { let n = Math.min(_buf_.ReadSize(), _buf_.Size); this.GameIsRepeat = []; for(let i = 0 ; i < n ; i++) { let _e0; _e0 = _buf_.ReadBool(); this.GameIsRepeat.push(_e0);}}
     }
 
     /**
@@ -511,8 +511,38 @@ export class TrAVGScene {
      * 
      */
     readonly Text: string
+    /**
+     * ID
+     */
+    readonly EventStoryId: number[]
+    /**
+     * 
+     */
+    readonly EventStoryCondition: number[]
+    /**
+     * 
+     */
+    readonly storyisrepeat: boolean[]
+    /**
+     * ID
+     */
+    readonly EventGameId: number[]
+    /**
+     * 
+     */
+    readonly EventGameCondition: number[]
+    /**
+     * 
+     */
+    readonly GameIsRepeat: boolean[]
 
     resolve(tables:Tables) {
+        
+        
+        
+        
+        
+        
         
         
         
@@ -2080,7 +2110,7 @@ export class TrTalk {
      */
     readonly MeSpinePath: string
     /**
-     * spine<br/>
+     * spine
      */
     readonly MeSpineAnimGroup: string[]
     /**
@@ -2092,15 +2122,15 @@ export class TrTalk {
      */
     readonly SpineOffset: Map<string, number>
     /**
-     * NPCspine<br/>
+     * NPCspine
      */
     readonly SpineAnimGroup: string[]
     /**
-     *  id 
+     *  id
      */
     readonly AudioId: number
     /**
-     *  id 
+     *  id
      */
     readonly SoundId: number
     /**

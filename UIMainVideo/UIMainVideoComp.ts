@@ -142,14 +142,14 @@ export class UIMainVideoComp extends CCComp {
 
         this.mNeedTranformAni = true;
 
-        console.log(`[video] , url: ${newurl}, resourceType: ${this.defaultParam.resourceType}, resPath: ${config?.ResPath}`);
+        // console.log(`[video] , url: ${newurl}, resourceType: ${this.defaultParam.resourceType}, resPath: ${config?.ResPath}`);
         this.defaultParam.videoid = cfgId;
         this.defaultParam.src = newurl;
         this.defaultParam.loop = loop;
         this.defaultParam.poster = ConfigManager.tables.TbAtlas.get(config?.Pic!)?.Path!;
         this.defaultParam.posterBundle = "Sprites";
 
-        this.mFadeOpacity.opacity = 255;
+        // this.mFadeOpacity.opacity = 255;
         this.mLastPlayVideoId = this.defaultParam.videoid;
         this.mVideoCom.play(this.defaultParam);
 
